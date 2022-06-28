@@ -1,15 +1,22 @@
-import React, { useLayoutEffect, useState, useEffect, useCallback, useRef } from "react";
+import React, {
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 import {
   createStyles,
   Container,
   Group,
   Button,
-  Input,
   NativeSelect,
   NumberInput,
   TextInput,
   Text,
+  Loader
 } from "@mantine/core";
+import * as faceapi from "face-api.js";
 
 import { useWindowScroll, useViewportSize } from "@mantine/hooks";
 import { useSelector } from "react-redux";
@@ -34,9 +41,10 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.lighttheme[3],
     color: theme.colors.lighttheme[0],
     transition: "ease-in-out 500ms",
+    width: "150px",
 
     "&:hover": {
-      background: theme.colors.darktheme[4],
+      background: theme.colors.darktheme[0],
     },
   },
   button2: {
@@ -47,8 +55,10 @@ const useStyles = createStyles((theme) => ({
         : theme.colors.lighttheme[3],
     color: theme.colors.lighttheme[0],
     transition: "ease-in-out 500ms",
+    width: "180px",
+
     "&:hover": {
-      background: theme.colors.darktheme[4],
+      background: theme.colors.darktheme[0],
     },
   },
   group: {
@@ -74,11 +84,13 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
-   
 
-    [theme.fn.smallerThan('md')]:{
-      flexDirection: 'column',
-    }
+    [theme.fn.smallerThan("md")]: {
+      flexDirection: "column",
+    },
+  },
+  registercontainerhidden: {
+    display: "none",
   },
   buttoncapture: {
     background:
@@ -117,7 +129,7 @@ const useStyles = createStyles((theme) => ({
     },
   },
   buttonscontainer: {
-    marginTop: `${theme.spacing.xs}px`,
+    marginTop: `${theme.spacing.md}px`,
     width: `100%`,
     display: "flex",
     justifyContent: "space-evenly",
@@ -140,33 +152,74 @@ const useStyles = createStyles((theme) => ({
   noimage: {
     width: `150px`,
     height: `150px`,
+    border: `1px dashed ${theme.colors.lighttheme[1]}`,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  app:{
-    display: 'flex',
-    width: '100vw',
-    height: '100vh',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-
+  app: {
+    display: "flex",
+    width: "100vw",
+    height: "100vh",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  appVideo:{
-    display: 'flex',
-    alignItems: 'center',
+  appVideo: {
+    display: "flex",
+    alignItems: "center",
   },
-  canvas:{
-    position: 'absolute',
-    top: '100px',
-  }
+  canvas: {
+    position: "absolute",
+    top: "100px",
+  },
+  containernotif: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "80vh",
+  },
+  containernotifhidden: {
+    display: "none",
+  },
+  textnotif: {
+    fontFamily: "Bold",
+  },
+  webcamcontainer: {
+    width: "380px",
+    height: "360px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  registerbutton: {
+    marginTop: `${theme.spacing.lg}px`,
+    width: `100px`,
+  },
+  displayFlex: {
+    display: "flex",
+  },
+  PositionAbsolute: {
+    position: "absolute",
+  },
 }));
 
 const Documents = () => {
   const [scroll, scrollTo] = useWindowScroll();
   const { classes, cx } = useStyles();
+  const videoRef = useRef();
   const [Image, setImage] = useState("");
   const ShowNavbar = useSelector((state) => state.navbar.show);
   const [RegisterButtonClick, setRegisterButtonClick] = useState(false);
-  const [FaceRecognitionButtonClick, setFaceRecognitionButtonClick] = useState(false);
+  const [FaceRecognitionButtonClick, setFaceRecognitionButtonClick] =
+    useState(false);
+
+  const CloseWebCam = ()=>{
+    videoRef.current.pause();
+    videoRef.current.srcObject.getTracks()[0].stop();
+  }
+
   useLayoutEffect(() => {
     scrollTo({ y: 0 });
   }, []);
@@ -180,15 +233,17 @@ const Documents = () => {
           FaceRecognitionButtonClick={FaceRecognitionButtonClick}
           setFaceRecognitionButtonClick={setFaceRecognitionButtonClick}
           classes={classes}
+          CloseWebCam={CloseWebCam}
         />
       </Container>
-      {RegisterButtonClick && (
+      {(RegisterButtonClick && !FaceRecognitionButtonClick) && (
         <Container className={classes.registercontainer} fluid="true">
           <Group direction="column">
             <WebCamera
               ShowNavbar={ShowNavbar}
               cx={cx}
               setImage={setImage}
+              Image={Image}
               classes={classes}
             />
           </Group>
@@ -197,13 +252,29 @@ const Documents = () => {
           </Group>
         </Container>
       )}
-      {FaceRecognitionButtonClick &&(
+      {(FaceRecognitionButtonClick && !RegisterButtonClick) && (
         <Container className={classes.registercontainer} fluid="true">
-          <Group direction='column'>
-            <FaceRecognitionWebCam ShowNavbar={ShowNavbar} cx={cx} classes={classes}/>
+          <Group direction="column">
+            <FaceRecognitionWebCam
+              ShowNavbar={ShowNavbar}
+              cx={cx}
+              classes={classes}
+              videoRef={videoRef}
+            />
           </Group>
         </Container>
       )}
+      <Container
+        className={cx(classes.containernotif, {
+          [classes.containernotifhidden]:
+            FaceRecognitionButtonClick || RegisterButtonClick,
+        })}
+        fluid="true"
+      >
+        <Text className={classes.textnotif} size="md" transform="capitalize">
+          Please Press a Button
+        </Text>
+      </Container>
     </div>
   );
 };
@@ -214,30 +285,55 @@ const Buttons = ({
   RegisterButtonClick,
   FaceRecognitionButtonClick,
   setFaceRecognitionButtonClick,
+  CloseWebCam,
 }) => {
   return (
     <Group className={classes.group} direction="row">
       <Button
         variant="light"
         size="sm"
+        sx={(theme) => ({
+          background:
+            theme.colorScheme === "dark"
+              ? RegisterButtonClick
+                ? theme.colors.darktheme[0]
+                : theme.colors.darktheme[6]
+              : RegisterButtonClick
+              ? theme.colors.darktheme[0]
+              : theme.colors.lighttheme[3],
+        })}
         className={classes.button}
-        onClick={() => setRegisterButtonClick(!RegisterButtonClick)}
+        onClick={() => !FaceRecognitionButtonClick &&  setRegisterButtonClick(!RegisterButtonClick)}
       >
         {RegisterButtonClick ? "Close" : "Register a Person"}
       </Button>
       <Button
         variant="light"
         size="sm"
+        sx={(theme) => ({
+          background:
+            theme.colorScheme === "dark"
+              ? FaceRecognitionButtonClick
+                ? theme.colors.darktheme[0]
+                : theme.colors.darktheme[6]
+              : FaceRecognitionButtonClick
+              ? theme.colors.darktheme[0]
+              : theme.colors.lighttheme[3],
+        })}
         className={classes.button2}
-        onClick={() => setFaceRecognitionButtonClick(!FaceRecognitionButtonClick)}
+        onClick={() => {
+          !RegisterButtonClick && setFaceRecognitionButtonClick(!FaceRecognitionButtonClick);
+          FaceRecognitionButtonClick && CloseWebCam();
+          }
+        }
       >
-        Start Face Recognition
+        {FaceRecognitionButtonClick ? "Close" : "Start Face Recognition"}
       </Button>
     </Group>
   );
 };
 
-const WebCamera = ({ setImage, cx, classes, ShowNavbar }) => {
+const WebCamera = ({ Image, setImage, cx, classes, ShowNavbar }) => {
   const { width } = useViewportSize();
   const webcamRef = useRef(null);
   const capture = useCallback(() => {
@@ -257,14 +353,20 @@ const WebCamera = ({ setImage, cx, classes, ShowNavbar }) => {
       })}
       fluid="true"
     >
-      <Webcam
-        audio={false}
-        height={360}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        videoConstraints={videoConstraints}
-        mirrored={true}
-      />
+      {Image ? (
+        <Container className={classes.webcamcontainer} fluid="true">
+        <Text>Press Reset to Open</Text>
+        </Container>
+      ) : (
+        <Webcam
+          audio={false}
+          height={360}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          videoConstraints={videoConstraints}
+          mirrored={true}
+        />
+      )}
       <Group direction="row" className={classes.buttonscontainer}>
         <Button
           leftIcon={<Capture size={18} strokeWidth={2} />}
@@ -304,8 +406,10 @@ const RegisterForm = ({ classes, Image }) => {
       {Image ? (
         <img src={Image} alt="screenshotpicture" width="150" height="150"></img>
       ) : (
-        <Container classes={classes.noimage} fluid="true">
-          <Text>No image</Text>
+        <Container className={classes.noimage} fluid="true">
+          <Text align="center" size="md">
+            No image
+          </Text>
         </Container>
       )}
 
@@ -336,96 +440,93 @@ const RegisterForm = ({ classes, Image }) => {
       <NativeSelect
         className={classes.textinputs}
         data={areas}
+        placeholder="Select one"
         radius="sm"
         label="Select the area"
         required
       />
+      <Button className={classes.registerbutton} variant='filled'>Button</Button>
     </Container>
   );
 };
 
-const FaceRecognitionWebCam = ({ classes, ShowNavbar,cx }) => {
+const FaceRecognitionWebCam = ({ classes, ShowNavbar, cx, videoRef }) => {
   const { width } = useViewportSize();
+  const [initializing, setInitializing] = useState(false);
   const FacewebcamRef = useRef(null);
+
   const canvasRef = useRef();
-  const videoRef = useRef();
-   const FacevideoConstraints = {
-     width: 380,
-     height: 360,
-     facingMode: "user",
-   };
+  const videoHeight = 380;
+  const videoWidth = 360;
 
-  //  useEffect(()=>{    
-  //    const loadModels = async ()=>{
-  //     Promise.all([
-  //       faceapi.nets.tinyFaceDetector.loadFromUri("../../public/models"),
-  //       faceapi.nets.faceLandmark68Net.loadFromUri("../../public/models"),
-  //       faceapi.nets.faceRecognitionNet.loadFromUri("../../public/models"),
-  //       faceapi.nets.faceExpressionNet.loadFromUri("../../public/models"),
-  //     ]).then(startVideo);
-  //    }
-  //    loadModels();
-  //  },[])
-   
+  const FacevideoConstraints = {
+    width: 380,
+    height: 360,
+    facingMode: "user",
+  };
 
+  useEffect(() => {
+    const loadModels = async () => {
+      const MODEL_URL = process.env.PUBLIC_URL + "/models";
+      setInitializing(true);
+      Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+      ]).then(() => {
+        startVideo();
+        console.log(faceapi.nets);
+      });
+    };
+    loadModels();
+  }, []);
 
-  //  const startVideo = () => {
-  //    navigator.mediaDevices
-  //      .getUserMedia({ video: true })
-  //      .then((currentStream) => {
-  //        videoRef.current.srcObject = currentStream;
-  //      })
-  //      .catch((err) => console.log(err));
-  //  };
+  const startVideo = () => {
+    navigator.mediaDevices
+      .getUserMedia({
+        video: true,
+      })
+      .then((stream) => {
+        let video = videoRef.current;
+        video.srcObject = stream;
+        video.play();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
 
-  //  const handleVideoOnplay = async ()=>{
-  //   const detections = await faceapi
-  //       .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
-  //       .withFaceLandmarks()
-  //       .withFaceExpressions();
-  //       console.log(detections);
-  //  }
+  const handleVideoOnPlay = () => {
+    setInterval(async () => {
+      if (initializing) {
+        setInitializing(false);
+      }
+      canvasRef.current.innerHTML = faceapi.createCanvasFromMedia(
+        videoRef.current
+      );
+      const displaySize = {
+        width: videoWidth,
+        height: videoHeight,
+      };
 
+      faceapi.matchDimensions(canvasRef.current, displaySize);
 
-  //  const FaceDetection = async ()=>{
-  //   setInterval(async ()=>{
-     
-  //     console.log(detections);
+      const detection = await faceapi
+        .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+        .withFaceLandmarks()
+        .withFaceExpressions();
+      const resizeDetections = faceapi.resizeResults(detection, displaySize);
+      canvasRef.current
+        .getContext("2d")
+        .clearRect(0, 0, videoWidth, videoHeight);
+      faceapi.draw.drawDetections(canvasRef.current, resizeDetections);
+      faceapi.draw.drawFaceLandmarks(canvasRef.current, resizeDetections);
+      faceapi.draw.drawFaceExpressions(canvasRef.current, resizeDetections);
+      console.log(detection);
+    }, 2000);
+  };
 
-  //     canvasRef.current.innerHtml = faceapi.createCanvasFromMedia(
-  //       videoRef.current
-  //     );
-  //     faceapi.matchDimensions(canvasRef.current, { width: 940, height: 650 });
-
-  //     const resized = faceapi.resizeResults(detections, {
-  //       width: 940,
-  //       height: 650,
-  //     });
-  //     // to draw the detection onto the detected face i.e the box
-  //     faceapi.draw.drawDetections(canvasRef.current, resized);
-
-  //     //to draw the the points onto the detected face
-  //     faceapi.draw.drawFaceLandmarks(canvasRef.current, resized);
-
-  //     //to analyze and output the current expression by the detected face
-  //     faceapi.draw.drawFaceExpressions(canvasRef.current, resized);
-  //   },1000);
-  //  }
-
-
-
-
-
-
-  
-
-
-
-
-  // const Facecapture = useCallback(() => {
-  //   const FaceimageSrc = webcamRef.current.getScreenshot();
-  //   setImage(imageSrc);
-  // }, [FacewebcamRef]);
   return (
     <Container
       className={cx(classes.cameracontainer, {
@@ -433,12 +534,17 @@ const FaceRecognitionWebCam = ({ classes, ShowNavbar,cx }) => {
       })}
       fluid="true"
     >
-     
-      <div className={classes.app}>
-      <div className={classes.appVideo}>
-      <video crossOrigin="anonymous" ref={videoRef} autoPlay muted height="200" width="200"></video>
-      </div>
-      <canvas  className={classes.canvas} ref={canvasRef} width="940" height="650"/>
+      <span>{initializing ? "Initializing" : "Ready"}</span>
+      <div className={classes.displayFlex}>
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          height={videoHeight}
+          width={videoWidth}
+          onPlay={handleVideoOnPlay}
+        />
+        <canvas ref={canvasRef} className={classes.PositionAbsolute} />
       </div>
     </Container>
   );
