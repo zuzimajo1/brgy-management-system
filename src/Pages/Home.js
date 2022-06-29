@@ -1,9 +1,9 @@
 import React, { useLayoutEffect } from 'react'
-import { createStyles, Container, Group  } from "@mantine/core"
+import { createStyles, Container, Group } from "@mantine/core"
 import { useWindowScroll } from "@mantine/hooks";
 
 const useStyles = createStyles(theme => ({
-  container:{
+  container: {
     fontFamily: 'Regular',
     width: '100%',
     height: `100vh`,
@@ -14,7 +14,7 @@ const useStyles = createStyles(theme => ({
 }))
 
 
-
+// test
 
 const Home = () => {
   const [scroll, scrollTo] = useWindowScroll();
