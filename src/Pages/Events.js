@@ -26,10 +26,7 @@ const Events = () => {
   }, []);
 
 
-
-
-    
-  return <div className={classes.container}>Home</div>;
+  return <div className={classes.container}>Events</div>;
 }
 
 export default Events
