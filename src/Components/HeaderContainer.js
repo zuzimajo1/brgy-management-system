@@ -27,6 +27,7 @@ import { useFocusWithin, useDisclosure, useViewportSize } from "@mantine/hooks";
 import { useDispatch, useSelector } from "react-redux"; 
 import { ShowNavbar, HideNavbar } from "../redux/NavbarRedux";
 import ColorScheme from "./ColorScheme";
+import Logo from "./Logo";
 
 
 
@@ -148,7 +149,7 @@ const HeaderContainer = () => {
   return (
     <Header height={85} fixed={true} zIndex={90} className={classes.root}>
       <Group direction="row" position="left" className={classes.group}>
-        <Logo classes={classes} />
+        <Logo/>
         <ActionIcon
           size="lg"
           variant="default"
@@ -169,18 +170,6 @@ const HeaderContainer = () => {
   );
 };
 
-export const Logo = ({ classes }) => {
-  const brgyluna = require("../images/BRGY_LUNA - Logo.png");
-
-  return (
-      <Container className={classes.logoContainer}>
-        <Image src={brgyluna} alt="BrgyLuna" width={50} height={50}></Image>
-        <Text className={classes.text} size="lg" transform="uppercase">
-          brgy luna
-        </Text>
-      </Container>
-  );
-};
 
 const SearchContainer = ({ classes }) => {
   const { ref, focused } = useFocusWithin();
