@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NotificationsProvider } from "@mantine/notifications";
 import {
   MantineProvider,
@@ -17,14 +17,14 @@ import { useSelector } from "react-redux";
 function App() {
   const [User, setUser] = useState(true);
   const { width } = useViewportSize();
-  const show = useSelector(state=>state.navbar.show);
+  const show = useSelector(state => state.navbar.show);
 
   const [colorScheme, setColorScheme] = useLocalStorage({
     key: 'color-scheme',
     defaultValue: 'dark',
   })
 
-  const toggleColorScheme = () => setColorScheme((current)=> (current === 'dark' ? 'light' : 'dark'));
+  const toggleColorScheme = () => setColorScheme((current) => (current === 'dark' ? 'light' : 'dark'));
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
@@ -81,25 +81,25 @@ function App() {
 
   const RoutesNavigation = [{
     path: "/",
-    element: <Home/>,
-  },{
+    element: <Home />,
+  }, {
     path: "scheduling",
-    element: <Scheduling/>,
-  },{
+    element: <Scheduling />,
+  }, {
     path: "events",
-    element: <Events/>,
-  },{
+    element: <Events />,
+  }, {
     path: "transactions",
-    element: <Documents/>,
-  },{
+    element: <Documents />,
+  }, {
     path: "search",
-    element: <Search/>
-  },{
+    element: <Search />
+  }, {
     path: "chat",
-    element: <Chat/>,
-  },{
+    element: <Chat />,
+  }, {
     path: "registeraccount",
-    element: <RegisterAccount/>,
+    element: <RegisterAccount />,
   }]
 
   return (
@@ -118,7 +118,7 @@ function App() {
                       ? theme.colors.darktheme[2]
                       : theme.colors.lighttheme[1],
                   transition: `ease-in-out 500ms`,
-                  
+
                 },
               }}
               navbarOffsetBreakpoint="sm"
@@ -132,7 +132,7 @@ function App() {
                       ? theme.colors.darktheme[2]
                       : theme.colors.lighttheme[2],
                   padding: `0 0.5rem`,
-                  marginTop:`5.5rem`,
+                  marginTop: `5.5rem`,
                   width: `${show && width > 765 ? `auto` : `100%`}`,
                   marginLeft: `${show && width > 765 ? `265px` : `none`}`,
                   transition: `ease-in-out 500ms`,
