@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from "react";
 import { createStyles, Container, Group } from "@mantine/core";
 import { useWindowScroll } from "@mantine/hooks";
-import { MessengerChat } from "react-messenger-chat-plugin";
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -25,33 +25,9 @@ const Chat = () => {
   }, []);
 
   return <div className={classes.container}>
-    <MessengerChat
+    <MessengerCustomerChat
       pageId="110342451737951"
-      language="sv_SE"
-      themeColor={"#000000"}
-      bottomSpacing={300}
-      loggedInGreeting="loggedInGreeting"
-      loggedOutGreeting="loggedOutGreeting"
-      greetingDialogDisplay={"show"}
-      debugMode={true}
-      onMessengerShow={() => {
-        console.log("onMessengerShow");
-      }}
-      onMessengerHide={() => {
-        console.log("onMessengerHide");
-      }}
-      onMessengerDialogShow={() => {
-        console.log("onMessengerDialogShow");
-      }}
-      onMessengerDialogHide={() => {
-        console.log("onMessengerDialogHide");
-      }}
-      onMessengerMounted={() => {
-        console.log("onMessengerMounted");
-      }}
-      onMessengerLoad={() => {
-        console.log("onMessengerLoad");
-      }}
+      appId="721124622521891"
     />
   </div>;
 };
