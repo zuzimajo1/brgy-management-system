@@ -6,3 +6,4 @@ export { default as Auth } from "./Auth";
 export { default as Search } from "./Search";
 export { default as RegisterAccount } from "./RegisterAccount";
 export { default as Chat } from "./Chat";
+export { default as BrgyCertificate } from "./BrgyCertificate";

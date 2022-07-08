@@ -153,7 +153,7 @@ const WebCamera = ({ Image, setImage }) => {
         <Group direction="row">
           <Input
             value={Picname}
-            placeholder="Please enter the name"
+            placeholder="Please enter the full name"
             variant="default"
             onChange={(e) => setPicname(e.target.value)}
           ></Input>

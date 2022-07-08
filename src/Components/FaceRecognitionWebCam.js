@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Container, createStyles } from "@mantine/core";
 import * as faceapi from "face-api.js";
-import { useViewportSize } from "@mantine/hooks";
 
 const useStyles = createStyles((theme) => ({
   cameracontainer: {
@@ -21,19 +20,18 @@ const useStyles = createStyles((theme) => ({
 
 const FaceRecognitionWebCam = ({ videoRef }) => {
   const { classes } = useStyles();
-  const { width } = useViewportSize();
   const [initializing, setInitializing] = useState(false);
-  const FacewebcamRef = useRef(null);
+
 
   const canvasRef = useRef();
   const videoHeight = 320;
   const videoWidth = 320;
 
-  const FacevideoConstraints = {
-    width: 380,
-    height: 360,
-    facingMode: "user",
-  };
+  // const FacevideoConstraints = {
+  //   width: 380,
+  //   height: 360,
+  //   facingMode: "user",
+  // };
 
   useEffect(() => {
     const loadModels = async () => {

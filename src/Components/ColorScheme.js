@@ -1,11 +1,10 @@
 import React from 'react'
-import { ActionIcon, useMantineColorScheme, Kbd, useMantineTheme } from "@mantine/core";
+import { ActionIcon, useMantineColorScheme } from "@mantine/core";
 import { Sun, MoonStars } from "tabler-icons-react";
 
 const ColorScheme = () => {
     const { colorScheme, toggleColorScheme } = useMantineColorScheme();
     const dark = colorScheme === 'dark';
-    const theme = useMantineTheme();
 
   return (
     <ActionIcon

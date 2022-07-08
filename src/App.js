@@ -1,18 +1,17 @@
-import  { useState, useEffect } from "react";
+import  { useState } from "react";
 import { NotificationsProvider } from "@mantine/notifications";
 import {
   MantineProvider,
   ColorSchemeProvider,
   AppShell,
-  MediaQuery,
-  Container,
   Group
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage, useViewportSize } from "@mantine/hooks";
 import { Routes, Route } from "react-router-dom";
 import { Auth, Events, Home, Scheduling, Documents, Search, RegisterAccount, Chat } from "./Pages";
-import { NavbarContainer, HeaderContainer, Footer, FooterContainer } from "./Components";
+import { NavbarContainer, HeaderContainer } from "./Components";
 import { useSelector } from "react-redux";
+import { BarangayAcceptance, BuildingPermit, BurialAssistanceRelatives, BusinessClosure, BusinessClosurePSA, FourPsTransfery, TravelCertificate } from "./BrgyFiles";
 
 function App() {
   const [User, setUser] = useState(true);
@@ -30,30 +29,7 @@ function App() {
 
   const theme = {
     colorScheme,
-    loader: "oval",
-    fontsize: {
-      xxs: 12,
-      xs: 13,
-      sm: 14,
-      md: 16,
-      lg: 18,
-      xl: 20,
-      xxl: 24,
-      xxxl: 30,
-    },
     spacing: { xxs: 4, xs: 8, sm: 12, md: 16, lg: 24, xl: 32, xxl: 64 },
-    container: {
-      sizes: { xs: 520, sm: 720, md: 960, lg: 1140, xl: 1500 },
-    },
-    responsive: {
-      laptop: 1024,
-      tablet: 768,
-      tabletS: 640,
-      tabletXS: 550,
-      mobileL: 480,
-      mobileM: 400,
-      mobileS: 360,
-    },
     colors: {
       darktheme: [
         "#00897B",
@@ -79,28 +55,64 @@ function App() {
   };
 
 
-  const RoutesNavigation = [{
-    path: "/",
-    element: <Home/>,
-  },{
-    path: "scheduling",
-    element: <Scheduling/>,
-  },{
-    path: "events",
-    element: <Events/>,
-  },{
-    path: "transactions",
-    element: <Documents/>,
-  },{
-    path: "search",
-    element: <Search/>
-  },{
-    path: "chat",
-    element: <Chat/>,
-  },{
-    path: "registeraccount",
-    element: <RegisterAccount/>,
-  }]
+  const RoutesNavigation = [
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "scheduling",
+      element: <Scheduling />,
+    },
+    {
+      path: "events",
+      element: <Events />,
+    },
+    {
+      path: "transactions",
+      element: <Documents />,
+    },
+    {
+      path: "search",
+      element: <Search />,
+    },
+    {
+      path: "chat",
+      element: <Chat />,
+    },
+    {
+      path: "registeraccount",
+      element: <RegisterAccount />,
+    },
+    {
+      path: "4PsTransfery",
+      element: <FourPsTransfery />,
+    },
+    {
+      path: "BrgyAcceptance",
+      element: <BarangayAcceptance />,
+    },
+    {
+      path: "BusinessClosure",
+      element: <BusinessClosure />,
+    },
+    {
+      path: "BusinessClosurePSA",
+      element: <BusinessClosurePSA />,
+    },
+    {
+      path: "BurialAssistanceRelatives",
+      element: <BurialAssistanceRelatives />,
+    },
+    {
+      path: "BuildingPermit",
+      element: <BuildingPermit />,
+    },
+    {
+      path: "TravelCertificate",
+      element: <TravelCertificate/>,
+    },
+  ];
 
   return (
     <ColorSchemeProvider
@@ -108,7 +120,7 @@ function App() {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider>
+        <NotificationsProvider >
           {User ? (
             <AppShell
               styles={{

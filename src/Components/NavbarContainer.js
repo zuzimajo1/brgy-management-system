@@ -123,7 +123,7 @@ const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, Sho
       fixed
       position={{ top: 0, left: 0 }}
       width={{ base: 265 }}
-      className={cx(classes.root, { [classes.hide]: ShowNavbar === false  })}
+      className={cx(classes.root, { [classes.hide]: ShowNavbar === false })}
     >
       <Navbar.Section grow component={ScrollArea} mx="-xs" px="xs" pb="4rem">
         <Container className={classes.container}>
