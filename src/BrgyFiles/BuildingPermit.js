@@ -22,7 +22,6 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.darktheme[5]
         : theme.colors.lighttheme[0],
-    transition: "ease-in-out 500ms",
     borderRadius: `20px`,
     display: "flex",
     flexDirection: "column",
@@ -79,7 +78,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: `100vh`,
     borderRadius: 20,
-    transition: "ease-in-out 500ms",
   },
   pdfviewer: {
     height: "90vh",

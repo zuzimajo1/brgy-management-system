@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 import { NotificationsProvider } from "@mantine/notifications";
 import {
   MantineProvider,
@@ -7,11 +7,12 @@ import {
   Group
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage, useViewportSize } from "@mantine/hooks";
-import { Routes, Route } from "react-router-dom";
-import { Auth, Events, Home, Scheduling, Documents, Search, RegisterAccount, Chat } from "./Pages";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { Auth, Events, Home, Scheduling, Documents, RegisterAccount, Chat } from "./Pages";
 import { NavbarContainer, HeaderContainer } from "./Components";
 import { useSelector } from "react-redux";
 import { BarangayAcceptance, BuildingPermit, BurialAssistanceRelatives, BusinessClosure, BusinessClosurePSA, FourPsTransfery, TravelCertificate } from "./BrgyFiles";
+import Masterlist from "./Pages/Masterlist";
 
 function App() {
   const [User, setUser] = useState(true);
@@ -26,6 +27,15 @@ function App() {
   const toggleColorScheme = () => setColorScheme((current) => (current === 'dark' ? 'light' : 'dark'));
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
+
+  function ScrollToTop() {
+    const { pathname } = useLocation();
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+  }
 
   const theme = {
     colorScheme,
@@ -73,8 +83,8 @@ function App() {
       element: <Documents />,
     },
     {
-      path: "search",
-      element: <Search />,
+      path: "masterlist",
+      element: <Masterlist colorScheme={colorScheme} />,
     },
     {
       path: "chat",
@@ -110,7 +120,7 @@ function App() {
     },
     {
       path: "TravelCertificate",
-      element: <TravelCertificate/>,
+      element: <TravelCertificate />,
     },
   ];
 
@@ -129,7 +139,6 @@ function App() {
                     theme.colorScheme === "dark"
                       ? theme.colors.darktheme[2]
                       : theme.colors.lighttheme[1],
-                  transition: `ease-in-out 500ms`,
 
                 },
               }}
@@ -147,9 +156,9 @@ function App() {
                   marginTop: `5.5rem`,
                   width: `${show && width > 765 ? `auto` : `100%`}`,
                   marginLeft: `${show && width > 765 ? `265px` : `none`}`,
-                  transition: `ease-in-out 500ms`,
                 })}
               >
+                <ScrollToTop />
                 <Routes>
                   {RoutesNavigation.map(({ path, element }, index) => (
                     <Route key={index} path={path} element={element} />
