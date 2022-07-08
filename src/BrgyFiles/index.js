@@ -5,4 +5,7 @@ export { default as BusinessClosurePSA } from "./BusinessClosurePSA";
 export { default as BurialAssistanceRelatives } from "./BurialAssistanceRelatives";
 export { default as BuildingPermit } from "./BuildingPermit";
 export { default as TravelCertificate } from "./TravelCertificate";
+export { default as WaterConnection } from "./WaterConnection";
+export { default as Abroad } from "./Abroad";
+export { default as BIRpattern } from "./BIRpattern";
 

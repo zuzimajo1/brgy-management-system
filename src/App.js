@@ -4,27 +4,48 @@ import {
   MantineProvider,
   ColorSchemeProvider,
   AppShell,
-  Group
+  Group,
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage, useViewportSize } from "@mantine/hooks";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { Auth, Events, Home, Scheduling, Documents, RegisterAccount, Chat } from "./Pages";
 import { NavbarContainer, HeaderContainer } from "./Components";
 import { useSelector } from "react-redux";
-import { BarangayAcceptance, BuildingPermit, BurialAssistanceRelatives, BusinessClosure, BusinessClosurePSA, FourPsTransfery, TravelCertificate } from "./BrgyFiles";
 import Masterlist from "./Pages/Masterlist";
+import {
+  Auth,
+  Events,
+  Home,
+  Scheduling,
+  Documents,
+  Search,
+  RegisterAccount,
+  Chat,
+} from "./Pages";
+import {
+  Abroad,
+  BarangayAcceptance,
+  BIRpattern,
+  BuildingPermit,
+  BurialAssistanceRelatives,
+  BusinessClosure,
+  BusinessClosurePSA,
+  FourPsTransfery,
+  TravelCertificate,
+  WaterConnection,
+} from "./BrgyFiles";
 
 function App() {
   const [User, setUser] = useState(true);
   const { width } = useViewportSize();
-  const show = useSelector(state => state.navbar.show);
+  const show = useSelector((state) => state.navbar.show);
 
   const [colorScheme, setColorScheme] = useLocalStorage({
-    key: 'color-scheme',
-    defaultValue: 'dark',
-  })
+    key: "color-scheme",
+    defaultValue: "dark",
+  });
 
-  const toggleColorScheme = () => setColorScheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  const toggleColorScheme = () =>
+    setColorScheme((current) => (current === "dark" ? "light" : "dark"));
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
@@ -63,7 +84,6 @@ function App() {
       ],
     },
   };
-
 
   const RoutesNavigation = [
     {
@@ -130,7 +150,7 @@ function App() {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider >
+        <NotificationsProvider>
           {User ? (
             <AppShell
               styles={{
@@ -139,7 +159,6 @@ function App() {
                     theme.colorScheme === "dark"
                       ? theme.colors.darktheme[2]
                       : theme.colors.lighttheme[1],
-
                 },
               }}
               navbarOffsetBreakpoint="sm"
