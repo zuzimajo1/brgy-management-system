@@ -1,5 +1,4 @@
 import React, {
-  useLayoutEffect,
   useState,
   useEffect,
   useCallback,
@@ -8,7 +7,6 @@ import React, {
 import { createStyles, Container, Group, Button, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useSelector, useDispatch } from "react-redux";
-import { useWindowScroll } from "@mantine/hooks";
 import { FaceRecognitionWebCam, RegisterForm, WebCamera } from "../Components";
 
 
@@ -108,7 +106,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const Documents = () => {
-  const [scroll, scrollTo] = useWindowScroll();
   const { classes, cx } = useStyles();
   const videoRef = useRef();
   const [Image, setImage] = useState("");
@@ -121,10 +118,6 @@ const Documents = () => {
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
   };
-
-  useLayoutEffect(() => {
-    scrollTo({ y: 0 });
-  }, []);
 
   return (
     <div className={classes.root}>
@@ -189,8 +182,8 @@ const Buttons = ({
                 ? theme.colors.darktheme[0]
                 : theme.colors.darktheme[6]
               : RegisterButtonClick
-              ? theme.colors.darktheme[0]
-              : theme.colors.lighttheme[3],
+                ? theme.colors.darktheme[0]
+                : theme.colors.lighttheme[3],
         })}
         className={classes.button}
         onClick={() =>
@@ -210,8 +203,8 @@ const Buttons = ({
                 ? theme.colors.darktheme[0]
                 : theme.colors.darktheme[6]
               : FaceRecognitionButtonClick
-              ? theme.colors.darktheme[0]
-              : theme.colors.lighttheme[3],
+                ? theme.colors.darktheme[0]
+                : theme.colors.lighttheme[3],
         })}
         className={classes.button2}
         onClick={() => {

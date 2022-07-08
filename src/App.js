@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NotificationsProvider } from "@mantine/notifications";
 import {
   MantineProvider,
@@ -7,7 +7,10 @@ import {
   Group,
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage, useViewportSize } from "@mantine/hooks";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { NavbarContainer, HeaderContainer } from "./Components";
+import { useSelector } from "react-redux";
+import Masterlist from "./Pages/Masterlist";
 import {
   Auth,
   Events,
@@ -18,8 +21,6 @@ import {
   RegisterAccount,
   Chat,
 } from "./Pages";
-import { NavbarContainer, HeaderContainer } from "./Components";
-import { useSelector } from "react-redux";
 import {
   Abroad,
   BarangayAcceptance,
@@ -47,6 +48,15 @@ function App() {
     setColorScheme((current) => (current === "dark" ? "light" : "dark"));
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
+
+  function ScrollToTop() {
+    const { pathname } = useLocation();
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+  }
 
   const theme = {
     colorScheme,
@@ -93,8 +103,8 @@ function App() {
       element: <Documents />,
     },
     {
-      path: "search",
-      element: <Search />,
+      path: "masterlist",
+      element: <Masterlist colorScheme={colorScheme} />,
     },
     {
       path: "chat",
@@ -132,18 +142,6 @@ function App() {
       path: "TravelCertificate",
       element: <TravelCertificate />,
     },
-    {
-      path: "WaterConnection",
-      element: <WaterConnection />,
-    },
-    {
-      path: "CertificationAbroad",
-      element: <Abroad />,
-    },
-    {
-      path: "CertificationBIR",
-      element: <BIRpattern/>,
-    },
   ];
 
   return (
@@ -161,7 +159,6 @@ function App() {
                     theme.colorScheme === "dark"
                       ? theme.colors.darktheme[2]
                       : theme.colors.lighttheme[1],
-                  transition: `ease-in-out 500ms`,
                 },
               }}
               navbarOffsetBreakpoint="sm"
@@ -178,9 +175,9 @@ function App() {
                   marginTop: `5.5rem`,
                   width: `${show && width > 765 ? `auto` : `100%`}`,
                   marginLeft: `${show && width > 765 ? `265px` : `none`}`,
-                  transition: `ease-in-out 500ms`,
                 })}
               >
+                <ScrollToTop />
                 <Routes>
                   {RoutesNavigation.map(({ path, element }, index) => (
                     <Route key={index} path={path} element={element} />

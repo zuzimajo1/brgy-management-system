@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Navbar, MediaQuery, Text, Container, Divider, Group, createStyles, ScrollArea, ActionIcon } from "@mantine/core";
 import {
   Home,
-  Search,
+  ClipboardList,
   CalendarEvent,
   CalendarTime,
   Folder,
@@ -90,7 +90,7 @@ const useStyles = createStyles((theme) => ({
     fontFamily: "Bold",
     marginLeft: 11,
   },
-  hidden:{
+  hidden: {
     display: 'none',
   }
 }));
@@ -99,20 +99,20 @@ const useStyles = createStyles((theme) => ({
 const NavbarContainer = () => {
   const { classes, cx } = useStyles();
   const [Active, setActive] = useState(0);
-  const ShowNavbar = useSelector(state=> state.navbar.show);
+  const ShowNavbar = useSelector(state => state.navbar.show);
   const { width } = useViewportSize();
   const dispatch = useDispatch();
-  
-  
+
+
   return (
     <>
-      <MediaQueryNavbar  width={width} Active={Active} setActive={setActive} dispatch={dispatch} classes={classes} cx={cx} ShowNavbar={ShowNavbar}/>
+      <MediaQueryNavbar width={width} Active={Active} setActive={setActive} dispatch={dispatch} classes={classes} cx={cx} ShowNavbar={ShowNavbar} />
     </>
   );
 }
 
 
-const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, ShowNavbar})=>{
+const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, ShowNavbar }) => {
   const ref = useClickOutside(() => dispatch(HideNavbar()));
   return (
     <Navbar
@@ -158,10 +158,10 @@ const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, Sho
                 }
               }}
               component={Link}
-              to="search"
+              to="masterlist"
             >
-              <Search size={19} />
-              <Text className={classes.text}>Search</Text>
+              <ClipboardList size={19} />
+              <Text className={classes.text}>Masterlist</Text>
             </Navbar.Section>
           </Group>
           <Divider my="md" />
