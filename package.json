@@ -48,6 +48,7 @@
     "react-webcam": "^7.0.1",
     "redux-persist": "^6.0.0",
     "stream-browserify": "^3.0.0",
+    "styled-components": "^5.3.5",
     "tabler-icons-react": "^1.50.0",
     "util": "^0.12.4",
     "wait-on": "^6.0.1",
