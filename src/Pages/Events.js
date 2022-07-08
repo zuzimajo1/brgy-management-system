@@ -1,6 +1,5 @@
-import React,{useLayoutEffect, useRef, useState, useEffect} from 'react'
+import React, { useLayoutEffect, useRef, useState, useEffect } from 'react'
 import { createStyles, Container, Group } from "@mantine/core";
-import { useWindowScroll } from "@mantine/hooks";
 import { Document, Page } from "react-pdf";
 
 const useStyles = createStyles((theme) => ({
@@ -20,13 +19,8 @@ const useStyles = createStyles((theme) => ({
 
 
 const Events = () => {
-  const [scroll, scrollTo] = useWindowScroll();
   const [data, setdata] = useState('');
-  console.log(data);
   const { classes } = useStyles();
-  useLayoutEffect(() => {
-    scrollTo({ y: 0 });
-  }, []);
 
 
   return (
