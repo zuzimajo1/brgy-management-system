@@ -27,11 +27,11 @@ const FaceRecognitionWebCam = ({ videoRef }) => {
   const videoHeight = 320;
   const videoWidth = 320;
 
-  // const FacevideoConstraints = {
-  //   width: 380,
-  //   height: 360,
-  //   facingMode: "user",
-  // };
+  const FacevideoConstraints = {
+    width: 380,
+    height: 360,
+    facingMode: "user",
+  };
 
   useEffect(() => {
     const loadModels = async () => {

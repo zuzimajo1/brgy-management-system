@@ -1,29 +1,50 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { NotificationsProvider } from "@mantine/notifications";
 import {
   MantineProvider,
   ColorSchemeProvider,
   AppShell,
-  Group
+  Group,
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage, useViewportSize } from "@mantine/hooks";
 import { Routes, Route } from "react-router-dom";
-import { Auth, Events, Home, Scheduling, Documents, Search, RegisterAccount, Chat } from "./Pages";
+import {
+  Auth,
+  Events,
+  Home,
+  Scheduling,
+  Documents,
+  Search,
+  RegisterAccount,
+  Chat,
+} from "./Pages";
 import { NavbarContainer, HeaderContainer } from "./Components";
 import { useSelector } from "react-redux";
-import { BarangayAcceptance, BuildingPermit, BurialAssistanceRelatives, BusinessClosure, BusinessClosurePSA, FourPsTransfery, TravelCertificate } from "./BrgyFiles";
+import {
+  Abroad,
+  BarangayAcceptance,
+  BIRpattern,
+  BuildingPermit,
+  BurialAssistanceRelatives,
+  BusinessClosure,
+  BusinessClosurePSA,
+  FourPsTransfery,
+  TravelCertificate,
+  WaterConnection,
+} from "./BrgyFiles";
 
 function App() {
   const [User, setUser] = useState(true);
   const { width } = useViewportSize();
-  const show = useSelector(state => state.navbar.show);
+  const show = useSelector((state) => state.navbar.show);
 
   const [colorScheme, setColorScheme] = useLocalStorage({
-    key: 'color-scheme',
-    defaultValue: 'dark',
-  })
+    key: "color-scheme",
+    defaultValue: "dark",
+  });
 
-  const toggleColorScheme = () => setColorScheme((current) => (current === 'dark' ? 'light' : 'dark'));
+  const toggleColorScheme = () =>
+    setColorScheme((current) => (current === "dark" ? "light" : "dark"));
 
   useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
@@ -53,7 +74,6 @@ function App() {
       ],
     },
   };
-
 
   const RoutesNavigation = [
     {
@@ -110,7 +130,19 @@ function App() {
     },
     {
       path: "TravelCertificate",
-      element: <TravelCertificate/>,
+      element: <TravelCertificate />,
+    },
+    {
+      path: "WaterConnection",
+      element: <WaterConnection />,
+    },
+    {
+      path: "CertificationAbroad",
+      element: <Abroad />,
+    },
+    {
+      path: "CertificationBIR",
+      element: <BIRpattern/>,
     },
   ];
 
@@ -120,7 +152,7 @@ function App() {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider >
+        <NotificationsProvider>
           {User ? (
             <AppShell
               styles={{
@@ -130,7 +162,6 @@ function App() {
                       ? theme.colors.darktheme[2]
                       : theme.colors.lighttheme[1],
                   transition: `ease-in-out 500ms`,
-
                 },
               }}
               navbarOffsetBreakpoint="sm"
