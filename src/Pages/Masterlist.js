@@ -1,8 +1,13 @@
-import React, { useState } from 'react'
-import { createStyles, Group, Paper, TextInput, Button, Space, Modal, Tooltip, Image, NativeSelect, Text } from "@mantine/core";
-import { Bacud, Bernadette, CentralPoblacion, Looc, Payawan1, Payawan2, populace, SanVicente, Toril } from '../config/dummyData';
+import React, { useEffect, useState } from 'react'
+import { createStyles, Group, Paper, TextInput, Button, Space, Modal, Tooltip, Image, NativeSelect, Text, Loader, Select } from "@mantine/core";
+import { DatePicker } from '@mantine/dates'
 import DataTable from 'react-data-table-component';
 import { ArrowNarrowDown, Edit, Eye, Trash } from 'tabler-icons-react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { Bacud, Bernadette, CentralPoblacion, Looc, Payawan1, Payawan2, populace, SanVicente, Toril } from '../config/dummyData';
+import { residentsReset, fetchResidents, updateResident, deleteResident } from '../redux/MasterlistRedux'
+import { useRef } from 'react';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -52,6 +57,8 @@ const customStyles = {
 }
 
 const Masterlist = ({ colorScheme }) => {
+  const { residents } = useSelector(state => state.masterlist);
+  const dispatch = useDispatch();
   const status = 'success';
   // Style and Filter States
   const [focused, setFocused] = useState(false);
@@ -59,13 +66,46 @@ const Masterlist = ({ colorScheme }) => {
   const [filterBySitio, setFilterBySitio] = useState('');
   const [filterByPurok, setFilterByPurok] = useState('');
 
+  // Update Resident States
+  const [sitioValue, setSitioValue] = useState('');
+  const [purokValue, setPurokValue] = useState('');
+  const [isPWD, setIsPWD] = useState(null);
+  const [is4Ps, setIs4Ps] = useState(null);
+  const [isVoter, setIsVoter] = useState(null);
+  // Input Refs
+  const idRef = useRef("")
+  const lastNameRef = useRef("")
+  const firstNameRef = useRef("")
+  const middleNameRef = useRef("")
+  const sexRef = useRef("")
+  const birthDateRef = useRef("")
+  const placeOfBirthRef = useRef("")
+  const civilStatusRef = useRef("")
+  const citizenshipRef = useRef("")
+  const occupationRef = useRef("")
+  const isPWDRef = useRef("")
+  const is4PsRef = useRef("")
+  const isVoterRef = useRef("")
+  const housingRef = useRef("")
+
+
   const sitio = ['ALL', 'PAYAWAN 1', 'PAYAWAN 2', 'CENTRAL POBLACION', 'BACUD', 'SAN VICENTE', 'LOOC', 'BERNADETTE', 'TORIL']
+  const updateSitio = ['PAYAWAN 1', 'PAYAWAN 2', 'CENTRAL POBLACION', 'BACUD', 'SAN VICENTE', 'LOOC', 'BERNADETTE', 'TORIL']
 
   const { classes } = useStyles({ floating: filterByName.trim().length !== 0 || focused });
   // Modal States
   const [viewUserOpened, setViewUserOpened] = useState(false);
   const [editProfileOpened, setEditProfileOpened] = useState(false);
   const [deleteUserModal, setDeleteUserModal] = useState(false);
+
+  const closeUpdateModal = () => {
+    setSitioValue('')
+    setPurokValue('')
+    setIsPWD(null)
+    setIs4Ps(null)
+    setIsVoter(null)
+    setEditProfileOpened(false)
+  }
 
   // Selected Row Resident State
   const [selectedResidentData, setSelectedResidentData] = useState();
@@ -77,6 +117,7 @@ const Masterlist = ({ colorScheme }) => {
     setSelectedResidentData(resident)
   }
   const handleUserUpdateButtonClick = (resident) => {
+    setSelectedResidentData(resident)
     setEditProfileOpened(true)
   }
   const handleUserDeleteButtonClick = (id) => {
@@ -84,9 +125,34 @@ const Masterlist = ({ colorScheme }) => {
     setDeleteUserModal(true)
   }
 
+  const handleResidentUpdate = (id) => {
+    const updateData = {
+      id: id,
+      lastName: lastNameRef.current.value.trim(),
+      firstName: firstNameRef.current.value.trim(),
+      middleName: middleNameRef.current.value.trim(),
+      sex: sexRef.current.value.trim(),
+      birthDate: birthDateRef.current.value.trim(),
+      placeOfBirth: placeOfBirthRef.current.value.trim(),
+      sitio: sitioValue.trim(),
+      purok: purokValue.trim(),
+      civilStatus: civilStatusRef.current.value.trim(),
+      citizenship: citizenshipRef.current.value.trim(),
+      occupation: occupationRef.current.value.trim(),
+      isPWD: isPWDRef.current.value.trim() === 'Yes' ? true : false,
+      is4Ps: is4PsRef.current.value.trim() === 'Yes' ? true : false,
+      isVoter: isVoterRef.current.value.trim() === 'Yes' ? true : false,
+      housing: housingRef.current.value.trim(),
+    }
+    populace.map((resident) =>
+      resident.id === updateData.id ? updateData : resident
+    );
+    console.log(populace);
+    setEditProfileOpened(false)
+  }
+
   const handleUserDelete = () => {
     populace.splice(residentIdToDelete - 1, 1);
-    console.log(residentIdToDelete);
     setDeleteUserModal(false)
   }
 
@@ -315,18 +381,71 @@ const Masterlist = ({ colorScheme }) => {
       </Modal>
 
       {/* Edit User Modal */}
-      <Modal opened={editProfileOpened} onClose={() => setEditProfileOpened(false)} title="Update Resident's profile" >
-        {/* <Text className={classes.userInfo}>Created on: {dayjs(selectedUserData?.createdAt).format('DD/MMM/YYYY')}</Text>
-        <Text className={classes.userInfo}>User RFID: {selectedUserData?.RFID}</Text>
+      <Modal opened={editProfileOpened} onClose={closeUpdateModal} title={`Update Resident's Profile #${selectedResidentData?.id}`} >
+        <TextInput placeholder={selectedResidentData?.lastName} label="Last Name" ref={lastNameRef} />
+        <TextInput placeholder={selectedResidentData?.firstName} label="First Name" ref={firstNameRef} />
+        <TextInput placeholder={selectedResidentData?.middleName} label="Middle Name" ref={middleNameRef} />
+        <Select
+          label="Sex"
+          placeholder={selectedResidentData?.sex}
+          data={[
+            { value: 'Male', label: 'Male' },
+            { value: 'Female', label: 'Female' },
+          ]}
+          ref={sexRef}
+        />
+        <DatePicker
+          placeholder={selectedResidentData?.dateOfBirth}
+          label="Birthdate"
+          ref={birthDateRef}
+        />
+        <TextInput placeholder={selectedResidentData?.placeOfBirth} label="Place of Birth" ref={placeOfBirthRef} />
+        <NativeSelect
+          data={updateSitio}
+          value={sitioValue ? sitioValue : selectedResidentData?.address?.sitio}
+          label="Update Sitio"
+          onChange={(event) => setSitioValue(event.target.value)}
+        />
+        <NativeSelect
+          data={
+            sitioValue ?
+              sitioValue === 'PAYAWAN 1' ? Payawan1.slice(1) : sitioValue === 'PAYAWAN 2' ? Payawan2.slice(1) : sitioValue === 'CENTRAL POBLACION' ? CentralPoblacion.slice(1) : sitioValue === 'BACUD' ? Bacud.slice(1) : sitioValue === 'SAN VICENTE' ? SanVicente.slice(1) : sitioValue === 'LOOC' ? Looc.slice(1) : sitioValue === 'BERNADETTE' ? Bernadette.slice(1) : sitioValue === 'TORIL' ? Toril.slice(1) : sitioValue === 'ALL' ? ['Select a Sitio'] : 'N/A'
+              :
+              selectedResidentData?.address?.sitio === 'PAYAWAN 1' ? Payawan1.slice(1) : selectedResidentData?.address?.sitio === 'PAYAWAN 2' ? Payawan2.slice(1) : selectedResidentData?.address?.sitio === 'CENTRAL POBLACION' ? CentralPoblacion.slice(1) : selectedResidentData?.address?.sitio === 'BACUD' ? Bacud.slice(1) : selectedResidentData?.address?.sitio === 'SAN VICENTE' ? SanVicente.slice(1) : selectedResidentData?.address?.sitio === 'LOOC' ? Looc.slice(1) : selectedResidentData?.address?.sitio === 'BERNADETTE' ? Bernadette.slice(1) : selectedResidentData?.address?.sitio === 'TORIL' ? Toril.slice(1) : selectedResidentData?.address?.sitio === 'ALL' ? ['Select a Sitio'] : 'N/A'
+          }
+          value={purokValue ? purokValue : selectedResidentData?.address?.purok}
+          label="Update Purok"
+          onChange={(event) => setPurokValue(event.currentTarget.value)}
+        />
 
-        <TextInput label="RFID" placeholder={selectedUserData?.RFID} ref={rfid} />
-        <TextInput placeholder={selectedUserData?.name} label="Name" ref={name} />
-        <TextInput label="Email" placeholder={selectedUserData?.email} ref={email} />
-        <PasswordInput placeholder='password143' required label="Password" ref={password} />
-        <NumberInput ref={phone} maxLength={10} hideControls label="Phone" placeholder={selectedUserData?.phone} />
-        <NumberInput ref={level} maxLength={2} hideControls label="Grade Level" placeholder={selectedUserData?.grade_level} /> */}
+        <TextInput placeholder={selectedResidentData?.civilStatus} label="Civil Status" ref={civilStatusRef} />
+        <TextInput placeholder={selectedResidentData?.citizenship} label="Citizenship" ref={citizenshipRef} />
+        <TextInput placeholder={selectedResidentData?.occupation} label="Occupation" ref={occupationRef} />
+        <NativeSelect
+          data={['Yes', 'No']}
+          value={isPWD === null ? selectedResidentData?.isPWD ? 'Yes' : 'No' : isPWD}
+          label="PWD"
+          onChange={(event) => setIsPWD(event.target.value)}
+          ref={isPWDRef}
+        />
+        <NativeSelect
+          data={['Yes', 'No']}
+          value={is4Ps === null ? selectedResidentData?.is4ps ? 'Yes' : 'No' : is4Ps}
+          label="4P's"
+          onChange={(event) => setIs4Ps(event.target.value)}
+          ref={is4PsRef}
+        />
+        <NativeSelect
+          data={['Yes', 'No']}
+          value={isVoter === null ? selectedResidentData?.isRegVoter ? 'Yes' : 'No' : isVoter}
+          label="Reg. Voter"
+          onChange={(event) => setIsVoter(event.target.value)}
+          ref={isVoterRef}
+        />
+        <TextInput placeholder={selectedResidentData?.occupancyStatus} label="Housing Status" ref={housingRef} />
 
-        {/* <Button style={{ width: '100%' }} size="xs" type="submit" mt='lg' onClick={handleUserUpdate}>{status === 'loading' ? <Loader color="white" size="sm" /> : "Update"}</Button> */}
+
+        <Button style={{ width: '100%' }} size="xs" type="submit" mt='lg' onClick={() => handleResidentUpdate(selectedResidentData?.id)}>{status === 'loading' ? <Loader color="white" size="sm" /> : "Update"}</Button>
       </Modal>
 
       {/* Delete User Modal */}
