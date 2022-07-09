@@ -5,13 +5,12 @@ body {
   max-width: 100vw;
   box-sizing: border-box;
 
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 
 @font-face {
   font-family: "Thin";
@@ -68,7 +67,62 @@ body {
   src: url("./fonts/Roboto-BlackItalic.ttf") format("truetype");
 }
 
+/* Center Day and Status Container */
+.fc-event-title,
+.fc-sticky,
+.fc-event-title-container,
+.fc-daygrid-day-top {
+  text-align: center;
+}
 
+/* Center Day Number */
+.fc-daygrid-day-top {
+  display: block !important;
+  margin-bottom: 15px;
+}
 
+.fc-daygrid-event-dot,
+.fc-event-time {
+  display: none;
+}
 
+.fc-daygrid-event-harness {
+  background-color: #93d58a;
+}
 
+.fc-daygrid-event-harness:hover {
+  cursor: pointer;
+}
+
+.fc-event-title {
+  color: white;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+@media screen and (max-width: 350px) {
+  /* Smaller Status when screen is smaller */
+  .fc-event-title,
+  .fc-sticky {
+    font-size: 0.6rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  /* Smaller Header (Date and Buttons) when screen is smaller*/
+  .fc-header-toolbar {
+    font-size: 1rem;
+  }
+}
+
+@media screen and (max-width: 425px) {
+  /* Smaller Header (Date and Buttons) when screen is smaller*/
+  .fc-header-toolbar {
+    font-size: 0.7rem;
+  }
+}
+
+@media screen and (max-width: 344px) {
+  /* Smaller Header (Date and Buttons) when screen is smaller*/
+  .fc-header-toolbar {
+    font-size: 0.6rem;
+  }
+}

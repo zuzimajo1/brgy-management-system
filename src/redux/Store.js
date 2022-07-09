@@ -13,6 +13,7 @@ import {
 
 import storage from "redux-persist/lib/storage";
 import FaceRecognitionRedux from "./FaceRecognitionRedux";
+import MasterlistRedux from "./MasterlistRedux";
 import NavbarRedux from "./NavbarRedux";
 import WebRecognition from "./WebRecognition";
 
@@ -23,9 +24,10 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    navbar: NavbarRedux,
-    facerecog: FaceRecognitionRedux,
-    webrecog: WebRecognition,
+  navbar: NavbarRedux,
+  facerecog: FaceRecognitionRedux,
+  webrecog: WebRecognition,
+  masterlist: MasterlistRedux,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

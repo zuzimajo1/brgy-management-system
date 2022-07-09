@@ -1,13 +1,15 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from 'react'
-import { createStyles, Container, Group } from "@mantine/core";
+import { createStyles, Container, Group, Title, Paper } from "@mantine/core";
 import { Document, Page } from "react-pdf";
+import CalendarView from '../Components/CalendarView';
 
 const useStyles = createStyles((theme) => ({
   container: {
     fontFamily: "Regular",
     width: "100%",
-    height: `100vh`,
+    height: "fit-content",
     borderRadius: `20px`,
+    padding: '15px',
     background:
       theme.colorScheme === "dark"
         ? theme.colors.darktheme[5]
@@ -24,7 +26,10 @@ const Events = () => {
 
 
   return (
-    <div className={classes.container}>Event</div>
+    <Paper className={classes.container}>
+      <Title order={1} align='center' mb='md'>Barangay Events</Title>
+      <CalendarView />
+    </Paper>
   );
 }
 
