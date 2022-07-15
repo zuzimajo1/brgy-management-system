@@ -7,8 +7,8 @@ import React, {
 import { createStyles, Container, Group, Button, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useSelector, useDispatch } from "react-redux";
-import { FaceRecognitionWebCam, RegisterForm, WebCamera } from "../Components";
-
+import { DisplayData, FaceRecognitionWebCam, RegisterForm, WebCamera } from "../Components";
+import { DataDisplayClose } from "../redux/FaceRecognitionRedux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -109,14 +109,16 @@ const Documents = () => {
   const { classes, cx } = useStyles();
   const videoRef = useRef();
   const [Image, setImage] = useState("");
-  const ShowNavbar = useSelector((state) => state.navbar.show);
+  const { singlepersondata } = useSelector((state) => state.facerecog);
   const [RegisterButtonClick, setRegisterButtonClick] = useState(false);
   const [FaceRecognitionButtonClick, setFaceRecognitionButtonClick] =
     useState(false);
+  const dispatch = useDispatch();
 
   const CloseWebCam = () => {
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
+    dispatch(DataDisplayClose());
   };
 
   return (
@@ -144,7 +146,13 @@ const Documents = () => {
       {FaceRecognitionButtonClick && !RegisterButtonClick && (
         <Container className={classes.registercontainer} fluid="true">
           <Group direction="column">
-            <FaceRecognitionWebCam videoRef={videoRef} />
+            <FaceRecognitionWebCam
+              videoRef={videoRef}
+              singlepersondata={singlepersondata}
+            />
+          </Group>
+          <Group direction="column">
+            <DisplayData />
           </Group>
         </Container>
       )}

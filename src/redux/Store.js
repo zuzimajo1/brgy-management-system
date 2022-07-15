@@ -12,10 +12,11 @@ import {
 } from "redux-persist";
 
 import storage from "redux-persist/lib/storage";
+import EventRedux from "./EventRedux";
 import FaceRecognitionRedux from "./FaceRecognitionRedux";
 import MasterlistRedux from "./MasterlistRedux";
 import NavbarRedux from "./NavbarRedux";
-import WebRecognition from "./WebRecognition";
+
 
 const persistConfig = {
   key: "root",
@@ -25,9 +26,9 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   navbar: NavbarRedux,
-  facerecog: FaceRecognitionRedux,
-  webrecog: WebRecognition,
   masterlist: MasterlistRedux,
+  facerecog: FaceRecognitionRedux,
+  events: EventRedux,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

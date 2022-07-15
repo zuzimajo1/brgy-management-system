@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+/hide environment variables
+.env
+
 # testing
 /coverage
 

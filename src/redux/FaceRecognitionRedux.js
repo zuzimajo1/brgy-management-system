@@ -1,27 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
-const FaceRecognitionRedux = createSlice({
-    name: 'face',
-    initialState: {
-        facedescriptors : [],
-        facedescriptorsvalidator: false,
+const FacerecognitionReducer = createSlice({
+    name: "faceRecognition",
+    initialState:{
+        singlepersondata : [],
+        status: "loading" | "success" | "failed",
+        fetchdata: false,
     },
-    reducers:{
-        GetDescriptors : (state, action)=>{
-            const index = state.facedescriptors.find((items)=> items.label === action.payload.label); 
-
-            if(!action.payload){
-                state.facedescriptorsvalidator = true;
-            }else if(!index){
-                state.facedescriptors.push(action.payload);
-            }
+    reducers: {
+        FaceGetInfoStart : (state)=>{
+            state.status = "loading";
+             state.fetchdata = true;
         },
-        DeleteDescriptors : (state)=>{
-            state.facedescriptors = [];
+        FaceGetInfoSuccess: (state, action)=>{
+            state.status = "success";
+            state.singlepersondata = action.payload;
+            state.fetchdata = true;
+        },
+        FaceGetInfoFailed: (state)=>{
+            state.stawtus = "failed";
+            state.singlepersondata = [];
+        },
+        FaceGetInfoReset :(state, action)=>{
+            state.fetchdata = false;
+            state.fetchdata = [];
+        },
+        DataDisplayClose :(state)=>{
+            state.fetchdata = false;
         },
     }
 })
 
-export const { GetDescriptors, DeleteDescriptors } = FaceRecognitionRedux.actions;
-export default FaceRecognitionRedux.reducer;
+export const { FaceGetInfoStart, FaceGetInfoSuccess, FaceGetInfoFailed,FaceGetInfoReset, DataDisplayClose } = FacerecognitionReducer.actions;
+export default FacerecognitionReducer.reducer;

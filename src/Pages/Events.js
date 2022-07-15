@@ -1,7 +1,10 @@
 import React, { useLayoutEffect, useRef, useState, useEffect } from 'react'
 import { createStyles, Container, Group, Title, Paper } from "@mantine/core";
 import { Document, Page } from "react-pdf";
-import CalendarView from '../Components/CalendarView';
+import { CalendarView } from '../Components';
+import { useDispatch } from 'react-redux';
+import { GetAllBrgyEvents } from '../redux/apiCalls';
+import { showNotification } from "@mantine/notifications";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -23,12 +26,18 @@ const useStyles = createStyles((theme) => ({
 const Events = () => {
   const [data, setdata] = useState('');
   const { classes } = useStyles();
+  const dispatch = useDispatch();
+
+  useLayoutEffect(()=>{
+    GetAllBrgyEvents(dispatch, showNotification);
+  },[dispatch])
+
 
 
   return (
     <Paper className={classes.container}>
       <Title order={1} align='center' mb='md'>Barangay Events</Title>
-      <CalendarView />
+      <CalendarView/>
     </Paper>
   );
 }

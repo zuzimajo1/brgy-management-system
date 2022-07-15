@@ -15,11 +15,7 @@ import {
   Auth,
   Events,
   Home,
-  Scheduling,
   Documents,
-  Search,
-  RegisterAccount,
-  Chat,
 } from "./Pages";
 import {
   Abroad,
@@ -91,10 +87,6 @@ function App() {
       element: <Home />,
     },
     {
-      path: "scheduling",
-      element: <Scheduling />,
-    },
-    {
       path: "events",
       element: <Events />,
     },
@@ -106,14 +98,7 @@ function App() {
       path: "masterlist",
       element: <Masterlist colorScheme={colorScheme} />,
     },
-    {
-      path: "chat",
-      element: <Chat />,
-    },
-    {
-      path: "registeraccount",
-      element: <RegisterAccount />,
-    },
+   
     {
       path: "4PsTransfery",
       element: <FourPsTransfery />,
@@ -142,6 +127,18 @@ function App() {
       path: "TravelCertificate",
       element: <TravelCertificate />,
     },
+    {
+      path: "CertificateAbroad",
+      element: <Abroad/>,
+    },
+    {
+      path: "CertificateBirPattern",
+      element: <BIRpattern/>,
+    },
+    {
+      path: "CertificateWaterConnection",
+      element: <WaterConnection/>,
+    },
   ];
 
   return (
@@ -150,7 +147,7 @@ function App() {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider theme={theme} withGlobalStyles withNormalizeCSS>
-        <NotificationsProvider>
+        <NotificationsProvider position="bottom-left">
           {User ? (
             <AppShell
               styles={{

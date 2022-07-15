@@ -93,7 +93,7 @@ const WebCamera = ({ Image, setImage }) => {
   const videoConstraints = {
     width: 420,
     height: 360,
-    facingMode: "user",
+    facingMode: "environment"
   };
 
   const SaveImage = () => {
@@ -128,7 +128,6 @@ const WebCamera = ({ Image, setImage }) => {
           ref={webcamRef}
           screenshotFormat="image/jpeg"
           videoConstraints={videoConstraints}
-          mirrored={true}
         />
       )}
       <Group direction="row" className={classes.buttonscontainer}>

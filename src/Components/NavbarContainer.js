@@ -180,22 +180,6 @@ const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, Sho
                 }
               }}
               component={Link}
-              to="scheduling"
-            >
-              <CalendarTime size={19} />
-              <Text className={classes.text}>Scheduling</Text>
-            </Navbar.Section>
-            <Navbar.Section
-              className={cx(classes.navbarsections, {
-                [classes.navbarsectionsfocused]: Active === 3,
-              })}
-              onClick={() => {
-                setActive(3);
-                if (width <= 768) {
-                  dispatch(HideNavbar());
-                }
-              }}
-              component={Link}
               to="events"
             >
               <CalendarEvent size={19} />
@@ -209,10 +193,10 @@ const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, Sho
             </Text>
             <Navbar.Section
               className={cx(classes.navbarsections, {
-                [classes.navbarsectionsfocused]: Active === 4,
+                [classes.navbarsectionsfocused]: Active === 3,
               })}
               onClick={() => {
-                setActive(4);
+                setActive(3);
                 if (width <= 768) {
                   dispatch(HideNavbar());
                 }
@@ -224,50 +208,7 @@ const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, Sho
               <Text className={classes.text}>Documents</Text>
             </Navbar.Section>
           </Group>
-          <Divider my="md" />
-          <Group direction="column">
-            <Text className={classes.textTitle} size="sm">
-              Inquiries
-            </Text>
-            <Navbar.Section
-              className={cx(classes.navbarsections, {
-                [classes.navbarsectionsfocused]: Active === 5,
-              })}
-              onClick={() => {
-                setActive(5);
-                if (width <= 768) {
-                  dispatch(HideNavbar());
-                }
-              }}
-              component={Link}
-              to="chat"
-            >
-              <BrandHipchat size={19} />
-              <Text className={classes.text}>Chat</Text>
-            </Navbar.Section>
-          </Group>
-          <Divider my="md" />
-          <Group direction="column">
-            <Text className={classes.textTitle} size="sm">
-              Account
-            </Text>
-            <Navbar.Section
-              className={cx(classes.navbarsections, {
-                [classes.navbarsectionsfocused]: Active === 6,
-              })}
-              onClick={() => {
-                setActive(6);
-                if (width <= 768) {
-                  dispatch(HideNavbar());
-                }
-              }}
-              component={Link}
-              to="registeraccount"
-            >
-              <Users size={19} />
-              <Text className={classes.text}>Create Account</Text>
-            </Navbar.Section>
-          </Group>
+          
         </Container>
       </Navbar.Section>
     </Navbar>

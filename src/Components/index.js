@@ -5,3 +5,5 @@ export { default as Logo } from "./Logo";
 export { default as WebCamera } from "./WebCamera";
 export { default as RegisterForm } from "./RegisterForm";
 export { default as FaceRecognitionWebCam } from "./FaceRecognitionWebCam";
+export { default as CalendarView } from "./CalendarView";
+export { default as DisplayData } from "./DisplayData";

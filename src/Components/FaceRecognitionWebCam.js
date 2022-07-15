@@ -1,14 +1,16 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Container, createStyles } from "@mantine/core";
+import { Container, createStyles, Text } from "@mantine/core";
 import * as faceapi from "face-api.js";
-
+import { showNotification } from "@mantine/notifications";
+import { useDispatch, useSelector } from "react-redux";
+import { GetFaceRecognitionData } from "../redux/apiCalls";
 const useStyles = createStyles((theme) => ({
   cameracontainer: {
-    width: "450px",
+    width: "100%",
     display: "flex",
     height: "100%",
     flexDirection: "column",
-    alignItems: "flex-start",
+    alignItems: "center",
   },
   displayFlex: {
     display: "flex",
@@ -16,22 +18,21 @@ const useStyles = createStyles((theme) => ({
   PositionAbsolute: {
     position: "absolute",
   },
+  message: {
+    alignSelf: "center",
+  },
 }));
 
-const FaceRecognitionWebCam = ({ videoRef }) => {
+const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
   const { classes } = useStyles();
   const [initializing, setInitializing] = useState(false);
-
+  const residents = useSelector((state) => state.masterlist.residents);
+  console.log(singlepersondata);
+  const dispatch = useDispatch();
 
   const canvasRef = useRef();
-  const videoHeight = 320;
-  const videoWidth = 320;
-
-  const FacevideoConstraints = {
-    width: 380,
-    height: 360,
-    facingMode: "user",
-  };
+  const videoHeight = 360;
+  const videoWidth = 420;
 
   useEffect(() => {
     const loadModels = async () => {
@@ -86,8 +87,15 @@ const FaceRecognitionWebCam = ({ videoRef }) => {
         .withFaceExpressions()
         .withFaceDescriptors();
 
+      if (detection.length >= 2) {
+        showNotification({
+          title: "One person only",
+          message: "The camera detects two faces",
+        });
+      } else {
+      }
+
       const resizeDetections = faceapi.resizeResults(detection, displaySize);
-      console.log(resizeDetections);
       canvasRef.current
         .getContext("2d")
         .clearRect(0, 0, videoWidth, videoHeight);
@@ -105,6 +113,23 @@ const FaceRecognitionWebCam = ({ videoRef }) => {
       results.forEach((bestMatch, i) => {
         const box = resizeDetections[i].detection.box;
         const text = bestMatch.toString();
+        console.log(text);
+
+        const firstname = text && text.split(" ")[0];
+        const lastname = text && text.split(" ")[1];
+
+        firstname === "unknown"
+          ? showNotification({
+              title: "Unrecognized person",
+              message: "Please register to recognized the person",
+            })
+          : GetFaceRecognitionData(
+              dispatch,
+              firstname,
+              lastname,
+              showNotification
+            );
+
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: text,
         });
@@ -114,19 +139,24 @@ const FaceRecognitionWebCam = ({ videoRef }) => {
   };
 
   const loadLabeledImages = () => {
-    const labels = ["Zuzim Ajo", "Dandy Pandili"];
+    const labels = [
+      ...new Set(
+        residents.map((items) => `${items.firstname} ${items.lastname}`)
+      ),
+    ];
+
     return Promise.all(
       labels.map(async (label) => {
         const PIC_URL = process.env.PUBLIC_URL + "/images";
 
         const imgUrl = `${PIC_URL}/${label}.jpg`;
         const img = await faceapi.fetchImage(imgUrl);
+
         const faceDescription = await faceapi
           .detectSingleFace(img)
           .withFaceLandmarks()
           .withFaceExpressions()
           .withFaceDescriptor();
-
         const faceDescriptors = [faceDescription.descriptor];
         return new faceapi.LabeledFaceDescriptors(label, faceDescriptors);
       })
@@ -135,7 +165,9 @@ const FaceRecognitionWebCam = ({ videoRef }) => {
 
   return (
     <Container className={classes.cameracontainer} fluid="true">
-      <span>{initializing ? "Initializing" : "Ready"}</span>
+      <Text size="lg">
+        {initializing ? "Initializing... Please Wait" : "Ready"}
+      </Text>
       <div className={classes.displayFlex} id="container">
         <video
           ref={videoRef}
