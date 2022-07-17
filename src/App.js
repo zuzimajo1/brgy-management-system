@@ -98,7 +98,6 @@ function App() {
       path: "masterlist",
       element: <Masterlist colorScheme={colorScheme} />,
     },
-   
     {
       path: "4PsTransfery",
       element: <FourPsTransfery />,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -9,11 +9,13 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import { Container, createStyles } from "@mantine/core";
+import { Container, createStyles, TextInput} from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
+
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -163,6 +165,21 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
+  textuppercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -176,14 +193,21 @@ Font.register({
 
 const TravelCertificate = () => {
   const { classes } = useStyles();
+   const singleperson = useSelector(
+     (state) => state.facerecog.singlepersondata
+   );
+   const [ClientAge, setClientAge] = useState("");
   return (
     <Container fluid="true" className={classes.root}>
       <Text style={styles.maintitle}>Travel Certificate</Text>
       <div style={styles.container}>
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
-            <MyDocuments />
+            <MyDocuments singleperson={singleperson} ClientAge={ClientAge} />
           </PDFViewer>
+        </Container>
+        <Container style={styles.containerwrapper}>
+          <DataFillOut setClientAge={setClientAge} />
         </Container>
       </div>
     </Container>
@@ -197,7 +221,7 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = () => {
+const MyDocuments = ({ singleperson, ClientAge }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -216,34 +240,62 @@ const MyDocuments = () => {
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
                   <Text style={styles.clientname}>
-                    MARILYN H. ESCOBAL
-                  </Text>, <Text>43</Text> years of age, <Text>male</Text>,{" "}
-                  <Text>married</Text>, stranded/temporary residing, Filipino
-                  Citizen, a resident of <Text>P-6, Payawan II</Text>, Barangay
-                  Luna, Surigao City.
+                    {`${
+                      singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${
+                      singleperson?.lastname
+                    }`}
+                  </Text>
+                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textlowercase}>
+                    {singleperson?.civilstatus}
+                  </Text>
+                  , stranded/temporary residing,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen , a resident of <Text>{singleperson?.address}</Text>,
+                  Barangay Luna, Surigao City.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that{" "}
-                  <Text style={styles.clientname}>MARILYN H. ESCOBAL</Text> is
-                  not included in the LIST of Person Under Monitoring (PUM)/
+                  <Text style={styles.clientname}>
+                    {`${
+                      singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${
+                      singleperson?.lastname
+                    }`}
+                  </Text>{" "}
+                  is not included in the LIST of Person Under Monitoring (PUM)/
                   Patient Under Investigation (PUI) in the Barangay per
                   consolidated report from the City Health Office and has
                   already undergone more than 14 days of Home Quarantine during
                   his/her/their stay in Barangay during the implementation of
                   the Community Quarantine. Further{" "}
-                  <Text style={styles.clientname}>MARILYN H. ESCOBAL</Text> has
-                  no travel history to the COVID-19 High Risk Areas in the last
-                  14-days prior to the request of this certification.
+                  <Text style={styles.clientname}>
+                    {`${
+                      singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${
+                      singleperson?.lastname
+                    }`}
+                  </Text>{" "}
+                  has no travel history to the COVID-19 High Risk Areas in the
+                  last 14-days prior to the request of this certification.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This certification is issued and will serve as an endorsement to the City Health Officer for the conduct 
-                  of{" "}<Text style={styles.textregular}>Medical Examination for the issuance of a Medical Certificate.</Text>
+                  This certification is issued and will serve as an endorsement
+                  to the City Health Officer for the conduct of{" "}
+                  <Text style={styles.textregular}>
+                    Medical Examination for the issuance of a Medical
+                    Certificate.
+                  </Text>
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -263,6 +315,20 @@ const MyDocuments = () => {
         </View>
       </Page>
     </Document>
+  );
+};
+
+const DataFillOut = ({ setClientAge }) => {
+  return (
+    <Container fluid="true" style={styles.formcontainer}>
+      <TextInput
+        style={styles.textinputs}
+        label="Age"
+        radius="sm"
+        placeholder="ex. 28"
+        onChange={(e) => setClientAge(e.currentTarget.value)}
+      />
+    </Container>
   );
 };
 

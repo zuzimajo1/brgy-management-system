@@ -14,7 +14,7 @@ import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
-
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -164,6 +164,16 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
 });
 
 Font.register({
@@ -182,6 +192,7 @@ const BusinessClosure = () => {
   const [BusinessName, setBusinessName] = useState("");
   const [BusinessLocation, setBusinessLocation] = useState("");
   const [DateClosed, setDateClosed] = useState("")
+  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
 
   return (
     <Container fluid="true" className={classes.root}>
@@ -193,6 +204,8 @@ const BusinessClosure = () => {
               BusinessName={BusinessName}
               BusinessLocation={BusinessLocation}
               DateClosed={DateClosed}
+              singleperson={singleperson}
+              
             />
           </PDFViewer>
         </Container>
@@ -201,6 +214,7 @@ const BusinessClosure = () => {
             setBusinessName={setBusinessName}
             setBusinessLocation={setBusinessLocation}
             setDateClosed={setDateClosed}
+           
           />
         </Container>
       </div>
@@ -217,7 +231,12 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ BusinessName, BusinessLocation, DateClosed }) => {
+const MyDocuments = ({
+  BusinessName,
+  BusinessLocation,
+  DateClosed,
+  singleperson,
+}) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -235,10 +254,16 @@ const MyDocuments = ({ BusinessName, BusinessLocation, DateClosed }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
-                  <Text style={styles.clientname}>MARILYN H. ESCOBAL</Text>, of
-                  legal age, male, Filipino Citizen, a resident of{" "}
-                  <Text>Bernadette Village</Text>, Brgy. Luna, Surigao City,
-                  owner of{" "}
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , of legal age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textCapitalize}>{singleperson?.citizenship}</Text>{" "}
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
+                  Brgy. Luna, Surigao City, owner of{" "}
                   <Text transform="uppercase" style={styles.textregular}>
                     {BusinessName}
                   </Text>{" "}
@@ -284,6 +309,7 @@ const DataFillOut = ({
   setBusinessName,
   setBusinessLocation,
   setDateClosed,
+
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
@@ -292,21 +318,21 @@ const DataFillOut = ({
         label="Business Name"
         radius="sm"
         placeholder="ex. BIG BOOM SEALAND LIGHT..."
-        onChange={(e) => setBusinessName(e.target.value)}
+        onChange={(e) => setBusinessName(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
         label="Business Location"
         radius="sm"
         placeholder="ex. Bernadette Village, Brgy. Luna, Surigao City"
-        onChange={(e) => setBusinessLocation(e.target.value)}
+        onChange={(e) => setBusinessLocation(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
         label="Business Date of Closure"
         radius="sm"
         placeholder="ex. December 31, 2021"
-        onChange={(e) => setDateClosed(e.target.value)}
+        onChange={(e) => setDateClosed(e.currentTarget.value)}
       />
     </Container>
   );

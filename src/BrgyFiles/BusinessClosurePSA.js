@@ -180,6 +180,7 @@ const BusinessClosurePSA = () => {
   const [BusinessLocation, setBusinessLocation] = useState("");
   const [DateClosed, setDateClosed] = useState("");
 
+
   return (
     <Container fluid="true" className={classes.root}>
       <Text style={styles.maintitle}>Barangay Closure PSA</Text>
@@ -217,6 +218,7 @@ const MyDocuments = ({ BusinessName, BusinessLocation, DateClosed }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
+  
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -275,21 +277,21 @@ const DataFillOut = ({
         label="Business Name"
         radius="sm"
         placeholder="ex. BIG BOOM SEALAND LIGHT..."
-        onChange={(e) => setBusinessName(e.target.value)}
+        onChange={(e) => setBusinessName(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
         label="Business Location"
         radius="sm"
         placeholder="ex. Km. 4, Brgy. Luna, Surigao City"
-        onChange={(e) => setBusinessLocation(e.target.value)}
+        onChange={(e) => setBusinessLocation(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
         label="Business Date of Closure"
         radius="sm"
         placeholder="ex. 2020"
-        onChange={(e) => setDateClosed(e.target.value)}
+        onChange={(e) => setDateClosed(e.currentTarget.value)}
       />
     </Container>
   );

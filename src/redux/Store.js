@@ -13,6 +13,7 @@ import {
 
 import storage from "redux-persist/lib/storage";
 import EventRedux from "./EventRedux";
+import EventTodayRedux from "./EventTodayRedux";
 import FaceRecognitionRedux from "./FaceRecognitionRedux";
 import MasterlistRedux from "./MasterlistRedux";
 import NavbarRedux from "./NavbarRedux";
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   masterlist: MasterlistRedux,
   facerecog: FaceRecognitionRedux,
   events: EventRedux,
+  eventtoday: EventTodayRedux,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

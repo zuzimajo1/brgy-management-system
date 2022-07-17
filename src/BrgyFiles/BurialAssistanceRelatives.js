@@ -14,6 +14,7 @@ import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -163,6 +164,21 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
+  textuppercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  }
 });
 
 Font.register({
@@ -178,6 +194,11 @@ Font.register({
 const BurialAssistanceRelatives = () => {
    const { classes } = useStyles();
    const [PersonName, setPersonName] = useState("");
+   const singleperson = useSelector(
+       (state) => state.facerecog.singlepersondata
+     );
+  const [ClientAge, setClientAge] = useState("");
+  const [ClientInfo, setClientInfo] = useState("");
 
    return (
      <Container fluid="true" className={classes.root}>
@@ -185,12 +206,19 @@ const BurialAssistanceRelatives = () => {
        <div style={styles.container}>
          <Container style={styles.containerwrapper}>
            <PDFViewer style={styles.pdfviewer}>
-             <MyDocuments PersonName={PersonName} />
+             <MyDocuments
+               PersonName={PersonName}
+               singleperson={singleperson}
+               ClientAge={ClientAge}
+               ClientInfo={ClientInfo}
+             />
            </PDFViewer>
          </Container>
          <Container style={styles.containerwrapper}>
            <DataFillOut
              setPersonName={setPersonName}
+             setClientAge={setClientAge}
+             setClientInfo={setClientInfo}
            />
          </Container>
        </div>
@@ -207,7 +235,7 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ PersonName }) => {
+const MyDocuments = ({ PersonName, singleperson, ClientAge, ClientInfo }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -225,21 +253,28 @@ const MyDocuments = ({ PersonName }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that{" "}
-                  <Text style={styles.clientname}>
-                    marce d. manaba
-                  </Text>
-                  , <Text>37</Text> years of age, <Text>female</Text>, Filipino
-                  Citizen, a resident of <Text>Purok 27, Sitio Toril</Text>,
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
                   Barangay Luna, Surigao City.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This is also to certify further that she is the live-in
-                  partner and the only contact person of the late{" "}
-                  <Text transform="upperrcase">{PersonName}</Text> here in
-                  Surigao City.
+                  This is also to certify further that <Text>
+                    {ClientInfo}
+                  </Text>{" "}
+                  of the late <Text style={styles.textuppercase}>{PersonName}</Text>{" "}
+                  here in Surigao City.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -272,15 +307,29 @@ const MyDocuments = ({ PersonName }) => {
   );
 };
 
-const DataFillOut = ({ setPersonName }) => {
+const DataFillOut = ({ setPersonName, setClientAge, setClientInfo }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
+      <TextInput
+        style={styles.textinputs}
+        label="Age"
+        radius="sm"
+        placeholder="22"
+        onChange={(e) => setClientAge(e.currentTarget.value)}
+      />
       <TextInput
         style={styles.textinputs}
         label="Name of the Late Person"
         radius="sm"
         placeholder="ex ...."
-        onChange={(e) => setPersonName(e.target.value)}
+        onChange={(e) => setPersonName(e.currentTarget.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="Info of Resident"
+        radius="sm"
+        placeholder="she is the live-in partner and the only contact person"
+        onChange={(e) => setClientInfo(e.currentTarget.value)}
       />
     </Container>
   );

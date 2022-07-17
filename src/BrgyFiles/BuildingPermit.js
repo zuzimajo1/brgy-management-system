@@ -14,6 +14,7 @@ import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -161,6 +162,21 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
+  textuppercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -179,6 +195,9 @@ const BuildingPermit = () => {
   const [PortionLot, setPortionLot] = useState("");
   const [Location, setLocation] = useState("");
   const [TCTNo, setTCTNo] = useState("");
+   const singleperson = useSelector(
+     (state) => state.facerecog.singlepersondata
+   );
 
   return (
     <Container fluid="true" className={classes.root}>
@@ -192,6 +211,7 @@ const BuildingPermit = () => {
               PortionLot={PortionLot}
               Location={Location}
               TCTNo={TCTNo}
+              singleperson={singleperson}
             />
           </PDFViewer>
         </Container>
@@ -217,7 +237,14 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ ParcelLotNo, PlanNo, PortionLot, Location, TCTNo }) => {
+const MyDocuments = ({
+  ParcelLotNo,
+  PlanNo,
+  PortionLot,
+  Location,
+  TCTNo,
+  singleperson,
+}) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -235,10 +262,18 @@ const MyDocuments = ({ ParcelLotNo, PlanNo, PortionLot, Location, TCTNo }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that{" "}
-                  <Text style={styles.clientname}>marce d. manaba</Text>, of
-                  legal age, <Text>female</Text>, Filipino Citizen, a resident
-                  of <Text>Purok 29, Sitio Bacud</Text>, Barangay Luna, Surigao
-                  City.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , of legal age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
+                  Barangay Luna, Surigao City.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -257,8 +292,11 @@ const MyDocuments = ({ ParcelLotNo, PlanNo, PortionLot, Location, TCTNo }) => {
                   This certification is issued upon the request of the
                   above-mentioned person, to support the transaction to the{" "}
                   <Text style={styles.textregular}>
-                    CITY ENGINEERING OFFICE (CEO) for the purpose of BUILDING PERMIT (PERIMETER FENCE)
-                  </Text> at <Text>Purok 29, Sitio Bacud</Text>, Brgy. Luna, Surigao City.
+                    CITY ENGINEERING OFFICE (CEO) for the purpose of BUILDING
+                    PERMIT (PERIMETER FENCE)
+                  </Text>{" "}
+                  at <Text>{singleperson?.address}</Text>, Brgy. Luna, Surigao
+                  City.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>

@@ -1,11 +1,7 @@
 import {
-  residentsReset,
   fetchResidentsStart,
   fetchResidentsSuccess,
   fetchResidentsFailed,
-  addResidentStart,
-  addResidentSuccess,
-  addResidentsFailed,
   updateResident,
   deleteResident,
 } from "./MasterlistRedux";
@@ -15,11 +11,15 @@ import { publicRequest } from "../RequestMethod";
 import {
   FaceGetInfoStart,
   FaceGetInfoSuccess,
-  FaceGetInfoFailed,
 } from "./FaceRecognitionRedux";
 
-import { fetchAllEvents, addEvents } from "./EventRedux";
-import { showNotification } from "@mantine/notifications";
+import {
+  fetchAllEvents,
+  addEvents,
+  deleteEvent,
+} from "./EventRedux";
+
+import { fetchEventToday, fetchEventTodayFailed } from "./EventTodayRedux";
 
 //fetch data of a single person
 export const GetFaceRecognitionData = async (
@@ -55,7 +55,6 @@ export const GetAllDataResident = async (dispatch) => {
 };
 
 //update single data from masterlist
-
 export const UpdateDataResident = async (
   dispatch,
   id,
@@ -83,8 +82,8 @@ export const UpdateDataResident = async (
   }
 };
 
-//Delete Resident from the Masterlist
 
+//Delete Resident from the Masterlist
 export const DeleteDataResident = async (
   dispatch,
   id,
@@ -108,24 +107,20 @@ export const DeleteDataResident = async (
   }
 };
 
-
 //Get All Events
-
 export const GetAllBrgyEvents = async (dispatch, showNotification) => {
   try {
     const res = await publicRequest.get("event");
     dispatch(fetchAllEvents(res.data));
   } catch (error) {
-     showNotification({
-       title: "Error, Please try again",
-       message: "Make sure you are connected to the internet",
-     });
+    showNotification({
+      title: "Error, Please try again",
+      message: "Make sure you are connected to the internet",
+    });
   }
 };
 
-
-//Create Events 
-
+//Create Events
 export const CreateBrgyEvent = async (
   dispatch,
   data,
@@ -145,6 +140,42 @@ export const CreateBrgyEvent = async (
       title: "Error, Please try again",
       message: "Make sure you are connected to the internet",
     });
-     setcreateEventModal(false);
+    setcreateEventModal(false);
+  }
+};
+
+
+//Delete Single Event
+export const DeleteSingleEvent = async (
+  dispatch,
+  id,
+  showNotification,
+  setOpened
+) => {
+  try {
+    const res = await publicRequest.delete(`event/${id}`);
+    dispatch(deleteEvent(id));
+    showNotification({
+      title: "Deleted Succesfully",
+      message: "The brgy event has been deleted!",
+    });
+    setOpened(false);
+  } catch (err) {
+    showNotification({
+      title: "Error, Please try again",
+      message: "Make sure you are connected to the internet",
+    });
+    setOpened(false);
+  }
+};
+
+
+//fetch Event Today
+export const GetEventToday = async (dispatch, showNotification) => {
+  try {
+    const res = await publicRequest.get("event/eventtoday");
+    dispatch(fetchEventToday(res.data));
+  } catch (err) {
+    dispatch(fetchEventTodayFailed());
   }
 };

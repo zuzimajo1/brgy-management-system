@@ -18,6 +18,8 @@ import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
+
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -167,6 +169,16 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 9,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
 });
 
 Font.register({
@@ -180,7 +192,7 @@ Font.register({
 
 const FourPsTransfery = () => {
   const { classes } = useStyles();
-
+  const singleperson = useSelector(state=>state.facerecog.singlepersondata);
   const [Four4Ps, setFour4Ps] = useState("");
   const [TransferBrgy, setTransferBrgy] = useState("");
   return (
@@ -189,7 +201,11 @@ const FourPsTransfery = () => {
       <div style={styles.container}>
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
-            <MyDocuments Four4Ps={Four4Ps} TransferBrgy={TransferBrgy} />
+            <MyDocuments
+              Four4Ps={Four4Ps}
+              TransferBrgy={TransferBrgy}
+              singleperson={singleperson}
+            />
           </PDFViewer>
         </Container>
         <Container style={styles.containerwrapper}>
@@ -210,10 +226,10 @@ const DayMoment = (n)=>{
   );
 }
 
-const MyDocuments = ({ Four4Ps, TransferBrgy }) => {
-    const now = new Date();
-    const day = date.format(now, "D");
-    const MonthAndDate = date.format(now, "MMMM, YYYY");
+const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson }) => {
+  const now = new Date();
+  const day = date.format(now, "D");
+  const MonthAndDate = date.format(now, "MMMM, YYYY");
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -228,19 +244,40 @@ const MyDocuments = ({ Four4Ps, TransferBrgy }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
-                  <Text style={styles.clientname}>MARILYN H. ESCOBAL</Text>, of
-                  legal age, married, and a Filipino Citizen is a beneficiary of
-                  PANTAWID PAMILYANG PILIPINO PROGRAM (4P's) I.D NO.
-                  <Text>{Four4Ps}</Text>.
+                  <Text style={styles.clientname}>
+                    {`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}
+                  </Text>
+                  , of legal age,{" "}
+                  <Text style={styles.textlowercase}>
+                    {singleperson?.civilstatus}
+                  </Text>
+                  , and a{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen is a beneficiary of PANTAWID PAMILYANG PILIPINO
+                  PROGRAM (4P's) I.D NO.
+                  <Text></Text>
+                  <Text>
+                    {Four4Ps || ''}
+                    </Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that the above-mentioned persion is
-                  transferring her residency from <Text>Payawan 1</Text>,
-                  Barangay Luna, Surigao City, Surigao del Norte to{" "}
-                  <Text>{TransferBrgy}</Text>.
+                  transferring her residency from{" "}
+                  <Text>
+                    {singleperson?.address}
+                    </Text>, Barangay Luna, Surigao
+                  City, Surigao del Norte to <Text>
+                    {TransferBrgy || ''}
+                    </Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>

@@ -11,6 +11,7 @@ import {
   createStyles,
   Container,
 } from "@mantine/core";
+import { DeleteSingleEvent } from "../redux/apiCalls";
 import { DatePicker } from "@mantine/dates";
 import dayjs from "dayjs";
 import { showNotification } from "@mantine/notifications";
@@ -28,6 +29,13 @@ const useStyles = createStyles((theme) => ({
     width: "100px",
     alignContent: "center",
   },
+  deletebutton: {
+    marginTop: `${theme.spacing.lg}px`,
+    width: "100px",
+    alignContent: "center",
+    backgroundColor: "#D5786B",
+    color: "white",
+  },
   modal: {
     display: "flex",
     flexDirection: "column",
@@ -41,11 +49,11 @@ const CalendarView = () => {
   const { classes } = useStyles();
   const [opened, setOpened] = useState(false);
   const [dateData, setDateData] = useState({});
-  const [eventData, setEventData] = useState("");
+  const [eventData, setEventData] = useState(null);
   const [eventAboutData, setEventAboutData] = useState("");
   const [createEventModal, setcreateEventModal] = useState(false);
-  const [buttoncreate, setbuttoncreate] = useState(false);
   const [eventDataEnd, seteventDataEnd] = useState("");
+  const [eventID, seteventID] = useState(null);
   const dispatch = useDispatch();
   const events = useSelector((state) => state.events.events);
 
@@ -59,6 +67,7 @@ const CalendarView = () => {
     setDateData(e.event.start);
     setEventAboutData(e.event.extendedProps.about);
     seteventDataEnd(e.event.end);
+    seteventID(e.event.id);
     setOpened(true);
   };
 
@@ -72,6 +81,8 @@ const CalendarView = () => {
 
     CreateBrgyEvent(dispatch, input, showNotification, setcreateEventModal);
   };
+
+ 
 
   return (
     <div>
@@ -92,9 +103,20 @@ const CalendarView = () => {
         centered
       >
         <Text>What: {eventData}</Text>
-        <Text>About: {eventAboutData || 'none'}</Text>
+        <Text>About: {eventAboutData || "none"}</Text>
         <Text>Start of event: {dayjs(dateData).format("dddd, MMMM D")}</Text>
         <Text>End of event: {dayjs(eventDataEnd).format("dddd, MMM D ")}</Text>
+        <Container fluid="true" className={classes.modal}>
+          <Button
+            className={classes.deletebutton}
+            variant="unstyled"
+            onClick={()=>{
+              DeleteSingleEvent(dispatch, eventID, showNotification, setOpened);
+            }}
+          >
+            Delete
+          </Button>
+        </Container>
       </Modal>
       <Modal
         opened={createEventModal}
