@@ -11,6 +11,7 @@ import { publicRequest } from "../RequestMethod";
 import {
   FaceGetInfoStart,
   FaceGetInfoSuccess,
+  FaceGetInfoFailed,
 } from "./FaceRecognitionRedux";
 
 import {
@@ -21,26 +22,30 @@ import {
 
 import { fetchEventToday, fetchEventTodayFailed } from "./EventTodayRedux";
 
+import { LoginUser, Logout } from "./UserRedux";
+
+
 //fetch data of a single person
 export const GetFaceRecognitionData = async (
   dispatch,
-  firstname,
-  lastname,
+  fullname,
   showNotification
 ) => {
   try {
     dispatch(FaceGetInfoStart());
     const res = await publicRequest.get(
-      `resident/find?firstname=${firstname}&lastname=${lastname}`
+      `resident/find?fullname=${fullname}`
     );
     dispatch(FaceGetInfoSuccess(res.data));
   } catch (error) {
+    dispatch(FaceGetInfoFailed());
     showNotification({
       title: "Error, Please try again",
       message: "Make sure you are connected to the internet",
     });
   }
 };
+
 
 //fetch all data
 
@@ -120,6 +125,7 @@ export const GetAllBrgyEvents = async (dispatch, showNotification) => {
   }
 };
 
+
 //Create Events
 export const CreateBrgyEvent = async (
   dispatch,
@@ -148,13 +154,15 @@ export const CreateBrgyEvent = async (
 //Delete Single Event
 export const DeleteSingleEvent = async (
   dispatch,
-  id,
+  ID,
   showNotification,
-  setOpened
+  setOpened,
+  eventData
 ) => {
   try {
-    const res = await publicRequest.delete(`event/${id}`);
-    dispatch(deleteEvent(id));
+    const res = await publicRequest.delete(`event/${ID}`);
+    dispatch(deleteEvent(eventData));
+    console.log(eventData);
     showNotification({
       title: "Deleted Succesfully",
       message: "The brgy event has been deleted!",
@@ -179,3 +187,7 @@ export const GetEventToday = async (dispatch, showNotification) => {
     dispatch(fetchEventTodayFailed());
   }
 };
+
+
+
+

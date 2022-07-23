@@ -10,7 +10,9 @@ import { User } from "tabler-icons-react";
 import { useDispatch, useSelector } from "react-redux";
 import { GetEventToday, GetAllDataResident } from "../redux/apiCalls";
 import { showNotification } from "@mantine/notifications";
-
+import {
+  FaceGetInfoFailed,
+} from "../redux/FaceRecognitionRedux";
 const useStyles = createStyles((theme) => ({
   container: {
     fontFamily: "Regular",
@@ -95,6 +97,7 @@ const Home = () => {
   useLayoutEffect(()=>{
     GetEventToday(dispatch, showNotification);
     GetAllDataResident(dispatch);
+    // dispatch(FaceGetInfoFailed());
   },[dispatch])
 
 

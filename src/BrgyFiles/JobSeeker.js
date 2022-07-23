@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -9,7 +9,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import { Container, createStyles, TextInput } from "@mantine/core";
+import { Container, TextInput, createStyles } from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     textAlign: "center",
     fontWeight: "ultrabold",
-    marginTop: 10,
+    marginTop: 9,
   },
 
   text: {
@@ -172,6 +172,11 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans",
     textTransform: "capitalize",
   },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -183,14 +188,13 @@ Font.register({
   ],
 });
 
-const BarangayAcceptance = () => {
+const JobSeeker = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("");
-
   return (
     <Container fluid="true" className={classes.root}>
-      <Text style={styles.maintitle}>Barangay Acceptance</Text>
+      <Text style={styles.maintitle}>JOB SEEKER</Text>
       <div style={styles.container}>
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
@@ -216,7 +220,6 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
-  
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -224,18 +227,20 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
           <View style={styles.leftcontainer}></View>
           <View style={styles.rightcontainer}>
             <View style={styles.mainheader}></View>
-            <Text style={styles.title}>BARANGAY ACCEPTANCE</Text>
+            <Text style={styles.title}>BARANGAY CERTIFICATION</Text>
             <View style={styles.containertext}>
               <Text style={styles.receipenttext}>TO WHOM IT MAY CONCERN:</Text>
               <View style={styles.firstcontainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
-                  <Text style={styles.clientname}>{`${
-                    singleperson?.firstname
-                  } ${singleperson?.middlename.slice(0, 1)}. ${
-                    singleperson?.lastname
-                  }`}</Text>
+                  <Text style={styles.clientname}>
+                    {`${
+                      singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${
+                      singleperson?.lastname
+                    }`}
+                  </Text>
                   , <Text>{ClientAge}</Text> years of age,{" "}
                   <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
                   <Text style={styles.textlowercase}>
@@ -245,34 +250,39 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
                   <Text style={styles.textCapitalize}>
                     {singleperson?.citizenship}
                   </Text>{" "}
-                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
-                  Barangay Luna, Surigao City.
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,{" "}
+                  Barangay Luna, Surigao City, has never been charged in any
+                  kind of offense and has no pending case(s) filed before the
+                  Lupong Tagapamayapa in this Barangay, either civil or criminal
+                  up to this date.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that{" "}
-                  <Text>
-                    <Text style={styles.clientname}>{`${
+                  <Text style={styles.clientname}>
+                    {`${
                       singleperson?.firstname
                     } ${singleperson?.middlename.slice(0, 1)}. ${
                       singleperson?.lastname
-                    }`}</Text>
+                    }`}
                   </Text>{" "}
-                  is allowed to return to their home provided that he/she can
-                  present NEGATIVE RAT or RTPCR RESULT.
+                  is a qualified beneficiary of{" "}
+                  <Text style={styles.textregular}>
+                    RA 11261 or the First Time Jobseekers Act of 2019.
+                  </Text>
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This certification is issued upon request of the
-                  above-mentioned person as required for{" "}
-                  <Text style={styles.textregular}>
-                    BALIK PROBINSYA PROGRAM
-                  </Text>
-                  .
+                  Further certify that the holder/bearer was informed of his/her
+                  rights, including the duties and responsibilities accorded by{" "}
+                  <Text style={styles.textregular}>RA 11261</Text> through the{" "}
+                  <Text style={styles.textregular}>Oath of Undertaking</Text>{" "}
+                  he/she signed and executed in the presence of our Barangay
+                  Official.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -303,10 +313,10 @@ const DataFillOut = ({ setClientAge }) => {
         label="Age"
         radius="sm"
         placeholder="ex. 28"
-        onChange={(e) => setClientAge(e.target.value)}
+        onChange={(e) => setClientAge(e.currentTarget.value)}
       />
     </Container>
   );
 };
 
-export default BarangayAcceptance;
+export default JobSeeker;

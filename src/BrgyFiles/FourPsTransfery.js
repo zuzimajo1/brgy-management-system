@@ -9,17 +9,12 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import {
-  Container,
-  TextInput,
-  createStyles,
-} from "@mantine/core";
+import { Container, TextInput, createStyles } from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
-
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -28,7 +23,6 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.darktheme[5]
         : theme.colors.lighttheme[0],
-    transition: "ease-in-out 500ms",
     borderRadius: `20px`,
     display: "flex",
     flexDirection: "column",
@@ -85,7 +79,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: `100vh`,
     borderRadius: 20,
-    transition: "ease-in-out 500ms",
   },
   pdfviewer: {
     height: "90vh",
@@ -139,7 +132,7 @@ const styles = StyleSheet.create({
     paddingBottom: 38,
   },
   textfirstparag: {
-    fontSize: 9,
+    fontSize: 10,
     alignSelf: "left",
     fontFamily: "OpenSans",
     width: "auto",
@@ -170,16 +163,22 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   textlowercase: {
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: "OpenSans",
     textTransform: "lowercase",
   },
   textCapitalize: {
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: "OpenSans",
     textTransform: "capitalize",
   },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
+
 
 Font.register({
   family: "OpenSans",

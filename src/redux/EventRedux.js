@@ -19,11 +19,11 @@ const EventReducer = createSlice({
       state.events = [];
     },
     deleteEvent: (state, action) => {
-      //  state.events = state.events.filter((items)=> items.id !== action.payload);
-      state.events.splice(
-        state.events.findIndex((items) => items.id === action.payload),
-        1
-      );
+       state.events = state.events.filter((item)=> item.title !== action.payload);
+      // state.events.splice(
+      //   state.events.findIndex((items) => items.id === action.payload),
+      //   1
+      // );
     },
   },
 });

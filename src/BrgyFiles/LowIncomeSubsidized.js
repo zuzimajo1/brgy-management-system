@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -9,7 +9,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import { Container, createStyles, TextInput } from "@mantine/core";
+import { Container, TextInput, createStyles } from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     textAlign: "center",
     fontWeight: "ultrabold",
-    marginTop: 10,
+    marginTop: 9,
   },
 
   text: {
@@ -172,6 +172,11 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans",
     textTransform: "capitalize",
   },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -183,27 +188,41 @@ Font.register({
   ],
 });
 
-const BarangayAcceptance = () => {
-  const { classes } = useStyles();
-  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
-  const [ClientAge, setClientAge] = useState("");
+const LowIncomeSubsidized = () => {
+ const { classes } = useStyles();
+ const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+ const [ClientAge, setClientAge] = useState("");
+ const [ClientInfo, setClientInfo] = useState("");
+ const [ClientPurpose, setClientPurpose] = useState("");
 
-  return (
-    <Container fluid="true" className={classes.root}>
-      <Text style={styles.maintitle}>Barangay Acceptance</Text>
-      <div style={styles.container}>
-        <Container style={styles.containerwrapper}>
-          <PDFViewer style={styles.pdfviewer}>
-            <MyDocuments singleperson={singleperson} ClientAge={ClientAge} />
-          </PDFViewer>
-        </Container>
-        <Container style={styles.containerwrapper}>
-          <DataFillOut setClientAge={setClientAge} />
-        </Container>
-      </div>
-    </Container>
-  );
+ return (
+   <Container fluid="true" className={classes.root}>
+     <Text style={styles.maintitle}>Low Income Subsized</Text>
+     <div style={styles.container}>
+       <Container style={styles.containerwrapper}>
+         <PDFViewer style={styles.pdfviewer}>
+           <MyDocuments
+             singleperson={singleperson}
+             ClientAge={ClientAge}
+             ClientInfo={ClientInfo}
+             ClientPurpose={ClientPurpose}
+           />
+         </PDFViewer>
+       </Container>
+       <Container style={styles.containerwrapper}>
+         <DataFillOut
+           setClientAge={setClientAge}
+           setClientInfo={setClientInfo}
+           setClientPurpose={setClientPurpose}
+         />
+       </Container>
+     </div>
+   </Container>
+ );
 };
+
+
+
 
 const DayMoment = (n) => {
   return (
@@ -212,11 +231,15 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ singleperson, ClientAge }) => {
+const MyDocuments = ({
+  singleperson,
+  ClientAge,
+  ClientPurpose,
+  ClientInfo,
+}) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
-  
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -224,18 +247,20 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
           <View style={styles.leftcontainer}></View>
           <View style={styles.rightcontainer}>
             <View style={styles.mainheader}></View>
-            <Text style={styles.title}>BARANGAY ACCEPTANCE</Text>
+            <Text style={styles.title}>BARANGAY CERTIFICATION</Text>
             <View style={styles.containertext}>
               <Text style={styles.receipenttext}>TO WHOM IT MAY CONCERN:</Text>
               <View style={styles.firstcontainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
-                  <Text style={styles.clientname}>{`${
-                    singleperson?.firstname
-                  } ${singleperson?.middlename.slice(0, 1)}. ${
-                    singleperson?.lastname
-                  }`}</Text>
+                  <Text style={styles.clientname}>
+                    {`${
+                      singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${
+                      singleperson?.lastname
+                    }`}
+                  </Text>
                   , <Text>{ClientAge}</Text> years of age,{" "}
                   <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
                   <Text style={styles.textlowercase}>
@@ -253,26 +278,22 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that{" "}
-                  <Text>
-                    <Text style={styles.clientname}>{`${
+                  <Text style={styles.clientname}>
+                    {`${
                       singleperson?.firstname
                     } ${singleperson?.middlename.slice(0, 1)}. ${
                       singleperson?.lastname
-                    }`}</Text>
+                    }`}
                   </Text>{" "}
-                  is allowed to return to their home provided that he/she can
-                  present NEGATIVE RAT or RTPCR RESULT.
+                  is <Text>{ClientInfo}</Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This certification is issued upon request of the
-                  above-mentioned person as required for{" "}
-                  <Text style={styles.textregular}>
-                    BALIK PROBINSYA PROGRAM
-                  </Text>
-                  .
+                  This certification is issued upon the request of the
+                  above-mentioned person in support to the requirement of{" "}
+                  <Text style={styles.textregular}>{ClientPurpose}</Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -295,7 +316,7 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
   );
 };
 
-const DataFillOut = ({ setClientAge }) => {
+const DataFillOut = ({ setClientAge, setClientPurpose, setClientInfo }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
@@ -303,10 +324,25 @@ const DataFillOut = ({ setClientAge }) => {
         label="Age"
         radius="sm"
         placeholder="ex. 28"
-        onChange={(e) => setClientAge(e.target.value)}
+        onChange={(e) => setClientAge(e.currentTarget.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="Client Information"
+        radius="sm"
+        placeholder="ex. a Housewife and with low income"
+        onChange={(e) => setClientInfo(e.currentTarget.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="Client Purpose"
+        radius="sm"
+        placeholder="ex. SSCT in order for her to avail of a subsidized tuition fee for her daughter LORENA P.GETGETIN"
+        onChange={(e) => setClientPurpose(e.currentTarget.value)}
       />
     </Container>
   );
 };
 
-export default BarangayAcceptance;
+
+export default LowIncomeSubsidized;

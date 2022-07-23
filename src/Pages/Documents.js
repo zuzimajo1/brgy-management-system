@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { DisplayData, FaceRecognitionWebCam, RegisterForm, WebCamera } from "../Components";
 import { DataDisplayClose } from "../redux/FaceRecognitionRedux";
 
+
 const useStyles = createStyles((theme) => ({
   root: {
     fontFamily: "Regular",
@@ -131,6 +132,7 @@ const Documents = () => {
           setFaceRecognitionButtonClick={setFaceRecognitionButtonClick}
           classes={classes}
           CloseWebCam={CloseWebCam}
+          dispatch={dispatch}
         />
       </Container>
       {RegisterButtonClick && !FaceRecognitionButtonClick && (
@@ -177,6 +179,7 @@ const Buttons = ({
   FaceRecognitionButtonClick,
   setFaceRecognitionButtonClick,
   CloseWebCam,
+  dispatch,
 }) => {
   return (
     <Group className={classes.group} direction="row">
@@ -190,8 +193,8 @@ const Buttons = ({
                 ? theme.colors.darktheme[0]
                 : theme.colors.darktheme[6]
               : RegisterButtonClick
-                ? theme.colors.darktheme[0]
-                : theme.colors.lighttheme[3],
+              ? theme.colors.darktheme[0]
+              : theme.colors.lighttheme[3],
         })}
         className={classes.button}
         onClick={() =>
@@ -211,13 +214,15 @@ const Buttons = ({
                 ? theme.colors.darktheme[0]
                 : theme.colors.darktheme[6]
               : FaceRecognitionButtonClick
-                ? theme.colors.darktheme[0]
-                : theme.colors.lighttheme[3],
+              ? theme.colors.darktheme[0]
+              : theme.colors.lighttheme[3],
         })}
         className={classes.button2}
         onClick={() => {
-          !RegisterButtonClick &&
+          if (!RegisterButtonClick) {
             setFaceRecognitionButtonClick(!FaceRecognitionButtonClick);
+            dispatch(DataDisplayClose());
+          }
           FaceRecognitionButtonClick && CloseWebCam();
         }}
       >

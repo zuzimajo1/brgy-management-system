@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -183,27 +183,30 @@ Font.register({
   ],
 });
 
-const BarangayAcceptance = () => {
-  const { classes } = useStyles();
-  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
-  const [ClientAge, setClientAge] = useState("");
+const BarangayAcceptance2 = () => {
+   const { classes } = useStyles();
+   const singleperson = useSelector(
+     (state) => state.facerecog.singlepersondata
+   );
+   const [ClientAge, setClientAge] = useState("");
 
-  return (
-    <Container fluid="true" className={classes.root}>
-      <Text style={styles.maintitle}>Barangay Acceptance</Text>
-      <div style={styles.container}>
-        <Container style={styles.containerwrapper}>
-          <PDFViewer style={styles.pdfviewer}>
-            <MyDocuments singleperson={singleperson} ClientAge={ClientAge} />
-          </PDFViewer>
-        </Container>
-        <Container style={styles.containerwrapper}>
-          <DataFillOut setClientAge={setClientAge} />
-        </Container>
-      </div>
-    </Container>
-  );
+   return (
+     <Container fluid="true" className={classes.root}>
+       <Text style={styles.maintitle}>Barangay Acceptance</Text>
+       <div style={styles.container}>
+         <Container style={styles.containerwrapper}>
+           <PDFViewer style={styles.pdfviewer}>
+             <MyDocuments singleperson={singleperson} ClientAge={ClientAge} />
+           </PDFViewer>
+         </Container>
+         <Container style={styles.containerwrapper}>
+           <DataFillOut setClientAge={setClientAge} />
+         </Container>
+       </div>
+     </Container>
+   );
 };
+
 
 const DayMoment = (n) => {
   return (
@@ -216,7 +219,7 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
-  
+
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -268,9 +271,9 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This certification is issued upon request of the
-                  above-mentioned person as required for{" "}
+                  above-mentioned person as required by{" "}
                   <Text style={styles.textregular}>
-                    BALIK PROBINSYA PROGRAM
+                    SURIGAO CITY TOURISM OFFICE for BALIK PROBINSYA PROGRAM
                   </Text>
                   .
                 </Text>
@@ -309,4 +312,7 @@ const DataFillOut = ({ setClientAge }) => {
   );
 };
 
-export default BarangayAcceptance;
+
+
+
+export default BarangayAcceptance2;

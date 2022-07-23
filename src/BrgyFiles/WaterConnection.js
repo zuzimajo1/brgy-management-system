@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -9,11 +9,12 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import { Container, createStyles } from "@mantine/core";
+import { Container, TextInput, createStyles } from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -22,7 +23,6 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.darktheme[5]
         : theme.colors.lighttheme[0],
-    transition: "ease-in-out 500ms",
     borderRadius: `20px`,
     display: "flex",
     flexDirection: "column",
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: `100vh`,
     borderRadius: 20,
-    transition: "ease-in-out 500ms",
   },
   pdfviewer: {
     height: "90vh",
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignContent: "flex-start",
     width: "100%",
-    marginTop: 16,
+    marginTop: 40,
     height: 380,
   },
   receipenttext: {
@@ -130,10 +129,10 @@ const styles = StyleSheet.create({
     alignSelf: "left",
     fontFamily: "OpenSans",
     fontWeight: 900,
-    paddingBottom: 14,
+    paddingBottom: 38,
   },
   textfirstparag: {
-    fontSize: 9,
+    fontSize: 10,
     alignSelf: "left",
     fontFamily: "OpenSans",
     width: "auto",
@@ -163,6 +162,21 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -174,21 +188,26 @@ Font.register({
   ],
 });
 
-
 const WaterConnection = () => {
- const { classes } = useStyles();
- return (
-   <Container fluid="true" className={classes.root}>
-     <Text style={styles.maintitle}>Water Connection</Text>
-     <div style={styles.container}>
-       <Container style={styles.containerwrapper}>
-         <PDFViewer style={styles.pdfviewer}>
-           <MyDocuments />
-         </PDFViewer>
-       </Container>
-     </div>
-   </Container>
- );
+  const { classes } = useStyles();
+  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+  const [ClientAge, setClientAge] = useState("");
+
+  return (
+    <Container fluid="true" className={classes.root}>
+      <Text style={styles.maintitle}>Water Connection</Text>
+      <div style={styles.container}>
+        <Container style={styles.containerwrapper}>
+          <PDFViewer style={styles.pdfviewer}>
+            <MyDocuments singleperson={singleperson} ClientAge={ClientAge} />
+          </PDFViewer>
+        </Container>
+        <Container style={styles.containerwrapper}>
+          <DataFillOut setClientAge={setClientAge} />
+        </Container>
+      </div>
+    </Container>
+  );
 };
 
 const DayMoment = (n) => {
@@ -198,7 +217,7 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = () => {
+const MyDocuments = ({ ClientAge, singleperson }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -217,27 +236,44 @@ const MyDocuments = () => {
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
                   <Text style={styles.clientname}>
-                    MARILYN H. ESCOBAL
-                  </Text>, <Text>43</Text> years of age, <Text>male</Text>,{" "}
-                  <Text>married</Text>, Filipino Citizen, a resident of <Text>P-6, Payawan II</Text>, Barangay
-                  Luna, Surigao City, has never been charged in any kind of offense and has no pending case(s) filled before the Lupong Tagapamayapa in this
-                  Barangay either civil or criminal up to this date.
-                </Text>
-              </View>
-              <View style={styles.marginTopContainer}>
-                <Text style={styles.textfirstparag}>
-                  <Text style={styles.marginspacing}>...............</Text>
-                  Further, this is to certify that <Text>she</Text> is willing to give Prime Water Infrastructure Corportation an authority to take the water whenever
-                   the land owner reclaims the land where they live.
-                </Text>
-              </View>
-              <View style={styles.marginTopContainer}>
-                <Text style={styles.textfirstparag}>
-                  <Text style={styles.marginspacing}>...............</Text>
-                  This certification is issued upon the request of the above-mentioned person to support the transaction for{" "}
-                  <Text style={styles.textregular}>
-                    WATER CONNECTION.
+                    {`${
+                      singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${
+                      singleperson?.lastname
+                    }`}
                   </Text>
+                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textlowercase}>
+                    {singleperson?.civilstatus}
+                  </Text>
+                  ,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
+                  Barangay Luna, Surigao City, has never been charged in any
+                  kind of offense and has no pending case(s) filled before the
+                  Lupong Tagapamayapa in this Barangay either civil or criminal
+                  up to this date.
+                </Text>
+              </View>
+              <View style={styles.marginTopContainer}>
+                <Text style={styles.textfirstparag}>
+                  <Text style={styles.marginspacing}>...............</Text>
+                  Further, this is to certify that{" "}
+                  <Text>{singleperson?.sex === "Male" ? "he" : "she"}</Text> is
+                  willing to give Prime Water Infrastructure Corportation an
+                  authority to take the water whenever the land owner reclaims
+                  the land where they live.
+                </Text>
+              </View>
+              <View style={styles.marginTopContainer}>
+                <Text style={styles.textfirstparag}>
+                  <Text style={styles.marginspacing}>...............</Text>
+                  This certification is issued upon the request of the
+                  above-mentioned person to support the transaction for{" "}
+                  <Text style={styles.textregular}>WATER CONNECTION.</Text>
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -260,6 +296,18 @@ const MyDocuments = () => {
   );
 };
 
-
+const DataFillOut = ({ setClientAge }) => {
+  return (
+    <Container fluid="true" style={styles.formcontainer}>
+      <TextInput
+        style={styles.textinputs}
+        label="Age"
+        radius="sm"
+        placeholder="ex. 28"
+        onChange={(e) => setClientAge(e.target.value)}
+      />
+    </Container>
+  );
+};
 
 export default WaterConnection;

@@ -14,6 +14,7 @@ import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -22,7 +23,6 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.darktheme[5]
         : theme.colors.lighttheme[0],
-    transition: "ease-in-out 500ms",
     borderRadius: `20px`,
     display: "flex",
     flexDirection: "column",
@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: `100vh`,
     borderRadius: 20,
-    transition: "ease-in-out 500ms",
   },
   pdfviewer: {
     height: "90vh",
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     paddingBottom: 38,
   },
   textfirstparag: {
-    fontSize: 9,
+    fontSize: 10,
     alignSelf: "left",
     fontFamily: "OpenSans",
     width: "auto",
@@ -163,6 +162,21 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -179,7 +193,6 @@ const BusinessClosurePSA = () => {
   const [BusinessName, setBusinessName] = useState("");
   const [BusinessLocation, setBusinessLocation] = useState("");
   const [DateClosed, setDateClosed] = useState("");
-
 
   return (
     <Container fluid="true" className={classes.root}>
@@ -206,7 +219,6 @@ const BusinessClosurePSA = () => {
   );
 };
 
-
 const DayMoment = (n) => {
   return (
     ["st", "nd", "rd"][(((((n < 0 ? -n : n) + 90) % 100) - 10) % 10) - 1] ||
@@ -218,7 +230,7 @@ const MyDocuments = ({ BusinessName, BusinessLocation, DateClosed }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
-  
+
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -232,17 +244,19 @@ const MyDocuments = ({ BusinessName, BusinessLocation, DateClosed }) => {
               <View style={styles.firstcontainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This is to certify that {" "}
+                  This is to certify that{" "}
                   <Text transform="uppercase" style={styles.textregular}>
                     {BusinessName}
                   </Text>{" "}
-                  with business address at <Text>{BusinessLocation}</Text>, was already closed last <Text>{DateClosed}</Text>.
+                  with business address at <Text>{BusinessLocation}</Text>, was
+                  already closed last <Text>{DateClosed}</Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This certification is issued upon the request of PHILIPPINE STATISTICS AUTHORITY for any legal purposes.
+                  This certification is issued upon the request of PHILIPPINE
+                  STATISTICS AUTHORITY for any legal purposes.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -296,6 +310,5 @@ const DataFillOut = ({
     </Container>
   );
 };
-
 
 export default BusinessClosurePSA;

@@ -9,7 +9,7 @@ import {
   Text,
   Space,
   Image,
-  Loader
+  Loader,
 } from "@mantine/core";
 // import { samplepopulace } from "../config/dummyData";
 import { Link } from "react-router-dom";
@@ -45,9 +45,10 @@ const useStyles = createStyles((theme) => ({
 
 const DisplayData = () => {
   const { classes } = useStyles();
-  const { fetchdata, status, singlepersondata } = useSelector(
+  const {  status, singlepersondata } = useSelector(
     (state) => state.facerecog
   );
+  const fetchdata = true
   return (
     <>
       {fetchdata ? (
@@ -63,20 +64,45 @@ const DisplayData = () => {
   );
 };
 
-const DisplayContainer = ({ classes, status, singlepersondata, }) => {
-  const documentsdata = ["Certification", "Indigency"];
-  const [DocumentNavigate, setDocumentNavigate] = useState(
-    "Certifate of Indigency"
-  );
+const DisplayContainer = ({ classes, status, singlepersondata }) => {
+  const documentsdata = [
+    "4P'sTransfery",
+    "BrgyAcceptance",
+    "BrgyAcceptance2",
+    "BusinessClosure",
+    "BusinessClosurePSA",
+    "BurialAssistanceRelatives",
+    "BuildingPermit",
+    "TravelCertificate",
+    "Certification-Abroad",
+    "BirPattern/Assitance",
+    "WaterConnection",
+    "Certification-Stranded",
+    "JobSeeker",
+    "Clearance",
+    "WaterConnectionDiscount",
+    "LowIncome",
+    "PhilHealth",
+    "LowIncomeSubsidized",
+    "CHEDScholar",
+    "BrgyCertification",
+    "Livelihood",
+    "Certification-Pabahay",
+    "ElectricConnection",
+  ];
 
-  if (status === "loading") {
+  const [DocumentNavigate, setDocumentNavigate] = useState("4P'sTransfery");
+
+  console.log(DocumentNavigate);
+  const [show, setshow] = useState(true);
+
+  if (!show) {
     return (
       <Container fluid="true" className={classes.formcontainer}>
         <Loader size="xl" />
       </Container>
     );
-  } else if (status === "success") {
-   
+  } else if (show) {
     return (
       <Container fluid="true" className={classes.formcontainer}>
         <Container fluid="true" className={classes.group}>
@@ -86,112 +112,114 @@ const DisplayContainer = ({ classes, status, singlepersondata, }) => {
           <Image
             width="80px"
             height="80px"
-            src={singlepersondata.image}
+            src={singlepersondata?.image}
           ></Image>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Firstname:
           </Text>
-          <Text size="sm">{singlepersondata.firstname}</Text>
+          <Text size="sm">{singlepersondata?.firstname}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Middlename:
           </Text>
-          <Text size="sm">{singlepersondata.middlename}</Text>
+          <Text size="sm">{singlepersondata?.middlename}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Lastname:
           </Text>
-          <Text size="sm">{singlepersondata.lastname}</Text>
+          <Text size="sm">{singlepersondata?.lastname}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Suffix:
           </Text>
           <Text size="sm">
-            {singlepersondata.suffix ? singlepersondata.suffix : "None"}
+            {singlepersondata?.suffix ? singlepersondata?.suffix : "None"}
           </Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Address:
           </Text>
-          <Text size="sm">{singlepersondata.address}</Text>
+          <Text size="sm">{singlepersondata?.address}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Date of Birth:
           </Text>
-          <Text size="sm">{singlepersondata.birthdate}</Text>
+          <Text size="sm">{singlepersondata?.birthdate}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Place of Birth:
           </Text>
-          <Text size="sm">{singlepersondata.birthplace}</Text>
+          <Text size="sm">{singlepersondata?.birthplace}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Sex:
           </Text>
-          <Text size="sm">{singlepersondata.sex}</Text>
+          <Text size="sm">{singlepersondata?.sex}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Civil Status:
           </Text>
-          <Text size="sm">{singlepersondata.civilstatus}</Text>
+          <Text size="sm">{singlepersondata?.civilstatus}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Name of Parents:
           </Text>
-          <Text size="sm">{singlepersondata.parentsname}</Text>
+          <Text size="sm">{singlepersondata?.parentsname}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Name of Siblings:
           </Text>
-          <Text size="sm">{singlepersondata.siblingsname}</Text>
+          <Text size="sm">{singlepersondata?.siblingsname}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Citizenship:
           </Text>
-          <Text size="sm">{singlepersondata.citizenship}</Text>
+          <Text size="sm">{singlepersondata?.citizenship}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Occupation:
           </Text>
-          <Text size="sm">{singlepersondata.occupation}</Text>
+          <Text size="sm">{singlepersondata?.occupation}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             PWD:
           </Text>
-          <Text size="sm">{singlepersondata.PWD ? "Yes" : "No"}</Text>
+          <Text size="sm">{singlepersondata?.PWD ? "Yes" : "No"}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Member of 4P's:
           </Text>
-          <Text size="sm">{singlepersondata.fourpsmember ? "Yes" : "No"}</Text>
+          <Text size="sm">{singlepersondata?.fourpsmember ? "Yes" : "No"}</Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Registered Voter:
           </Text>
-          <Text size="sm">{singlepersondata.registervoter ? "Yes" : "No"}</Text>
+          <Text size="sm">
+            {singlepersondata?.registervoter ? "Yes" : "No"}
+          </Text>
         </Container>
         <Container fluid="true" className={classes.group}>
           <Text className={classes.textmargin} size="sm">
             Occupancy Status:
           </Text>
-          <Text size="sm">{singlepersondata.occupancystatus}</Text>
+          <Text size="sm">{singlepersondata?.occupancystatus}</Text>
         </Container>
         <NativeSelect
           className={classes.textinputs}
@@ -201,9 +229,59 @@ const DisplayContainer = ({ classes, status, singlepersondata, }) => {
           label="Select a document"
           onChange={(event) => setDocumentNavigate(event.currentTarget.value)}
         ></NativeSelect>
-        <Button variant="filled" size="sm" className={classes.button}>
-          Navigate
-        </Button>
+        <Link
+          to={
+            DocumentNavigate === "4P'sTransfery"
+              ? "4PsTransfery"
+              : DocumentNavigate === "BrgyAcceptance"
+              ? "BrgyAcceptance"
+              : DocumentNavigate === "BrgyAcceptance2"
+              ? "BrgyAcceptance2"
+              : DocumentNavigate === "BusinessClosure"
+              ? "BusinessClosure"
+              : DocumentNavigate === "BusinessClosurePSA"
+              ? "BusinessClosurePSA"
+              : DocumentNavigate === "BurialAssistanceRelatives"
+              ? "BurialAssistanceRelatives"
+              : DocumentNavigate === "BuildingPermit"
+              ? "BuildingPermit"
+              : DocumentNavigate === "TravelCertificate"
+              ? "TravelCertificate"
+              : DocumentNavigate === "Certification-Abroad"
+              ? "CertificateAbroad"
+              : DocumentNavigate === "BirPattern/Assitance"
+              ? "CertificateBirPattern"
+              : DocumentNavigate === "WaterConnection"
+              ? "CertificateWaterConnection"
+              : DocumentNavigate === "Certification-Stranded"
+              ? "CertificateStranded"
+              : DocumentNavigate === "JobSeeker"
+              ? "JobSeeker"
+              : DocumentNavigate === "Clearance"
+              ? "Clearance"
+              : DocumentNavigate === "WaterConnectionDiscount"
+              ? "CertificateWaterConnectionDiscount"
+              : DocumentNavigate === "LowIncome"
+              ? "CertificationLowIncome"
+              : DocumentNavigate === "PhilHealth"
+              ? "PhilHealth"
+              : DocumentNavigate === "LowIncomeSubsidized"
+              ? "LowIncomeSubsidized"
+              : DocumentNavigate === "CHEDScholar"
+              ? "ChedScholar"
+              : DocumentNavigate === "BrgyCertification"
+              ? "BrgyCertification"
+              : DocumentNavigate === "Livelihood"
+              ? "Livelihood"
+              : DocumentNavigate === "Certification-Pabahay"
+              ? "CertificationPabahay"
+              : DocumentNavigate === "ElectricConnection" ? "ElectricConnection" : "N/A"
+          }
+        >
+          <Button variant="filled" size="sm" className={classes.button}>
+            Navigate
+          </Button>
+        </Link>
       </Container>
     );
   }

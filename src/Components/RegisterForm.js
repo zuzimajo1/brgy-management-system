@@ -11,9 +11,11 @@ import {
   addResidentSuccess,
   addResidentsFailed,
 } from "../redux/MasterlistRedux";
+import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import { publicRequest } from "../RequestMethod";
 import { storage } from "../firebase";
+import { DatePicker } from "@mantine/dates";
 
 import {
   Container,
@@ -80,7 +82,7 @@ const RegisterForm = ({ Image }) => {
   };
 
   const [address, setaddress] = useState("Purok 1, Payawan 1");
-
+  const [birthdate, setbirthdate] = useState("");
   const [sex, setsex] = useState("Male");
   const [civilstatus, setcivilstatus] = useState("Single");
   const [PWD, setPWD] = useState("Yes");
@@ -135,94 +137,102 @@ const RegisterForm = ({ Image }) => {
     "Purok 11 Springville C, Payawan 2",
     "Purok 12 Macresia/Greens Homes, Payawan 2",
     "Purok 34 Muslim Community, Payawan 2",
+    "Purok 5, Bernadette",
+    "Purok 14, Bernadette",
+    "Purok 15, Bernadette",
+    "Purok 16, Bernadette",
+    "Purok 20, Bernadette",
     "Purok 17 Poblacion 2, CentralPoblacion",
     "Purok 18 Rivcor Poblacion, CentralPoblacion",
     "Purok 19 Tuazon Village, CentralPoblacion",
     "Purok 20 Poblacion 3, CentralPoblacion",
     "Purok 21 Airport Riverside, CentralPoblacion",
     "Purok 22 Holy Cross/Nembusco, CentralPoblacion",
+    "Purok 23, Looc",
+    "Purok 24, Looc",
+    "Purok 24-A, Looc",
+    "Purok 25 Magbago, Looc",
+    "Purok 26 GK/EXIT, Looc",
+    "Purok 27, Toril",
+    "Purok 27-A, Toril",
+    "Purok 28, Toril",
+    "Purok 28-A, Toril",
     "Purok 29 Highway Bacud, Bacud",
     "Purok 30 Interior, Bacud",
     "Purok 31 Pangpang Riverside, Bacud",
     "Purok 32 Cortes, Bacud",
     "Purok 33, SanVicente",
     "Purok 33-A, SanVicente",
-    "Purok 23, Looc",
-    "Purok 24, Looc",
-    "Purok 24-A, Looc",
-    "Purok 25 Magbago, Looc",
-    "Purok 26 GK/EXIT, Looc",
-    "Purok 5, Bernadette",
-    "Purok 14, Bernadette",
-    "Purok 15, Bernadette",
-    "Purok 16, Bernadette",
-    "Purok 20, Bernadette",
-    "Purok 27, Toril",
-    "Purok 27-A, Toril",
-    "Purok 28, Toril",
-    "Purok 28-A, Toril",
   ];
 
   const HandleRegister = () => {
     setLoadingstate(true);
     if (
       (Form,
-      ImageFile,
       address,
       sex,
       civilstatus,
       PWD,
       fourpsmember,
       registervoter,
+      birthdate,
       occupancystatus)
     ) {
-      const storageRef = ref(storage, Imagename);
-      const uploadTask = uploadBytesResumable(storageRef, ImageFile);
+      if (ImageFile) {
+        const storageRef = ref(storage, Imagename);
+        const uploadTask = uploadBytesResumable(storageRef, ImageFile);
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const prog = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-        },
-        (err) => console.log(err),
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            const inputs = {
-              ...Form,
-              image: url,
-              address,
-              sex,
-              civilstatus,
-              PWD: PWD === "Yes" ? true : false,
-              fourpsmember: fourpsmember === "Yes" ? true : false,
-              registervoter: registervoter === "Yes" ? true : false,
-              occupancystatus,
-            };
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            const prog = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+          },
+          (err) => console.log(err),
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+              const inputs = {
+                ...Form,
+                image: url,
+                birthdate : dayjs(birthdate).format('MMM D, YYYY'),
+                address,
+                sex,
+                civilstatus,
+                PWD: PWD === "Yes" ? true : false,
+                fourpsmember: fourpsmember === "Yes" ? true : false,
+                registervoter: registervoter === "Yes" ? true : false,
+                occupancystatus,
+              };
 
-            const register = async () => {
-              try {
-                const res = await publicRequest.post("resident", inputs);
-                setLoadingstate(false);
-                dispatch(addResidentSuccess(res.data));
-                showNotification({
-                  title: "Register Successfully!",
-                  message: "The data is registered successfully!",
-                });
-              } catch (error) {
-                setLoadingstate(false);
-                showNotification({
-                  title: "Error, Please try again",
-                  message: "Perhaps you're not connected to the internet",
-                });
-              }
-            };
-
-            register();
-          });
-        }
-      );
+              const register = async () => {
+                try {
+                  const res = await publicRequest.post("resident", inputs);
+                  setLoadingstate(false);
+                  dispatch(addResidentSuccess(res.data));
+                  showNotification({
+                    title: "Register Successfully!",
+                    message: "The data is registered successfully!",
+                  });
+                } catch (error) {
+                  setLoadingstate(false);
+                  showNotification({
+                    title: "Error, Please try again",
+                    message: "Perhaps you're not connected to the internet or you omit any details",
+                  });
+                }
+              };
+              register();
+            });
+          }
+        );
+      } else {
+        showNotification({
+          title: "Input Image",
+          message: "You forgot to input image",
+        });
+         setLoadingstate(false);
+      }
     } else {
       setLoadingstate(false);
       showNotification({
@@ -286,6 +296,14 @@ const RegisterForm = ({ Image }) => {
         />
       </div>
       <div className={classes.group}>
+        <TextInput
+          className={classes.textinputs}
+          label="Full Name"
+          name="fullname"
+          placeholder="Input the fullname"
+          radius="sm"
+          onChange={AllFunction}
+        />
         <NativeSelect
           className={classes.textinputs}
           data={areas}
@@ -294,17 +312,14 @@ const RegisterForm = ({ Image }) => {
           label="Select the area"
           onChange={(e) => setaddress(e.currentTarget.value)}
         />
-
-        <TextInput
-          className={classes.textinputs}
-          label="Date of Birth"
-          placeholder="Input the date"
-          radius="sm"
-          name="birthdate"
-          onChange={AllFunction}
-        />
       </div>
       <div className={classes.group}>
+        <DatePicker
+          className={classes.textinputs}
+          placeholder="Input the date of birth"
+          label="Date of Birth"
+          onChange={setbirthdate}
+        />
         <TextInput
           className={classes.textinputs}
           label="Place of Birth"
@@ -313,6 +328,8 @@ const RegisterForm = ({ Image }) => {
           radius="sm"
           onChange={AllFunction}
         />
+      </div>
+      <div className={classes.group}>
         <NativeSelect
           className={classes.textinputs}
           value={sex}
@@ -321,8 +338,7 @@ const RegisterForm = ({ Image }) => {
           radius="sm"
           onChange={(event) => setsex(event.currentTarget.value)}
         />
-      </div>
-      <div className={classes.group}>
+
         <NativeSelect
           className={classes.textinputs}
           data={civilStatus}
@@ -331,6 +347,8 @@ const RegisterForm = ({ Image }) => {
           label="Civil Status"
           onChange={(event) => setcivilstatus(event.currentTarget.value)}
         />
+      </div>
+      <div className={classes.group}>
         <TextInput
           className={classes.textinputs}
           name="parentsname"
@@ -339,8 +357,6 @@ const RegisterForm = ({ Image }) => {
           radius="sm"
           onChange={AllFunction}
         />
-      </div>
-      <div className={classes.group}>
         <TextInput
           className={classes.textinputs}
           name="siblingsname"
@@ -349,6 +365,8 @@ const RegisterForm = ({ Image }) => {
           radius="sm"
           onChange={AllFunction}
         />
+      </div>
+      <div className={classes.group}>
         <TextInput
           className={classes.textinputs}
           name="citizenship"
@@ -357,8 +375,6 @@ const RegisterForm = ({ Image }) => {
           radius="sm"
           onChange={AllFunction}
         />
-      </div>
-      <div className={classes.group}>
         <TextInput
           className={classes.textinputs}
           name="occupation"
@@ -367,6 +383,8 @@ const RegisterForm = ({ Image }) => {
           radius="sm"
           onChange={AllFunction}
         />
+      </div>
+      <div className={classes.group}>
         <NativeSelect
           className={classes.textinputs}
           data={selection}
@@ -375,8 +393,7 @@ const RegisterForm = ({ Image }) => {
           label="PWD"
           onChange={(event) => setPWD(event.currentTarget.value)}
         />
-      </div>
-      <div className={classes.group}>
+
         <NativeSelect
           className={classes.textinputs}
           data={selection}
@@ -385,6 +402,8 @@ const RegisterForm = ({ Image }) => {
           label="4P's"
           onChange={(event) => setfourpsmember(event.currentTarget.value)}
         />
+      </div>
+      <div className={classes.group}>
         <NativeSelect
           className={classes.textinputs}
           data={selection}

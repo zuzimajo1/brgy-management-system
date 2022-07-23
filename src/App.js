@@ -21,17 +21,32 @@ import {
   Abroad,
   BarangayAcceptance,
   BIRpattern,
+  BrgyCertificationMultiPurpose,
   BuildingPermit,
+  BurialAssistance,
   BurialAssistanceRelatives,
   BusinessClosure,
   BusinessClosurePSA,
+  CertificationLowIncome,
+  CertificationStranded,
+  ChedScholar,
+  Clearance,
+  ElectricMeter,
   FourPsTransfery,
+  JobSeeker,
+  Livelihood,
+  LowIncomeSubsidized,
+  Pabahay,
+  PhilHealth,
   TravelCertificate,
   WaterConnection,
+  WaterConnectionDiscount,
 } from "./BrgyFiles";
+import BarangayAcceptance2 from "./BrgyFiles/BarangayAcceptance2";
 
 function App() {
-  const [User, setUser] = useState(true);
+  const User = useSelector((state) => state.user.loginStatus);
+  // const [User, setUser] = useState(false);
   const { width } = useViewportSize();
   const show = useSelector((state) => state.navbar.show);
 
@@ -39,6 +54,8 @@ function App() {
     key: "color-scheme",
     defaultValue: "dark",
   });
+
+
 
   const toggleColorScheme = () =>
     setColorScheme((current) => (current === "dark" ? "light" : "dark"));
@@ -99,44 +116,96 @@ function App() {
       element: <Masterlist colorScheme={colorScheme} />,
     },
     {
-      path: "4PsTransfery",
+      path: "transactions/4PsTransfery",
       element: <FourPsTransfery />,
     },
     {
-      path: "BrgyAcceptance",
+      path: "transactions/BrgyAcceptance",
       element: <BarangayAcceptance />,
     },
     {
-      path: "BusinessClosure",
+      path: "transactions/BrgyAcceptance2",
+      element: <BarangayAcceptance2 />,
+    },
+    {
+      path: "transactions/BusinessClosure",
       element: <BusinessClosure />,
     },
     {
-      path: "BusinessClosurePSA",
+      path: "transactions/BusinessClosurePSA",
       element: <BusinessClosurePSA />,
     },
     {
-      path: "BurialAssistanceRelatives",
+      path: "transactions/BurialAssistanceRelatives",
       element: <BurialAssistanceRelatives />,
     },
     {
-      path: "BuildingPermit",
+      path: "transactions/BuildingPermit",
       element: <BuildingPermit />,
     },
     {
-      path: "TravelCertificate",
+      path: "transactions/TravelCertificate",
       element: <TravelCertificate />,
     },
     {
-      path: "CertificateAbroad",
-      element: <Abroad/>,
+      path: "transactions/CertificateAbroad",
+      element: <Abroad />,
     },
     {
-      path: "CertificateBirPattern",
-      element: <BIRpattern/>,
+      path: "transactions/CertificateBirPattern",
+      element: <BIRpattern />,
     },
     {
-      path: "CertificateWaterConnection",
-      element: <WaterConnection/>,
+      path: "transactions/CertificateWaterConnection",
+      element: <WaterConnection />,
+    },
+    {
+      path: "transactions/CertificateStranded",
+      element: <CertificationStranded />,
+    },
+    {
+      path: "transactions/JobSeeker",
+      element: <JobSeeker />,
+    },
+    {
+      path: "transactions/Clearance",
+      element: <Clearance />,
+    },
+    {
+      path: "transactions/CertificateWaterConnectionDiscount",
+      element: <WaterConnectionDiscount />,
+    },
+    {
+      path: "transactions/CertificationLowIncome",
+      element: <CertificationLowIncome />,
+    },
+    {
+      path: "transactions/PhilHealth",
+      element: <PhilHealth />,
+    },
+    {
+      path: "transactions/LowIncomeSubsidized",
+      element: <LowIncomeSubsidized />,
+    },
+    {
+      path: "transactions/ChedScholar",
+      element: <ChedScholar />,
+    },
+    {
+      path: "transactions/BrgyCertification",
+      element: <BrgyCertificationMultiPurpose />,
+    },
+    {
+      path: "transactions/Livelihood",
+      element: <Livelihood />,
+    },
+    {
+      path: "transactions/CertificationPabahay",
+      element: <Pabahay />,
+    },
+    {
+      path: "transactions/ElectricConnection",
+      element: <ElectricMeter />,
     },
   ];
 

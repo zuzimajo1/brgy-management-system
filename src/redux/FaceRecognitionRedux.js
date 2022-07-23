@@ -18,8 +18,9 @@ const FacerecognitionReducer = createSlice({
             state.fetchdata = true;
         },
         FaceGetInfoFailed: (state)=>{
-            state.stawtus = "failed";
+            state.status = "failed";
             state.singlepersondata = [];
+             state.fetchdata = false;
         },
         FaceGetInfoReset :(state, action)=>{
             state.fetchdata = false;
@@ -27,9 +28,15 @@ const FacerecognitionReducer = createSlice({
         },
         DataDisplayClose :(state)=>{
             state.fetchdata = false;
-        },
+        }
     }
 })
 
-export const { FaceGetInfoStart, FaceGetInfoSuccess, FaceGetInfoFailed,FaceGetInfoReset, DataDisplayClose } = FacerecognitionReducer.actions;
+export const {
+  FaceGetInfoStart,
+  FaceGetInfoSuccess,
+  FaceGetInfoFailed,
+  FaceGetInfoReset,
+  DataDisplayClose
+} = FacerecognitionReducer.actions;
 export default FacerecognitionReducer.reducer;

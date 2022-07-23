@@ -1,8 +1,21 @@
-import React, {useState} from 'react'
-import { Container, createStyles, Group, Text, TextInput, ActionIcon, Button} from "@mantine/core"
-import { Logo } from '../Components';
+import React, { useState } from "react";
+import {
+  Container,
+  createStyles,
+  Group,
+  Text,
+  TextInput,
+  ActionIcon,
+  Button,
+  Loader,
+} from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { Logo } from "../Components";
 import { EyeOff, Eye } from "tabler-icons-react";
-
+import { LoginAdmin } from "../redux/apiCalls";
+import { useDispatch } from "react-redux";
+import { publicRequest } from "../RequestMethod";
+import { LoginUser } from "../redux/UserRedux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -43,7 +56,6 @@ const useStyles = createStyles((theme) => ({
       padding: `0 ${theme.spacing.md}px`,
       height: `410px`,
     },
-
   },
   logoContainer: {
     width: "100%",
@@ -66,7 +78,6 @@ const useStyles = createStyles((theme) => ({
         ? theme.colors.lighttheme[0]
         : theme.colors.lighttheme[3],
     transition: `ease-in-out 500ms`,
-
   },
   inputs: {
     width: "100%",
@@ -95,12 +106,43 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-
-
 const Auth = () => {
   const { classes } = useStyles();
   const [showPassword, setshowPassword] = useState(false);
-   
+  const [username, setusername] = useState("");
+  const [password, setpassword] = useState("");
+  const dispatch = useDispatch();
+  const [Loadingstate, setLoadingstate] = useState(false);
+
+  const HandleLogin = () => {
+    setLoadingstate(true);
+    if (username && password) {
+      const Login = async () => {
+        try {
+          const res = await publicRequest.get(
+            `auth?username=${username}&password=${password}`
+          );
+          dispatch(LoginUser(res.data))
+            setLoadingstate(false);
+        } catch (err) {
+          setLoadingstate(false);
+          showNotification({
+            title: "Error, Please try again",
+            message: "Make sure you are connected to the server",
+          });
+        }
+      };
+      Login();
+    }else{
+        setLoadingstate(false);
+       showNotification({
+         title: "Error, Please try again",
+         message:
+           "Please do not omit any details",
+       });
+    }
+  };
+
   return (
     <Container className={classes.root} fluid="true">
       <Group className={classes.form} direction="column">
@@ -118,6 +160,7 @@ const Auth = () => {
           variant="unstyled"
           label="Username"
           size="xs"
+          onChange={(e) => setusername(e.currentTarget.value)}
         />
         <TextInput
           className={classes.inputs}
@@ -134,13 +177,20 @@ const Auth = () => {
           variant="unstyled"
           label="Password"
           size="xs"
+          onChange={(e) => setpassword(e.currentTarget.value)}
         />
-        <Button  size="md" radius='md' className={classes.button} fullWidth="true">
-          Sign In
+        <Button
+          size="md"
+          radius="md"
+          className={classes.button}
+          fullWidth="true"
+          onClick={HandleLogin}
+        >
+          {Loadingstate ? <Loader size="sm" /> : "Sign In"}
         </Button>
       </Group>
     </Container>
   );
-}
+};
 
-export default Auth
+export default Auth;

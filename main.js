@@ -5,7 +5,7 @@ const path = require("path");
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1100,
+    width: 1560,
     height: 1100,
     minHeight: 600,
     minWidth: 600,

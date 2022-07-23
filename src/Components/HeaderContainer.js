@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ShowNavbar, HideNavbar } from "../redux/NavbarRedux";
 import ColorScheme from "./ColorScheme";
 import Logo from "./Logo";
+import { LogoutUser } from "../redux/UserRedux";
 
 
 
@@ -115,11 +116,11 @@ const useStyles = createStyles((theme) => ({
     display: "none",
   },
   paper: {
-    height: "130px",
+    height: "40px",
     marginTop: `${theme.spacing.xs}px`,
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignContent: "center",
   },
   menuItem: {
@@ -164,7 +165,7 @@ const HeaderContainer = () => {
       </Group>
       <Group>
         <ColorScheme />
-        <UserContainer classes={classes} />
+        <UserContainer classes={classes} dispatch={dispatch}/>
       </Group>
     </Header>
   );
@@ -211,16 +212,16 @@ const SearchContainer = ({ classes }) => {
   );
 };
 
-const UserContainer = ({ classes }) => {
+const UserContainer = ({ classes, dispatch }) => {
   const admin = require("../images/admin.png");
   const [opened, handlers] = useDisclosure(false);
   const theme = useMantineTheme();
+
   return (
     <Menu
       opened={opened}
       onOpen={handlers.open}
       onClose={handlers.close}
-     
       control={
         <Button
           variant="default"
@@ -253,17 +254,13 @@ const UserContainer = ({ classes }) => {
       }
     >
       <Container className={classes.paper}>
-        <Text transform="capitalize">good morning, admin</Text>
-        <Divider size="sm" my="xs" />
         <Menu.Item
           className={classes.menuItem}
-          icon={<User size={25} strokeWidth={2} />}
-        >
-          user setiings
-        </Menu.Item>
-        <Menu.Item
-          className={classes.menuItem}
-          icon={<Logout size={25} strokeWidth={2} />}
+          icon={
+            <Logout size={25} strokeWidth={2}  />
+          }
+          onClick={()=>{
+            dispatch(LogoutUser())}}
         >
           logout
         </Menu.Item>

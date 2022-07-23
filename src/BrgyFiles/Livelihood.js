@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -23,6 +23,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.darktheme[5]
         : theme.colors.lighttheme[0],
+    transition: "ease-in-out 500ms",
     borderRadius: `20px`,
     display: "flex",
     flexDirection: "column",
@@ -49,15 +50,13 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     textAlign: "center",
     fontWeight: "ultrabold",
-    marginTop: 10,
+    marginTop: 9,
   },
-
   text: {
     fontSize: 10,
     alignSelf: "center",
     fontFamily: "OpenSans",
   },
-
   textregular: {
     fontSize: 10,
     alignSelf: "center",
@@ -79,6 +78,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: `100vh`,
     borderRadius: 20,
+    transition: "ease-in-out 500ms",
   },
   pdfviewer: {
     height: "90vh",
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignContent: "flex-start",
     width: "100%",
-    marginTop: 40,
+    marginTop: 16,
     height: 380,
   },
   receipenttext: {
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     alignSelf: "left",
     fontFamily: "OpenSans",
     fontWeight: 900,
-    paddingBottom: 38,
+    paddingBottom: 14,
   },
   textfirstparag: {
     fontSize: 10,
@@ -172,6 +172,11 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans",
     textTransform: "capitalize",
   },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -183,27 +188,37 @@ Font.register({
   ],
 });
 
-const BarangayAcceptance = () => {
+const Livelihood = () => {
   const { classes } = useStyles();
+  const [PurposeTransaction, setPurposeTransaction] = useState("");
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("");
 
   return (
     <Container fluid="true" className={classes.root}>
-      <Text style={styles.maintitle}>Barangay Acceptance</Text>
+      <Text style={styles.maintitle}>Certificaton for Livelihood</Text>
       <div style={styles.container}>
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
-            <MyDocuments singleperson={singleperson} ClientAge={ClientAge} />
+            <MyDocuments
+              PurposeTransaction={PurposeTransaction}
+              singleperson={singleperson}
+              ClientAge={ClientAge}
+            />
           </PDFViewer>
         </Container>
         <Container style={styles.containerwrapper}>
-          <DataFillOut setClientAge={setClientAge} />
+          <DataFillOut
+            setPurposeTransaction={setPurposeTransaction}
+            setClientAge={setClientAge}
+          />
         </Container>
       </div>
     </Container>
   );
 };
+
+
 
 const DayMoment = (n) => {
   return (
@@ -212,11 +227,10 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ singleperson, ClientAge }) => {
+const MyDocuments = ({ PurposeTransaction, singleperson, ClientAge }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
-  
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -224,19 +238,19 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
           <View style={styles.leftcontainer}></View>
           <View style={styles.rightcontainer}>
             <View style={styles.mainheader}></View>
-            <Text style={styles.title}>BARANGAY ACCEPTANCE</Text>
+            <Text style={styles.title}>BARANGAY CERTIFICATION</Text>
             <View style={styles.containertext}>
               <Text style={styles.receipenttext}>TO WHOM IT MAY CONCERN:</Text>
               <View style={styles.firstcontainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This is to certify that {""}
+                  This is to certify that{" "}
                   <Text style={styles.clientname}>{`${
                     singleperson?.firstname
                   } ${singleperson?.middlename.slice(0, 1)}. ${
                     singleperson?.lastname
                   }`}</Text>
-                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  , of legal age,{" "}
                   <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
                   <Text style={styles.textlowercase}>
                     {singleperson?.civilstatus}
@@ -246,33 +260,33 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
                     {singleperson?.citizenship}
                   </Text>{" "}
                   Citizen, a resident of <Text>{singleperson?.address}</Text>,
-                  Barangay Luna, Surigao City.
+                  Barangay Luna, Surigao City, has never been charged in any
+                  kind of offense and has no pending case(s) filed before the
+                  Lupong Tagapamayapa in this Barangay, either civil or criminal
+                  up to this date.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that{" "}
-                  <Text>
-                    <Text style={styles.clientname}>{`${
-                      singleperson?.firstname
-                    } ${singleperson?.middlename.slice(0, 1)}. ${
-                      singleperson?.lastname
-                    }`}</Text>
-                  </Text>{" "}
-                  is allowed to return to their home provided that he/she can
-                  present NEGATIVE RAT or RTPCR RESULT.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>{" "}
+                  belongs to one of the{" "}
+                  <Text>indigent families in the Barangay.</Text>
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This certification is issued upon request of the
-                  above-mentioned person as required for{" "}
-                  <Text style={styles.textregular}>
-                    BALIK PROBINSYA PROGRAM
+                  This certification is issued upon the request of the
+                  above-mentioned person, to support the{" "}
+                  <Text transform="upperrcase" style={styles.textregular}>
+                    {PurposeTransaction}
                   </Text>
-                  .
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -295,18 +309,18 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
   );
 };
 
-const DataFillOut = ({ setClientAge }) => {
+const DataFillOut = ({ setPurposeTransaction, setClientAge }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
         style={styles.textinputs}
-        label="Age"
+        label="Purpose of the transaction"
         radius="sm"
-        placeholder="ex. 28"
-        onChange={(e) => setClientAge(e.target.value)}
+        placeholder="ex requirement of DSWD for LIVELIHOOD MEMBERSHIP"
+        onChange={(e) => setPurposeTransaction(e.target.value)}
       />
     </Container>
   );
 };
 
-export default BarangayAcceptance;
+export default Livelihood;

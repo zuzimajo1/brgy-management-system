@@ -14,6 +14,7 @@ import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
   },
   textfirstparag: {
-    fontSize: 9,
+    fontSize: 10,
     alignSelf: "left",
     fontFamily: "OpenSans",
     width: "auto",
@@ -163,6 +164,21 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -179,6 +195,8 @@ const Abroad = () => {
   const [OscaIDNo, setOscaIDNo] = useState("");
   const [LocationFrom, setLocationFrom] = useState("");
   const [LocationTo, setLocationTo] = useState("");
+  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+  const [ClientAge, setClientAge] = useState("")
 
   return (
     <Container fluid="true" className={classes.root}>
@@ -190,6 +208,8 @@ const Abroad = () => {
               OscaIDNo={OscaIDNo}
               LocationFrom={LocationFrom}
               LocationTo={LocationTo}
+              singleperson={singleperson}
+              ClientAge={ClientAge}
             />
           </PDFViewer>
         </Container>
@@ -198,6 +218,7 @@ const Abroad = () => {
             setOscaIDNo={setOscaIDNo}
             setLocationFrom={setLocationFrom}
             setLocationTo={setLocationTo}
+            setClientAge={setClientAge}
           />
         </Container>
       </div>
@@ -212,7 +233,7 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ OscaIDNo, LocationFrom }) => {
+const MyDocuments = ({ OscaIDNo, LocationFrom, singleperson, ClientAge }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -230,7 +251,20 @@ const MyDocuments = ({ OscaIDNo, LocationFrom }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that,{" "}
-                  <Text style={styles.clientname}>marce d. manaba</Text>, 54 years of age, <Text>female</Text>, <Text>married</Text>, Filipino
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textlowercase}>
+                    {singleperson?.civilstatus}
+                  </Text>
+                  ,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
                   Citizen, is a beneficiary of{" "}
                   <Text style={styles.textregular}>
                     SENIOR CITIZEN SOCIAL PENSION with OSCA ID No.
@@ -244,7 +278,8 @@ const MyDocuments = ({ OscaIDNo, LocationFrom }) => {
                   This is also to certify that the above-mentioned person is
                   transferring her residency from <Text>
                     {LocationFrom}
-                  </Text> to <Text>P1, Sitio Looc</Text>, Brg. Luna, Surigao City, Surigao Del Norte.
+                  </Text> to <Text>{singleperson?.address}</Text>, Brgy. Luna,
+                  Surigao City, Surigao Del Norte.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -275,9 +310,16 @@ const MyDocuments = ({ OscaIDNo, LocationFrom }) => {
   );
 };
 
-const DataFillOut = ({ setOscaIDNo, setLocationFrom }) => {
+const DataFillOut = ({ setOscaIDNo, setLocationFrom,setClientAge }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
+      <TextInput
+        style={styles.textinputs}
+        label="Age"
+        radius="sm"
+        placeholder="ex. 28"
+        onChange={(e) => setClientAge(e.target.value)}
+      />
       <TextInput
         style={styles.textinputs}
         label="OSCA ID No."
@@ -292,7 +334,6 @@ const DataFillOut = ({ setOscaIDNo, setLocationFrom }) => {
         placeholder="ex Brgy. Poblacion, San Jose, Dinagat Province"
         onChange={(e) => setLocationFrom(e.target.value)}
       />
-      
     </Container>
   );
 };

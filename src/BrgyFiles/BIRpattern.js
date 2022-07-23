@@ -14,6 +14,7 @@ import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
+import { useSelector } from "react-redux";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -51,13 +52,11 @@ const styles = StyleSheet.create({
     fontWeight: "ultrabold",
     marginTop: 9,
   },
-
   text: {
     fontSize: 10,
     alignSelf: "center",
     fontFamily: "OpenSans",
   },
-
   textregular: {
     fontSize: 10,
     alignSelf: "center",
@@ -133,7 +132,7 @@ const styles = StyleSheet.create({
     paddingBottom: 14,
   },
   textfirstparag: {
-    fontSize: 9,
+    fontSize: 10,
     alignSelf: "left",
     fontFamily: "OpenSans",
     width: "auto",
@@ -163,6 +162,21 @@ const styles = StyleSheet.create({
   textinputs: {
     width: "80%",
   },
+  textlowercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "lowercase",
+  },
+  textCapitalize: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "capitalize",
+  },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -177,17 +191,27 @@ Font.register({
 const BIRpattern = () => {
    const { classes } = useStyles();
    const [PurposeTransaction, setPurposeTransaction] = useState("");
+   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+   const [ClientAge, setClientAge] = useState("");
+
    return (
      <Container fluid="true" className={classes.root}>
-       <Text style={styles.maintitle}>Certificaton for BIR</Text>
+       <Text style={styles.maintitle}>Certificaton for BIR/ Assistance Multi-Purpose</Text>
        <div style={styles.container}>
          <Container style={styles.containerwrapper}>
            <PDFViewer style={styles.pdfviewer}>
-             <MyDocuments PurposeTransaction={PurposeTransaction} />
+             <MyDocuments
+               PurposeTransaction={PurposeTransaction}
+               singleperson={singleperson}
+               ClientAge={ClientAge}
+             />
            </PDFViewer>
          </Container>
          <Container style={styles.containerwrapper}>
-           <DataFillOut setPurposeTransaction={setPurposeTransaction} />
+           <DataFillOut
+             setPurposeTransaction={setPurposeTransaction}
+             setClientAge={setClientAge}
+           />
          </Container>
        </div>
      </Container>
@@ -204,7 +228,7 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ PurposeTransaction }) => {
+const MyDocuments = ({ PurposeTransaction, singleperson, ClientAge }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -217,27 +241,44 @@ const MyDocuments = ({ PurposeTransaction }) => {
             <View style={styles.mainheader}></View>
             <Text style={styles.title}>BARANGAY CERTIFICATION</Text>
             <View style={styles.containertext}>
+              <Text style={styles.receipenttext}>TO WHOM IT MAY CONCERN:</Text>
               <View style={styles.firstcontainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that{" "}
-                  <Text style={styles.clientname}>marce d. manaba</Text>,{" "}
-                  <Text>37</Text> years of age, <Text>female</Text>,{" "}
-                  <Text>married</Text>, Filipino Citizen, a resident of{" "}
-                  <Text>Purok 27, Sitio Toril</Text>, Barangay Luna, Surigao
-                  City, has never been charged in any kind of offense and has no
-                  pending case(s) filed before the Lupong Tagapamayapa in this
-                  Barangay, either civil or criminal up to this date.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textlowercase}>
+                    {singleperson?.civilstatus}
+                  </Text>
+                  ,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
+                  Barangay Luna, Surigao City, has never been charged in any
+                  kind of offense and has no pending case(s) filed before the
+                  Lupong Tagapamayapa in this Barangay, either civil or criminal
+                  up to this date.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that{" "}
-                  <Text style={styles.clientname}>marce d. manaba</Text> belongs
-                  to one of the{" "}
-                  <Text transform="upperrcase" style={styles.textregular}>
-                    Indigent families in the Barangay.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>{" "}
+                  belongs to one of the{" "}
+                  <Text >
+                    indigent families in the Barangay.
                   </Text>
                 </Text>
               </View>
@@ -271,9 +312,17 @@ const MyDocuments = ({ PurposeTransaction }) => {
   );
 };
 
-const DataFillOut = ({ setPurposeTransaction }) => {
+
+const DataFillOut = ({ setPurposeTransaction, setClientAge }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
+      <TextInput
+        style={styles.textinputs}
+        label="Age"
+        radius="sm"
+        placeholder="ex. 28"
+        onChange={(e) => setClientAge(e.target.value)}
+      />
       <TextInput
         style={styles.textinputs}
         label="Purpose of the transaction"

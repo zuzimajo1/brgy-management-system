@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     paddingBottom: 38,
   },
   textfirstparag: {
-    fontSize: 9,
+    fontSize: 10,
     alignSelf: "left",
     fontFamily: "OpenSans",
     width: "auto",
@@ -163,17 +163,17 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   textlowercase: {
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: "OpenSans",
     textTransform: "lowercase",
   },
   textCapitalize: {
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: "OpenSans",
     textTransform: "capitalize",
   },
   textuppercase: {
-    fontSize: 9,
+    fontSize: 10,
     fontFamily: "OpenSans",
     textTransform: "uppercase",
   },

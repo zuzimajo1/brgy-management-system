@@ -76,7 +76,7 @@ const CalendarView = () => {
       title: eventData,
       about: eventAboutData,
       start: dateData,
-      end: dayjs(eventDataEnd).format("YYYY-MM-DD"),
+      end: dayjs(eventDataEnd).add(1, 'day').format('YYYY-MM-DD'),
     };
 
     CreateBrgyEvent(dispatch, input, showNotification, setcreateEventModal);
@@ -105,13 +105,19 @@ const CalendarView = () => {
         <Text>What: {eventData}</Text>
         <Text>About: {eventAboutData || "none"}</Text>
         <Text>Start of event: {dayjs(dateData).format("dddd, MMMM D")}</Text>
-        <Text>End of event: {dayjs(eventDataEnd).format("dddd, MMM D ")}</Text>
+        <Text>End of event: {dayjs(eventDataEnd).subtract(1, 'day').format("dddd, MMM D ")}</Text>
         <Container fluid="true" className={classes.modal}>
           <Button
             className={classes.deletebutton}
             variant="unstyled"
             onClick={()=>{
-              DeleteSingleEvent(dispatch, eventID, showNotification, setOpened);
+              DeleteSingleEvent(
+                dispatch,
+                eventID,
+                showNotification,
+                setOpened,
+                eventData
+              );
             }}
           >
             Delete

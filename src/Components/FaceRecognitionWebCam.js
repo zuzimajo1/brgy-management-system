@@ -27,12 +27,11 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
   const { classes } = useStyles();
   const [initializing, setInitializing] = useState(false);
   const residents = useSelector((state) => state.masterlist.residents);
-  console.log(singlepersondata);
   const dispatch = useDispatch();
 
   const canvasRef = useRef();
-  const videoHeight = 360;
-  const videoWidth = 420;
+  const videoHeight = 500;
+  const videoWidth = 500;
 
   useEffect(() => {
     const loadModels = async () => {
@@ -110,43 +109,49 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
       const results = resizeDetections.map((fd) =>
         faceMatcher.findBestMatch(fd.descriptor)
       );
+
+      const recognizeName = results[0]?._label;
+      console.log(recognizeName);
+      
+      if(recognizeName){
+           recognizeName === "unknown"
+             ? showNotification({
+                 title: "Unrecognized person",
+                 message: "Please register to recognized the person",
+               })
+             : GetFaceRecognitionData(
+                 dispatch,
+                 recognizeName,
+                 showNotification
+               );
+      }else{
+        showNotification({
+          title: "No face detected",
+          message: "The camera detects no face",
+        });
+      }
+
       results.forEach((bestMatch, i) => {
         const box = resizeDetections[i].detection.box;
         const text = bestMatch.toString();
-        console.log(text);
-
-        const firstname = text && text.split(" ")[0];
-        const lastname = text && text.split(" ")[1];
-
-        firstname === "unknown"
-          ? showNotification({
-              title: "Unrecognized person",
-              message: "Please register to recognized the person",
-            })
-          : GetFaceRecognitionData(
-              dispatch,
-              firstname,
-              lastname,
-              showNotification
-            );
 
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: text,
         });
         drawBox.draw(canvasRef.current);
       });
+      console.log(results);
     }, 5000);
   };
 
   const loadLabeledImages = () => {
     const labels = [
-      ...new Set(
-        residents.map((items) => `${items.firstname} ${items.lastname}`)
-      ),
+      ...new Set(residents.map((items) => `${items.fullname}`))
     ];
+    console.log(labels);
 
     return Promise.all(
-      labels.map(async (label) => {
+      labels?.map(async (label) => {
         const PIC_URL = process.env.PUBLIC_URL + "/images";
 
         const imgUrl = `${PIC_URL}/${label}.jpg`;

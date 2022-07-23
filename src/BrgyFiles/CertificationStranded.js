@@ -1,4 +1,4 @@
-import React,{ useState } from "react";
+import React, { useState } from "react";
 import {
   Page,
   Text,
@@ -9,7 +9,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import { Container, createStyles, TextInput } from "@mantine/core";
+import { Container, TextInput, createStyles } from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     textAlign: "center",
     fontWeight: "ultrabold",
-    marginTop: 10,
+    marginTop: 9,
   },
 
   text: {
@@ -172,6 +172,11 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans",
     textTransform: "capitalize",
   },
+  textuppercase: {
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    textTransform: "uppercase",
+  },
 });
 
 Font.register({
@@ -183,22 +188,34 @@ Font.register({
   ],
 });
 
-const BarangayAcceptance = () => {
+const CertificationStranded = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("");
-
+  const [LocationBack, setLocationBack] = useState("");
+  const [Agency, setAgency] = useState("");
   return (
     <Container fluid="true" className={classes.root}>
-      <Text style={styles.maintitle}>Barangay Acceptance</Text>
+      <Text style={styles.maintitle}>
+        Certification Stranded Senior Citizen
+      </Text>
       <div style={styles.container}>
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
-            <MyDocuments singleperson={singleperson} ClientAge={ClientAge} />
+            <MyDocuments
+              singleperson={singleperson}
+              ClientAge={ClientAge}
+              LocationBack={LocationBack}
+              Agency={Agency}
+            />
           </PDFViewer>
         </Container>
         <Container style={styles.containerwrapper}>
-          <DataFillOut setClientAge={setClientAge} />
+          <DataFillOut
+            setClientAge={setClientAge}
+            setLocationBack={setLocationBack}
+            setAgency={setAgency}
+          />
         </Container>
       </div>
     </Container>
@@ -212,11 +229,11 @@ const DayMoment = (n) => {
   );
 };
 
-const MyDocuments = ({ singleperson, ClientAge }) => {
+const MyDocuments = ({ singleperson, ClientAge, LocationBack, Agency }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
-  
+
   return (
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
@@ -245,34 +262,17 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
                   <Text style={styles.textCapitalize}>
                     {singleperson?.citizenship}
                   </Text>{" "}
-                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
-                  Barangay Luna, Surigao City.
-                </Text>
-              </View>
-              <View style={styles.marginTopContainer}>
-                <Text style={styles.textfirstparag}>
-                  <Text style={styles.marginspacing}>...............</Text>
-                  This is also to certify that{" "}
-                  <Text>
-                    <Text style={styles.clientname}>{`${
-                      singleperson?.firstname
-                    } ${singleperson?.middlename.slice(0, 1)}. ${
-                      singleperson?.lastname
-                    }`}</Text>
-                  </Text>{" "}
-                  is allowed to return to their home provided that he/she can
-                  present NEGATIVE RAT or RTPCR RESULT.
+                  Citizen, is temporary residing at{" "}
+                  <Text>{singleperson?.address}</Text>, Barangay Luna, Surigao
+                  City, cannot go back to <Text>{LocationBack}</Text> due to
+                  COVID 19 Protocol.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This certification is issued upon request of the
-                  above-mentioned person as required for{" "}
-                  <Text style={styles.textregular}>
-                    BALIK PROBINSYA PROGRAM
-                  </Text>
-                  .
+                  above-mentioned person as required by <Text>{Agency}</Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -295,7 +295,7 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
   );
 };
 
-const DataFillOut = ({ setClientAge }) => {
+const DataFillOut = ({ setClientAge, setLocationBack, setAgency }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
@@ -305,8 +305,22 @@ const DataFillOut = ({ setClientAge }) => {
         placeholder="ex. 28"
         onChange={(e) => setClientAge(e.target.value)}
       />
+      <TextInput
+        style={styles.textinputs}
+        label="Location want to go back"
+        radius="sm"
+        placeholder="ex. New Nazareth, Basilica, Province of Dinagat"
+        onChange={(e) => setLocationBack(e.target.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="Government Agency"
+        radius="sm"
+        placeholder="ex. DSWD-DINAGAT"
+        onChange={(e) => setAgency(e.target.value)}
+      />
     </Container>
   );
 };
 
-export default BarangayAcceptance;
+export default CertificationStranded;
