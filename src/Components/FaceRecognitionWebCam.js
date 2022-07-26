@@ -146,7 +146,7 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
 
   const loadLabeledImages = () => {
     const labels = [
-      ...new Set(residents.map((items) => `${items.fullname}`))
+      ...new Set(residents?.map((items) => `${items?.fullname}`))
     ];
     console.log(labels);
 

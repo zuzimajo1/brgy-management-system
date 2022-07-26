@@ -45,10 +45,9 @@ const useStyles = createStyles((theme) => ({
 
 const DisplayData = () => {
   const { classes } = useStyles();
-  const {  status, singlepersondata } = useSelector(
+  const {fetchdata , status, singlepersondata } = useSelector(
     (state) => state.facerecog
   );
-  const fetchdata = true
   return (
     <>
       {fetchdata ? (
@@ -93,16 +92,13 @@ const DisplayContainer = ({ classes, status, singlepersondata }) => {
 
   const [DocumentNavigate, setDocumentNavigate] = useState("4P'sTransfery");
 
-  console.log(DocumentNavigate);
-  const [show, setshow] = useState(true);
-
-  if (!show) {
+  if (status==='loading') {
     return (
       <Container fluid="true" className={classes.formcontainer}>
         <Loader size="xl" />
       </Container>
     );
-  } else if (show) {
+  } else if (status==='success') {
     return (
       <Container fluid="true" className={classes.formcontainer}>
         <Container fluid="true" className={classes.group}>
