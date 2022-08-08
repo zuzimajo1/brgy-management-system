@@ -65,7 +65,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const RegisterForm = ({ Image }) => {
+const RegisterForm = () => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const [ImageNotifyValidator, setImageNotifyValidator] = useState(false);
@@ -74,6 +74,7 @@ const RegisterForm = ({ Image }) => {
   const [InputValidator, setInputValidator] = useState(false);
   const [Form, setForm] = useState({});
   const [Loadingstate, setLoadingstate] = useState(false);
+  
 
   const AllFunction = (e) => {
     const names = e.currentTarget.name;

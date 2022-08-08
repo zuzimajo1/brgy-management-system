@@ -32,7 +32,7 @@ const Logo = () => {
     <Container className={classes.logoContainer}>
       <Image src={brgyluna} alt="BrgyLuna" width={50} height={50}></Image>
       <Text className={classes.text} size="lg" transform="uppercase">
-        brgy luna
+        brgy luna management system with face recognition
       </Text>
     </Container>
   );

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useLayoutEffect } from "react";
 import { Container, Group, Button, createStyles, Input } from "@mantine/core";
 import Webcam from "react-webcam";
 import { Capture, ArrowBack } from "tabler-icons-react";
@@ -79,10 +79,15 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const WebCamera = ({ Image, setImage }) => {
+const WebCamera = ({ videoRef }) => {
   const { classes, cx } = useStyles();
   const { width } = useViewportSize();
+  const [Image, setImage] = useState("");
   const webcamRef = useRef(null);
+  const photoRef = useRef({
+    width: 300,
+    height: 300
+  });
   const [Picname, setPicname] = useState("");
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
@@ -90,12 +95,7 @@ const WebCamera = ({ Image, setImage }) => {
     setImage(imageSrc);
   }, [webcamRef]);
 
-  const videoConstraints = {
-    width: 420,
-    height: 360,
-    facingMode: "environment"
-  };
-
+ 
   const SaveImage = () => {
     if (!Image) {
       showNotification({
@@ -127,15 +127,14 @@ const WebCamera = ({ Image, setImage }) => {
           height={360}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          videoConstraints={videoConstraints}
         />
       )}
       <Group direction="row" className={classes.buttonscontainer}>
         <Button
           leftIcon={<Capture size={18} strokeWidth={2} />}
           variant="default"
-          onClick={capture}
           className={cx(classes.buttoncapture, { [classes.hidden]: Image })}
+          onClick={capture}
         >
           Capture
         </Button>

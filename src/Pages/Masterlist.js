@@ -34,7 +34,7 @@ import {
   UpdateDataResident,
   DeleteDataResident,
 } from "../redux/apiCalls";
-import { residentsReset } from "../redux/MasterlistRedux";
+
 import {
   areas,
   sexdata,
@@ -306,14 +306,14 @@ const Masterlist = ({ colorScheme }) => {
     },
     {
       name: "Date of Birth",
-      selector: (row) => row.birthplace,
+      selector: (row) => row.birthdate,
       sortable: true,
       center: true,
       wrap: true,
     },
     {
       name: "Place of Birth",
-      selector: (row) => row.birthdate,
+      selector: (row) => row.birthplace,
       center: true,
       compact: true,
       sortable: true,

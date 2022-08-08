@@ -1,15 +1,14 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { createStyles, Container, Group, Button, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useSelector, useDispatch } from "react-redux";
-import { DisplayData, FaceRecognitionWebCam, RegisterForm, WebCamera } from "../Components";
+import {
+  DisplayData,
+  FaceRecognitionWebCam,
+  RegisterForm,
+  WebCamera,
+} from "../Components";
 import { DataDisplayClose } from "../redux/FaceRecognitionRedux";
-
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -109,7 +108,6 @@ const useStyles = createStyles((theme) => ({
 const Documents = () => {
   const { classes, cx } = useStyles();
   const videoRef = useRef();
-  const [Image, setImage] = useState("");
   const { singlepersondata } = useSelector((state) => state.facerecog);
   const [RegisterButtonClick, setRegisterButtonClick] = useState(false);
   const [FaceRecognitionButtonClick, setFaceRecognitionButtonClick] =
@@ -119,7 +117,6 @@ const Documents = () => {
   const CloseWebCam = () => {
     videoRef.current.pause();
     videoRef.current.srcObject.getTracks()[0].stop();
-    dispatch(DataDisplayClose());
   };
 
   return (
@@ -138,10 +135,10 @@ const Documents = () => {
       {RegisterButtonClick && !FaceRecognitionButtonClick && (
         <Container className={classes.registercontainer} fluid="true">
           <Group direction="column">
-            <WebCamera setImage={setImage} Image={Image} />
+            <WebCamera videoRef={videoRef} />
           </Group>
           <Group direction="column">
-            <RegisterForm Image={Image} />
+            <RegisterForm />
           </Group>
         </Container>
       )}
@@ -151,6 +148,7 @@ const Documents = () => {
             <FaceRecognitionWebCam
               videoRef={videoRef}
               singlepersondata={singlepersondata}
+              CloseWebCam={CloseWebCam}
             />
           </Group>
           <Group direction="column">
@@ -197,10 +195,12 @@ const Buttons = ({
               : theme.colors.lighttheme[3],
         })}
         className={classes.button}
-        onClick={() =>
-          !FaceRecognitionButtonClick &&
-          setRegisterButtonClick(!RegisterButtonClick)
-        }
+        onClick={() => {
+          if (!FaceRecognitionButtonClick) {
+            setRegisterButtonClick(!RegisterButtonClick);
+          }
+          RegisterButtonClick && CloseWebCam();
+        }}
       >
         {RegisterButtonClick ? "Close" : "Register a Person"}
       </Button>
@@ -221,12 +221,11 @@ const Buttons = ({
         onClick={() => {
           if (!RegisterButtonClick) {
             setFaceRecognitionButtonClick(!FaceRecognitionButtonClick);
-            dispatch(DataDisplayClose());
           }
           FaceRecognitionButtonClick && CloseWebCam();
         }}
       >
-        {FaceRecognitionButtonClick ? "Close" : "Start Face Recognition"}
+        {FaceRecognitionButtonClick ? "Close" : "Apply for Documents"}
       </Button>
     </Group>
   );

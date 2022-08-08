@@ -275,7 +275,7 @@ const DisplayContainer = ({ classes, status, singlepersondata }) => {
           }
         >
           <Button variant="filled" size="sm" className={classes.button}>
-            Navigate
+            Apply
           </Button>
         </Link>
       </Container>

@@ -1,9 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
-import { Container, createStyles, Text } from "@mantine/core";
+import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
+import { Container, createStyles, Text, Button } from "@mantine/core";
 import * as faceapi from "face-api.js";
 import { showNotification } from "@mantine/notifications";
 import { useDispatch, useSelector } from "react-redux";
 import { GetFaceRecognitionData } from "../redux/apiCalls";
+import { DataDisplayClose } from "../redux/FaceRecognitionRedux";
 const useStyles = createStyles((theme) => ({
   cameracontainer: {
     width: "100%",
@@ -21,19 +22,62 @@ const useStyles = createStyles((theme) => ({
   message: {
     alignSelf: "center",
   },
+  openbutton: {
+    width: "160px",
+    cursor: "pointer",
+  },
+  cameraclosed: {
+    display: "flex",
+    width: "400px",
+    height: "500px",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  resetbutton: {
+    background:
+      theme.colorScheme === "dark"
+        ? theme.colors.darktheme[8]
+        : theme.colors.lighttheme[6],
+    color: theme.colors.lighttheme[0],
+    width: "130px",
+    border: "none",
+    transition: `ease-in-out 500ms`,
+    cursor: "pointer",
+
+    "&:hover": {
+      color: theme.colors.lighttheme[0],
+      background:
+        theme.colorScheme === "dark"
+          ? theme.colors.lighttheme[6]
+          : theme.colors.darktheme[8],
+      cursor: "pointer",
+    },
+  },
+  hidden: {
+    display: "none",
+  },
+  buttons:{
+    marginTop: '1rem',
+    display: 'flex',
+    justifyContent: 'space-around',
+    width: '100%',
+  }
 }));
 
-const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
-  const { classes } = useStyles();
+const FaceRecognitionWebCam = ({ videoRef, CloseWebCam }) => {
+  const { classes, cx } = useStyles();
   const [initializing, setInitializing] = useState(false);
+  const [OpenCam, setOpenCam] = useState(true);
   const residents = useSelector((state) => state.masterlist.residents);
   const dispatch = useDispatch();
-
+const { fetchdata} = useSelector(
+  (state) => state.facerecog
+);
   const canvasRef = useRef();
   const videoHeight = 500;
   const videoWidth = 500;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const loadModels = async () => {
       const MODEL_URL = process.env.PUBLIC_URL + "/models";
       setInitializing(true);
@@ -53,7 +97,7 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
   const startVideo = () => {
     navigator.mediaDevices
       .getUserMedia({
-        video: true,
+        video: { width: 480, height: 460 },
       })
       .then((stream) => {
         let video = videoRef.current;
@@ -112,24 +156,19 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
 
       const recognizeName = results[0]?._label;
       console.log(recognizeName);
-      
-      if(recognizeName){
-           recognizeName === "unknown"
-             ? showNotification({
-                 title: "Unrecognized person",
-                 message: "Please register to recognized the person",
-               })
-             : GetFaceRecognitionData(
-                 dispatch,
-                 recognizeName,
-                 showNotification
-               );
-      }else{
-        showNotification({
-          title: "No face detected",
-          message: "The camera detects no face",
-        });
+
+      if(OpenCam){
+        if (recognizeName) {
+        recognizeName === "unknown"
+        ? showNotification({
+          title: "Unrecognized person",
+              message: "Please register to recognized the person",
+            })
+          : GetFaceRecognitionData(dispatch, recognizeName, showNotification);
+      } else {
       }
+    }
+    console.log(OpenCam)
 
       results.forEach((bestMatch, i) => {
         const box = resizeDetections[i].detection.box;
@@ -146,7 +185,7 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
 
   const loadLabeledImages = () => {
     const labels = [
-      ...new Set(residents?.map((items) => `${items?.fullname}`))
+      ...new Set(residents?.map((items) => `${items?.fullname}`)),
     ];
     console.log(labels);
 
@@ -168,12 +207,26 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
     );
   };
 
+  const HandeFaceCamera = (condition) => {
+    if (condition) {
+      CloseWebCam();
+      setOpenCam(false);
+    } else {
+      startVideo();
+      setOpenCam(true);
+    }
+  };
+
+
   return (
     <Container className={classes.cameracontainer} fluid="true">
-      <Text size="lg">
+      <Text size="lg" className={cx(classes.displayFlex, {[classes.hidden]: !OpenCam})}>
         {initializing ? "Initializing... Please Wait" : "Ready"}
       </Text>
-      <div className={classes.displayFlex} id="container">
+      <div
+        className={cx(classes.displayFlex, { [classes.hidden]: !OpenCam })}
+        id="container"
+      >
         <video
           ref={videoRef}
           autoPlay
@@ -183,6 +236,25 @@ const FaceRecognitionWebCam = ({ videoRef, singlepersondata }) => {
           onPlay={handleVideoOnPlay}
         />
         <canvas ref={canvasRef} className={classes.PositionAbsolute} />
+      </div>
+      <div className={cx(classes.cameraclosed, { [classes.hidden]: OpenCam })}>
+        <Text>Camera is close</Text>
+      </div>
+      <div className={classes.buttons}>
+        <Button
+          className={classes.openbutton}
+          variant="filled"
+          onClick={() => HandeFaceCamera(OpenCam)}
+        >
+          {OpenCam ? "Close Camera" : "Open Camera"}
+        </Button>
+        <Button
+          className={cx(classes.resetbutton, {[classes.hidden]: !fetchdata})}
+          variant="filled"
+          onClick={()=> dispatch(DataDisplayClose())}
+        >
+          Reset
+        </Button>
       </div>
     </Container>
   );

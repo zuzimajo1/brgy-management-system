@@ -7,13 +7,10 @@ import {
   createStyles,
   Group,
   useMantineTheme,
-  Image,
-  Text,
   ActionIcon,
   Input,
   Button,
   Menu,
-  Divider,
 } from "@mantine/core";
 import {
   Menu2,
@@ -72,6 +69,7 @@ const useStyles = createStyles((theme) => ({
     border: `1px solid red`,
   },
   menuToggle: {
+    marginLeft: '12rem',
     color: theme.colors.darktheme[0],
     background:
       theme.colorScheme === "dark"
@@ -150,16 +148,16 @@ const HeaderContainer = () => {
   return (
     <Header height={85} fixed={true} zIndex={90} className={classes.root}>
       <Group direction="row" position="left" className={classes.group}>
-        <Logo/>
         <ActionIcon
           size="lg"
           variant="default"
           radius="md"
           className={cx(classes.menuToggle, {[classes.hide]: show && width <=768})}
           onClick={()=> ShowNavbarFunction(!show)}
-        >
+          >
           <Menu2 size={20} strokeWidth={2} />
         </ActionIcon>
+          <Logo/>
 {/* 
         <SearchContainer classes={classes} /> */}
       </Group>
