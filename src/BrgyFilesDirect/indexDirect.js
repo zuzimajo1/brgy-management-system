@@ -28,4 +28,8 @@ export { default as BrgyCertification2Direct } from "./BrgyCertification2Direct"
 export { default as BrgyCertification3Direct } from "./BrgyCertification3Direct";
 export { default as PaihawBaboyDirect } from "./PaihawBaboyDirect";
 export { default as DeathCertificateDirect } from "./DeathCertificateDirect";
+<<<<<<< Updated upstream
 export { default as MinorVaccinationDirect } from "./MinorVaccinationDirect";
+=======
+export { default as PhilSysDirect } from "./PhilSysDirect";
+>>>>>>> Stashed changes
