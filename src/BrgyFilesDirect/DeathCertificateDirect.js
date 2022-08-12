@@ -248,17 +248,19 @@ Font.register({
   ],
 });
 
-
 const DeathCertificateDirect = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("");
-  const [ClientPurpose, setClientPurpose] = useState("");
+  const [DateAndTime, setDateAndTime] = useState("");
   const [ClientName, setClientName] = useState("");
-  const [ClientSex, setClientSex] = useState("");
-  const [ClientCivilStatus, setClientCivilStatus] = useState("");
-  const [ClientCitizenship, setClientCitizenship] = useState("");
-  const [ClientAddress, setClientAddress] = useState("");
+  const [PlaceOfDeath, setPlaceOfDeath] = useState("");
+  const [CauseOfDeath, setCauseOfDeath] = useState("");
+  const [RelativeName, setRelativeName] = useState("");
+  const [RelativeIdentity, setRelativeIdentity] = useState("");
+  const [MidwifeName, setMidwifeName] = useState("");
+  const [BrgyHealthName, setBrgyHealthName] = useState("");
+  const [TimeAndDateReported, setTimeAndDateReported] = useState("");
 
   return (
     <Container fluid="true" className={classes.root}>
@@ -267,32 +269,37 @@ const DeathCertificateDirect = () => {
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
             <MyDocuments
-              singleperson={singleperson}
               ClientAge={ClientAge}
-              ClientPurpose={ClientPurpose}
+              DateAndTime={DateAndTime}
               ClientName={ClientName}
-              ClientSex={ClientSex}
-              ClientCivilStatus={ClientCivilStatus}
-              ClientCitizenship={ClientCitizenship}
-              ClientAddress={ClientAddress}
+              PlaceOfDeath={PlaceOfDeath}
+              CauseOfDeath={CauseOfDeath}
+              RelativeName={RelativeName}
+              RelativeIdentity={RelativeIdentity}
+              MidwifeName={MidwifeName}
+              BrgyHealthName={BrgyHealthName}
+              TimeAndDateReported={TimeAndDateReported}
             />
           </PDFViewer>
         </Container>
         <Container style={styles.containerwrapper}>
           <DataFillOut
             setClientAge={setClientAge}
-            setClientPurpose={setClientPurpose}
+            setDateAndTime={setDateAndTime}
             setClientName={setClientName}
-            setClientSex={setClientSex}
-            setClientCivilStatus={setClientCivilStatus}
-            setClientCitizenship={setClientCitizenship}
-            setClientAddress={setClientAddress}
+            setPlaceOfDeath={setPlaceOfDeath}
+            setCauseOfDeath={setCauseOfDeath}
+            setRelativeName={setRelativeName}
+            setRelativeIdentity={setRelativeIdentity}
+            setMidwifeName={setMidwifeName}
+            setBrgyHealthName={setBrgyHealthName}
+            setTimeAndDateReported={setTimeAndDateReported}
           />
         </Container>
       </div>
     </Container>
   );
-}
+};
 
 const DayMoment = (n) => {
   return (
@@ -302,14 +309,16 @@ const DayMoment = (n) => {
 };
 
 const MyDocuments = ({
-  singleperson,
   ClientAge,
-  ClientPurpose,
+  DateAndTime,
   ClientName,
-  ClientSex,
-  ClientCivilStatus,
-  ClientCitizenship,
-  ClientAddress,
+  PlaceOfDeath,
+  CauseOfDeath,
+  RelativeName,
+  RelativeIdentity,
+  MidwifeName,
+  BrgyHealthName,
+  TimeAndDateReported,
 }) => {
   const now = new Date();
   const day = date.format(now, "D");
@@ -331,27 +340,27 @@ const MyDocuments = ({
                   <View style={styles.contenttext}>
                     <Text style={styles.contentmain}>NAME</Text>
                     <Text style={styles.columntext}>:</Text>
-                    <Text>{ClientName}</Text>
+                    <Text style={styles.textuppercase}>{ClientName}</Text>
                   </View>
                   <View style={styles.contenttext}>
                     <Text style={styles.contentmain}>AGE</Text>
                     <Text style={styles.columntext}>:</Text>
-                    <Text>33 YEARS OLD</Text>
+                    <Text>{ClientAge} YEARS OLD</Text>
                   </View>
                   <View style={styles.contenttext}>
                     <Text style={styles.contentmain}>DATE/TIME OF DEATH</Text>
                     <Text style={styles.columntext}>:</Text>
-                    <Text></Text>
+                    <Text style={styles.textuppercase}>{DateAndTime}</Text>
                   </View>
                   <View style={styles.contenttext}>
                     <Text style={styles.contentmain}>PLACE OF DEATH</Text>
                     <Text style={styles.columntext}>:</Text>
-                    <Text>{ClientName}</Text>
+                    <Text>{PlaceOfDeath}</Text>
                   </View>
                   <View style={styles.contenttext}>
                     <Text style={styles.contentmain}>CAUSE OF DEATH</Text>
                     <Text style={styles.columntext}>:</Text>
-                    <Text>{ClientName}</Text>
+                    <Text>{CauseOfDeath}</Text>
                   </View>
                 </View>
               </View>
@@ -373,19 +382,21 @@ const MyDocuments = ({
                 </Text>
               </View>
               <View style={styles.contentaside}>
-                <Text style={styles.contentasidemain}>NHIZA S. MAGPATOC</Text>
-                <Text>Niece</Text>
+                <Text style={styles.contentasidemain}>{RelativeName}</Text>
+                <Text>{RelativeIdentity}</Text>
               </View>
               <View style={styles.contentaside}>
-                <Text style={styles.contentasidemain}>FE R. JUMAMOY</Text>
+                <Text style={styles.contentasidemain}>{MidwifeName}</Text>
                 <Text>Sanitation Inspection/Midwife</Text>
               </View>
               <View style={styles.contentaside}>
-                <Text style={styles.contentasidemain}>FE R. JUMAMOY</Text>
+                <Text style={styles.contentasidemain}>{BrgyHealthName}</Text>
                 <Text>Brgy. Health Worker</Text>
               </View>
               <View style={styles.contentaside}>
-                <Text style={styles.contentasidemain2}>MARCH 04, 2021 @ 3:00PM</Text>
+                <Text style={styles.contentasidemain2}>
+                  {TimeAndDateReported}
+                </Text>
                 <Text>{"Date & Time Reported"}</Text>
               </View>
             </View>
@@ -398,12 +409,15 @@ const MyDocuments = ({
 
 const DataFillOut = ({
   setClientAge,
-  setClientPurpose,
+  setDateAndTime,
   setClientName,
-  setClientCitizenship,
-  setClientCivilStatus,
-  setClientSex,
-  setClientAddress,
+  setPlaceOfDeath,
+  setCauseOfDeath,
+  setRelativeName,
+  setRelativeIdentity,
+  setMidwifeName,
+  setBrgyHealthName,
+  setTimeAndDateReported,
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
@@ -419,48 +433,66 @@ const DataFillOut = ({
         label="Sex"
         radius="sm"
         placeholder="ex. Male"
-        onChange={(e) => setClientSex(e.target.value)}
+        onChange={(e) => setClientAge(e.target.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Citizenship"
+        label="Date/Time of Death"
         radius="sm"
-        placeholder="ex. Filipino"
-        onChange={(e) => setClientCitizenship(e.target.value)}
+        placeholder="ex. MARCH 04, 2021 @ 12:14 PM"
+        onChange={(e) => setDateAndTime(e.target.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Civil Status"
+        label="Place of Death"
         radius="sm"
-        placeholder="ex. Single"
-        onChange={(e) => setClientCivilStatus(e.target.value)}
+        placeholder="ex. P-Springville C, BRGY. LUNA, SURIGAO CITY"
+        onChange={(e) => setPlaceOfDeath(e.target.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Address"
+        label="Cause of Death"
         radius="sm"
-        placeholder="ex. Purok 1, Payawan 2"
-        onChange={(e) => setClientAddress(e.target.value)}
+        placeholder="ex. "
+        onChange={(e) => setCauseOfDeath(e.target.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Age"
+        label="Name of Issuer"
         radius="sm"
-        placeholder="ex. 28"
-        onChange={(e) => setClientAge(e.currentTarget.value)}
+        placeholder="ex. "
+        onChange={(e) => setRelativeName(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Clearance Purpose"
+        label="Issuer Info"
         radius="sm"
-        placeholder="ex. ASA for loan PURPOSES"
-        onChange={(e) => setClientPurpose(e.currentTarget.value)}
+        placeholder="ex. Niece"
+        onChange={(e) => setRelativeIdentity(e.currentTarget.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="Sanitation Inspection/Midwife Name"
+        radius="sm"
+        placeholder="ex. FE R. JUMAMOY"
+        onChange={(e) => setMidwifeName(e.currentTarget.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="Brgy Health Worker Name"
+        radius="sm"
+        placeholder="ex."
+        onChange={(e) => setBrgyHealthName(e.currentTarget.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="Date and Time Reported"
+        radius="sm"
+        placeholder="ex. MARCH 04, 2021 @ 3:00PM"
+        onChange={(e) => setTimeAndDateReported(e.currentTarget.value)}
       />
     </Container>
   );
 };
 
-
-
-
-export default DeathCertificateDirect
+export default DeathCertificateDirect;
