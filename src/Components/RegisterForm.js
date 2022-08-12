@@ -74,7 +74,6 @@ const RegisterForm = () => {
   const [InputValidator, setInputValidator] = useState(false);
   const [Form, setForm] = useState({});
   const [Loadingstate, setLoadingstate] = useState(false);
-  
 
   const AllFunction = (e) => {
     const names = e.currentTarget.name;
@@ -196,7 +195,7 @@ const RegisterForm = () => {
               const inputs = {
                 ...Form,
                 image: url,
-                birthdate : dayjs(birthdate).format('MMM D, YYYY'),
+                birthdate: dayjs(birthdate).format("MMM D, YYYY"),
                 address,
                 sex,
                 civilstatus,
@@ -219,7 +218,8 @@ const RegisterForm = () => {
                   setLoadingstate(false);
                   showNotification({
                     title: "Error, Please try again",
-                    message: "Perhaps you're not connected to the internet or you omit any details",
+                    message:
+                      "Perhaps you're not connected to the internet or you omit any details",
                   });
                 }
               };
@@ -232,7 +232,7 @@ const RegisterForm = () => {
           title: "Input Image",
           message: "You forgot to input image",
         });
-         setLoadingstate(false);
+        setLoadingstate(false);
       }
     } else {
       setLoadingstate(false);
@@ -310,7 +310,7 @@ const RegisterForm = () => {
           data={areas}
           value={address}
           radius="sm"
-          label="Select the area"
+          label="Address"
           onChange={(e) => setaddress(e.currentTarget.value)}
         />
       </div>

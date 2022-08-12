@@ -22,9 +22,6 @@ const useStyles = createStyles((theme) => ({
 }));
 
 
-
-
-
 const Logo = () => {
     const brgyluna = require("../images/BRGY_LUNA - Logo.png");
     const { classes } = useStyles();

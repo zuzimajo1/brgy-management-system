@@ -1,6 +1,6 @@
 export { default as FourPsTransfery } from "./FourPsTransfery.js";
 export { default as BarangayAcceptance } from "./BarangayAcceptance";
-export { default as BrangayAcceptance2 } from "./BarangayAcceptance2";
+export { default as BarangayAcceptance2 } from "./BarangayAcceptance2";
 export { default as BusinessClosure } from "./BusinessClosure";
 export { default as BusinessClosurePSA } from "./BusinessClosurePSA";
 export { default as BurialAssistanceRelatives } from "./BurialAssistanceRelatives";

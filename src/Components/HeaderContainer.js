@@ -21,13 +21,11 @@ import {
   User,
 } from "tabler-icons-react";
 import { useFocusWithin, useDisclosure, useViewportSize } from "@mantine/hooks";
-import { useDispatch, useSelector } from "react-redux"; 
+import { useDispatch, useSelector } from "react-redux";
 import { ShowNavbar, HideNavbar } from "../redux/NavbarRedux";
 import ColorScheme from "./ColorScheme";
 import Logo from "./Logo";
 import { LogoutUser } from "../redux/UserRedux";
-
-
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -69,7 +67,7 @@ const useStyles = createStyles((theme) => ({
     border: `1px solid red`,
   },
   menuToggle: {
-    marginLeft: '12rem',
+    marginLeft: "12rem",
     color: theme.colors.darktheme[0],
     background:
       theme.colorScheme === "dark"
@@ -138,12 +136,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const HeaderContainer = () => {
-  const { classes , cx } = useStyles();
-  const show = useSelector(state=>state.navbar.show);
+  const { classes, cx } = useStyles();
+  const show = useSelector((state) => state.navbar.show);
   const { width } = useViewportSize();
   const dispatch = useDispatch();
 
-  const ShowNavbarFunction = condition => condition ? dispatch(ShowNavbar()) : dispatch(HideNavbar()); 
+  const ShowNavbarFunction = (condition) =>
+    condition ? dispatch(ShowNavbar()) : dispatch(HideNavbar());
 
   return (
     <Header height={85} fixed={true} zIndex={90} className={classes.root}>
@@ -152,23 +151,24 @@ const HeaderContainer = () => {
           size="lg"
           variant="default"
           radius="md"
-          className={cx(classes.menuToggle, {[classes.hide]: show && width <=768})}
-          onClick={()=> ShowNavbarFunction(!show)}
-          >
+          className={cx(classes.menuToggle, {
+            [classes.hide]: show && width <= 768,
+          })}
+          onClick={() => ShowNavbarFunction(!show)}
+        >
           <Menu2 size={20} strokeWidth={2} />
         </ActionIcon>
-          <Logo/>
-{/* 
+        <Logo />
+        {/* 
         <SearchContainer classes={classes} /> */}
       </Group>
       <Group>
         <ColorScheme />
-        <UserContainer classes={classes} dispatch={dispatch}/>
+        <UserContainer classes={classes} dispatch={dispatch} />
       </Group>
     </Header>
   );
 };
-
 
 const SearchContainer = ({ classes }) => {
   const { ref, focused } = useFocusWithin();
@@ -254,11 +254,10 @@ const UserContainer = ({ classes, dispatch }) => {
       <Container className={classes.paper}>
         <Menu.Item
           className={classes.menuItem}
-          icon={
-            <Logout size={25} strokeWidth={2}  />
-          }
-          onClick={()=>{
-            dispatch(LogoutUser())}}
+          icon={<Logout size={25} strokeWidth={2} />}
+          onClick={() => {
+            dispatch(LogoutUser());
+          }}
         >
           logout
         </Menu.Item>

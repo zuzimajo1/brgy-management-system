@@ -56,12 +56,12 @@ const useStyles = createStyles((theme) => ({
   hidden: {
     display: "none",
   },
-  buttons:{
-    marginTop: '1rem',
-    display: 'flex',
-    justifyContent: 'space-around',
-    width: '100%',
-  }
+  buttons: {
+    marginTop: "1rem",
+    display: "flex",
+    justifyContent: "space-around",
+    width: "100%",
+  },
 }));
 
 const FaceRecognitionWebCam = ({ videoRef, CloseWebCam }) => {
@@ -70,12 +70,10 @@ const FaceRecognitionWebCam = ({ videoRef, CloseWebCam }) => {
   const [OpenCam, setOpenCam] = useState(true);
   const residents = useSelector((state) => state.masterlist.residents);
   const dispatch = useDispatch();
-const { fetchdata} = useSelector(
-  (state) => state.facerecog
-);
+  const { fetchdata } = useSelector((state) => state.facerecog);
   const canvasRef = useRef();
-  const videoHeight = 500;
-  const videoWidth = 500;
+  const videoHeight = 400;
+  const videoWidth = 380;
 
   useLayoutEffect(() => {
     const loadModels = async () => {
@@ -97,7 +95,7 @@ const { fetchdata} = useSelector(
   const startVideo = () => {
     navigator.mediaDevices
       .getUserMedia({
-        video: { width: 480, height: 460 },
+        video: { width: 380, height: 400 },
       })
       .then((stream) => {
         let video = videoRef.current;
@@ -155,20 +153,20 @@ const { fetchdata} = useSelector(
       );
 
       const recognizeName = results[0]?._label;
-      console.log(recognizeName);
 
-      if(OpenCam){
+      if (OpenCam) {
         if (recognizeName) {
-        recognizeName === "unknown"
-        ? showNotification({
-          title: "Unrecognized person",
-              message: "Please register to recognized the person",
-            })
-          : GetFaceRecognitionData(dispatch, recognizeName, showNotification);
+          recognizeName === "unknown"
+            ? showNotification({
+                title: "Unrecognized person",
+                message: "Please register to recognized the person",
+              })
+            : GetFaceRecognitionData(dispatch, recognizeName, showNotification);
+        } else {
+        }
       } else {
+        console.log("none");
       }
-    }
-    console.log(OpenCam)
 
       results.forEach((bestMatch, i) => {
         const box = resizeDetections[i].detection.box;
@@ -179,7 +177,6 @@ const { fetchdata} = useSelector(
         });
         drawBox.draw(canvasRef.current);
       });
-      console.log(results);
     }, 5000);
   };
 
@@ -187,7 +184,6 @@ const { fetchdata} = useSelector(
     const labels = [
       ...new Set(residents?.map((items) => `${items?.fullname}`)),
     ];
-    console.log(labels);
 
     return Promise.all(
       labels?.map(async (label) => {
@@ -207,20 +203,22 @@ const { fetchdata} = useSelector(
     );
   };
 
-  const HandeFaceCamera = (condition) => {
-    if (condition) {
-      CloseWebCam();
-      setOpenCam(false);
-    } else {
-      startVideo();
-      setOpenCam(true);
-    }
+  const ClosedCamera = () => {
+    CloseWebCam();
+    setOpenCam(false);
   };
 
+  const OpenedCamera = () => {
+    startVideo();
+    setOpenCam(true);
+  };
 
   return (
     <Container className={classes.cameracontainer} fluid="true">
-      <Text size="lg" className={cx(classes.displayFlex, {[classes.hidden]: !OpenCam})}>
+      <Text
+        size="lg"
+        className={cx(classes.displayFlex, { [classes.hidden]: !OpenCam })}
+      >
         {initializing ? "Initializing... Please Wait" : "Ready"}
       </Text>
       <div
@@ -244,14 +242,14 @@ const { fetchdata} = useSelector(
         <Button
           className={classes.openbutton}
           variant="filled"
-          onClick={() => HandeFaceCamera(OpenCam)}
+          onClick={OpenCam ? ClosedCamera : OpenedCamera}
         >
           {OpenCam ? "Close Camera" : "Open Camera"}
         </Button>
         <Button
-          className={cx(classes.resetbutton, {[classes.hidden]: !fetchdata})}
+          className={cx(classes.resetbutton, { [classes.hidden]: !fetchdata })}
           variant="filled"
-          onClick={()=> dispatch(DataDisplayClose())}
+          onClick={() => dispatch(DataDisplayClose())}
         >
           Reset
         </Button>

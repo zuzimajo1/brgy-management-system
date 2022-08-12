@@ -11,19 +11,15 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { NavbarContainer, HeaderContainer } from "./Components";
 import { useSelector } from "react-redux";
 import Masterlist from "./Pages/Masterlist";
-import {
-  Auth,
-  Events,
-  Home,
-  Documents,
-} from "./Pages";
+import { Auth, Events, Home, Documents } from "./Pages";
+
 import {
   Abroad,
   BarangayAcceptance,
+  BarangayAcceptance2,
   BIRpattern,
   BrgyCertificationMultiPurpose,
   BuildingPermit,
-  BurialAssistance,
   BurialAssistanceRelatives,
   BusinessClosure,
   BusinessClosurePSA,
@@ -42,7 +38,39 @@ import {
   WaterConnection,
   WaterConnectionDiscount,
 } from "./BrgyFiles";
-import BarangayAcceptance2 from "./BrgyFiles/BarangayAcceptance2";
+
+import {
+  AbroadDirect,
+  BarangayAcceptanceDirect,
+  BarangayAcceptance2Direct,
+  BIRpatternDirect,
+  BrgyCertificationMultiPurposeDirect,
+  BuildingPermitDirect,
+  BurialAssistanceRelativesDirect,
+  BusinessClosureDirect,
+  BusinessClosurePSADirect,
+  CertificationLowIncomeDirect,
+  CertificationStrandedDirect,
+  ChedScholarDirect,
+  ClearanceDirect,
+  ElectricMeterDirect,
+  FourPsTransferyDirect,
+  JobSeekerDirect,
+  LivelihoodDirect,
+  LowIncomeSubsidizedDirect,
+  PabahayDirect,
+  PhilHealthDirect,
+  TravelCertificateDirect,
+  WaterConnectionDirect,
+  WaterConnectionDiscountDirect,
+  GoodMoralDirect,
+  CaapAccessPassDirect,
+  BaligyaBaboyDirect,
+  BrgyCertification2Direct,
+  BrgyCertification3Direct,
+  PaihawBaboyDirect,
+  DeathCertificateDirect,
+} from "./BrgyFilesDirect/indexDirect";
 
 function App() {
   const User = useSelector((state) => state.user.loginStatus);
@@ -54,8 +82,6 @@ function App() {
     key: "color-scheme",
     defaultValue: "dark",
   });
-
-
 
   const toggleColorScheme = () =>
     setColorScheme((current) => (current === "dark" ? "light" : "dark"));
@@ -207,6 +233,130 @@ function App() {
       path: "transactions/ElectricConnection",
       element: <ElectricMeter />,
     },
+
+    {
+      path: "transactions/4PsTransferyDirect",
+      element: <FourPsTransferyDirect />,
+    },
+    {
+      path: "transactions/BrgyAcceptanceDirect",
+      element: <BarangayAcceptanceDirect />,
+    },
+    {
+      path: "transactions/BrgyAcceptance2Direct",
+      element: <BarangayAcceptance2Direct />,
+    },
+    {
+      path: "transactions/BusinessClosureDirect",
+      element: <BusinessClosureDirect />,
+    },
+    {
+      path: "transactions/BusinessClosurePSADirect",
+      element: <BusinessClosurePSADirect />,
+    },
+    {
+      path: "transactions/BurialAssistanceRelativesDirect",
+      element: <BurialAssistanceRelativesDirect />,
+    },
+    {
+      path: "transactions/BuildingPermitDirect",
+      element: <BuildingPermitDirect />,
+    },
+    {
+      path: "transactions/TravelCertificateDirect",
+      element: <TravelCertificateDirect />,
+    },
+    {
+      path: "transactions/CertificateAbroadDirect",
+      element: <AbroadDirect />,
+    },
+    {
+      path: "transactions/CertificateBirPatternDirect",
+      element: <BIRpatternDirect />,
+    },
+    {
+      path: "transactions/CertificateWaterConnectionDirect",
+      element: <WaterConnectionDirect />,
+    },
+    {
+      path: "transactions/CertificateStrandedDirect",
+      element: <CertificationStrandedDirect />,
+    },
+    {
+      path: "transactions/JobSeekerDirect",
+      element: <JobSeekerDirect />,
+    },
+    {
+      path: "transactions/ClearanceDirect",
+      element: <ClearanceDirect />,
+    },
+    {
+      path: "transactions/CertificateWaterConnectionDiscountDirect",
+      element: <WaterConnectionDiscountDirect />,
+    },
+    {
+      path: "transactions/CertificationLowIncomeDirect",
+      element: <CertificationLowIncomeDirect />,
+    },
+    {
+      path: "transactions/PhilHealthDirect",
+      element: <PhilHealthDirect />,
+    },
+    {
+      path: "transactions/LowIncomeSubsidizedDirect",
+      element: <LowIncomeSubsidizedDirect />,
+    },
+    {
+      path: "transactions/ChedScholarDirect",
+      element: <ChedScholarDirect />,
+    },
+    {
+      path: "transactions/BrgyCertificationDirect",
+      element: <BrgyCertificationMultiPurposeDirect />,
+    },
+    {
+      path: "transactions/LivelihoodDirect",
+      element: <LivelihoodDirect />,
+    },
+    {
+      path: "transactions/CertificationPabahayDirect",
+      element: <PabahayDirect />,
+    },
+    {
+      path: "transactions/ElectricConnectionDirect",
+      element: <ElectricMeterDirect />,
+    },
+
+
+    {
+      path: "transactions/GoodMoralDirect",
+      element: <GoodMoralDirect/>,
+    },
+    {
+      path: "transactions/CaapAccessPassDirect",
+      element: <CaapAccessPassDirect/>,
+    },
+    {
+      path: "transactions/BaligyaBaboyDirect",
+      element: <BaligyaBaboyDirect/>,
+    },
+    {
+      path: "transactions/BrgyCertification2Direct",
+      element: <BrgyCertification2Direct/>,
+    },
+    {
+      path: "transactions/BrgyCertification3Direct",
+      element: <BrgyCertification3Direct/>,
+    },
+    {
+      path: "transactions/PaihawBaboyDirect",
+      element: <PaihawBaboyDirect/>,
+    },
+    {
+      path: "transactions/DeathCertificateDirect",
+      element: <DeathCertificateDirect/>,
+    }
+
   ];
 
   return (

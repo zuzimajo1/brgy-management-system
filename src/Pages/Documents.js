@@ -3,6 +3,7 @@ import { createStyles, Container, Group, Button, Text } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  DirectAccess,
   DisplayData,
   FaceRecognitionWebCam,
   RegisterForm,
@@ -112,6 +113,7 @@ const Documents = () => {
   const [RegisterButtonClick, setRegisterButtonClick] = useState(false);
   const [FaceRecognitionButtonClick, setFaceRecognitionButtonClick] =
     useState(false);
+  const [AccessDocuments, setAccessDocuments] = useState(false);
   const dispatch = useDispatch();
 
   const CloseWebCam = () => {
@@ -127,12 +129,14 @@ const Documents = () => {
           RegisterButtonClick={RegisterButtonClick}
           FaceRecognitionButtonClick={FaceRecognitionButtonClick}
           setFaceRecognitionButtonClick={setFaceRecognitionButtonClick}
+          AccessDocuments={AccessDocuments}
+          setAccessDocuments={setAccessDocuments}
           classes={classes}
           CloseWebCam={CloseWebCam}
           dispatch={dispatch}
         />
       </Container>
-      {RegisterButtonClick && !FaceRecognitionButtonClick && (
+      {RegisterButtonClick && !FaceRecognitionButtonClick && !AccessDocuments && (
         <Container className={classes.registercontainer} fluid="true">
           <Group direction="column">
             <WebCamera videoRef={videoRef} />
@@ -142,7 +146,7 @@ const Documents = () => {
           </Group>
         </Container>
       )}
-      {FaceRecognitionButtonClick && !RegisterButtonClick && (
+      {FaceRecognitionButtonClick && !RegisterButtonClick && !AccessDocuments && (
         <Container className={classes.registercontainer} fluid="true">
           <Group direction="column">
             <FaceRecognitionWebCam
@@ -156,9 +160,17 @@ const Documents = () => {
           </Group>
         </Container>
       )}
+      {AccessDocuments && !RegisterButtonClick && !FaceRecognitionButtonClick && (
+        <Container className={classes.registercontainer} fluid="true">
+          <DirectAccess />
+        </Container>
+      )}
       <Container
         className={cx(classes.containernotif, {
-          [classes.hidden]: FaceRecognitionButtonClick || RegisterButtonClick,
+          [classes.hidden]:
+            FaceRecognitionButtonClick ||
+            RegisterButtonClick ||
+            AccessDocuments,
         })}
         fluid="true"
       >
@@ -177,6 +189,8 @@ const Buttons = ({
   FaceRecognitionButtonClick,
   setFaceRecognitionButtonClick,
   CloseWebCam,
+  AccessDocuments,
+  setAccessDocuments,
   dispatch,
 }) => {
   return (
@@ -196,7 +210,7 @@ const Buttons = ({
         })}
         className={classes.button}
         onClick={() => {
-          if (!FaceRecognitionButtonClick) {
+          if (!FaceRecognitionButtonClick && !AccessDocuments) {
             setRegisterButtonClick(!RegisterButtonClick);
           }
           RegisterButtonClick && CloseWebCam();
@@ -219,13 +233,35 @@ const Buttons = ({
         })}
         className={classes.button2}
         onClick={() => {
-          if (!RegisterButtonClick) {
+          if (!RegisterButtonClick && !AccessDocuments) {
             setFaceRecognitionButtonClick(!FaceRecognitionButtonClick);
           }
           FaceRecognitionButtonClick && CloseWebCam();
         }}
       >
         {FaceRecognitionButtonClick ? "Close" : "Apply for Documents"}
+      </Button>
+      <Button
+        variant="light"
+        size="sm"
+        sx={(theme) => ({
+          background:
+            theme.colorScheme === "dark"
+              ? AccessDocuments
+                ? theme.colors.darktheme[0]
+                : theme.colors.darktheme[6]
+              : AccessDocuments
+              ? theme.colors.darktheme[0]
+              : theme.colors.lighttheme[3],
+        })}
+        className={classes.button}
+        onClick={() => {
+          if (!RegisterButtonClick && !FaceRecognitionButtonClick) {
+            setAccessDocuments(!AccessDocuments);
+          }
+        }}
+      >
+        {AccessDocuments ? "Close" : "Direct Access"}
       </Button>
     </Group>
   );
