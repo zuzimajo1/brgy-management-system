@@ -70,12 +70,16 @@ import {
   BrgyCertification3Direct,
   PaihawBaboyDirect,
   DeathCertificateDirect,
+<<<<<<< Updated upstream
   MinorVaccinationDirect,
+=======
+  PhilSysDirect
+>>>>>>> Stashed changes
 } from "./BrgyFilesDirect/indexDirect";
 
 function App() {
-  const User = useSelector((state) => state.user.loginStatus);
-  // const [User, setUser] = useState(false);
+  // const User = useSelector((state) => state.user.loginStatus);
+  const [User, setUser] = useState(true);
   const { width } = useViewportSize();
   const show = useSelector((state) => state.navbar.show);
 
@@ -234,7 +238,6 @@ function App() {
       path: "transactions/ElectricConnection",
       element: <ElectricMeter />,
     },
-
     {
       path: "transactions/4PsTransferyDirect",
       element: <FourPsTransferyDirect />,
@@ -327,39 +330,45 @@ function App() {
       path: "transactions/ElectricConnectionDirect",
       element: <ElectricMeterDirect />,
     },
-
-
     {
       path: "transactions/GoodMoralDirect",
-      element: <GoodMoralDirect/>,
+      element: <GoodMoralDirect />,
     },
     {
       path: "transactions/CaapAccessPassDirect",
-      element: <CaapAccessPassDirect/>,
+      element: <CaapAccessPassDirect />,
     },
     {
       path: "transactions/BaligyaBaboyDirect",
-      element: <BaligyaBaboyDirect/>,
+      element: <BaligyaBaboyDirect />,
     },
     {
       path: "transactions/BrgyCertification2Direct",
-      element: <BrgyCertification2Direct/>,
+      element: <BrgyCertification2Direct />,
     },
     {
       path: "transactions/BrgyCertification3Direct",
-      element: <BrgyCertification3Direct/>,
+      element: <BrgyCertification3Direct />,
     },
     {
       path: "transactions/PaihawBaboyDirect",
-      element: <PaihawBaboyDirect/>,
+      element: <PaihawBaboyDirect />,
     },
     {
       path: "transactions/DeathCertificateDirect",
+<<<<<<< Updated upstream
       element: <DeathCertificateDirect/>,
     },
     {
       path: "transactions/MinorVaccinationDirect",
       element: <MinorVaccinationDirect/>
+=======
+      element: <DeathCertificateDirect />,
+    },
+    {
+      path: "transactions/PhilSysDirect",
+      element: <PhilSysDirect />,
+>>>>>>> Stashed changes
     }
 
   ];

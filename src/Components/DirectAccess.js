@@ -63,6 +63,7 @@ const DirectAccess = () => {
     "MinorVaccination",
     "PaihawBaboy",
     "PhilHealth",
+    "PhilSys-Step-2",
     "TravelCertificate",
     "WaterConnection",
     "WaterConnectionDiscount",
@@ -83,6 +84,7 @@ const DirectAccess = () => {
           DirectAccessDocument === "4P'sTransfery"
             ? "4PsTransferyDirect"
             : DirectAccessDocument === "BrgyAcceptance"
+<<<<<<< Updated upstream
             ? "BrgyAcceptanceDirect"
             : DirectAccessDocument === "BrgyAcceptance2"
             ? "BrgyAcceptance2Direct"
@@ -142,6 +144,67 @@ const DirectAccess = () => {
             ? "DeathCertificateDirect"
             : DirectAccessDocument === "MinorVaccination"
             ? "MinorVaccinationDirect" : "N/A"
+=======
+              ? "BrgyAcceptanceDirect"
+              : DirectAccessDocument === "BrgyAcceptance2"
+                ? "BrgyAcceptance2Direct"
+                : DirectAccessDocument === "BusinessClosure"
+                  ? "BusinessClosureDirect"
+                  : DirectAccessDocument === "BusinessClosurePSA"
+                    ? "BusinessClosurePSADirect"
+                    : DirectAccessDocument === "BurialAssistanceRelatives"
+                      ? "BurialAssistanceRelativesDirect"
+                      : DirectAccessDocument === "BuildingPermit"
+                        ? "BuildingPermitDirect"
+                        : DirectAccessDocument === "TravelCertificate"
+                          ? "TravelCertificateDirect"
+                          : DirectAccessDocument === "Certification-Abroad"
+                            ? "CertificateAbroadDirect"
+                            : DirectAccessDocument === "BirPattern/Assitance"
+                              ? "CertificateBirPatternDirect"
+                              : DirectAccessDocument === "WaterConnection"
+                                ? "CertificateWaterConnectionDirect"
+                                : DirectAccessDocument === "Certification-Stranded"
+                                  ? "CertificateStrandedDirect"
+                                  : DirectAccessDocument === "JobSeeker"
+                                    ? "JobSeekerDirect"
+                                    : DirectAccessDocument === "Clearance"
+                                      ? "ClearanceDirect"
+                                      : DirectAccessDocument === "WaterConnectionDiscount"
+                                        ? "CertificateWaterConnectionDiscountDirect"
+                                        : DirectAccessDocument === "LowIncome"
+                                          ? "CertificationLowIncomeDirect"
+                                          : DirectAccessDocument === "PhilHealth"
+                                            ? "PhilHealthDirect"
+                                            : DirectAccessDocument === "LowIncomeSubsidized"
+                                              ? "LowIncomeSubsidizedDirect"
+                                              : DirectAccessDocument === "CHEDScholar"
+                                                ? "ChedScholarDirect"
+                                                : DirectAccessDocument === "BrgyCertification"
+                                                  ? "BrgyCertificationDirect"
+                                                  : DirectAccessDocument === "Livelihood"
+                                                    ? "LivelihoodDirect"
+                                                    : DirectAccessDocument === "Certification-Pabahay"
+                                                      ? "CertificationPabahayDirect"
+                                                      : DirectAccessDocument === "ElectricConnection"
+                                                        ? "ElectricConnectionDirect"
+                                                        : DirectAccessDocument === "GoodMoral"
+                                                          ? "GoodMoralDirect"
+                                                          : DirectAccessDocument === "CaapAccessPass"
+                                                            ? "CaapAccessPassDirect"
+                                                            : DirectAccessDocument === "BaligyaBaboy"
+                                                              ? "BaligyaBaboyDirect"
+                                                              : DirectAccessDocument === "BrgyCertification2"
+                                                                ? "BrgyCertification2Direct"
+                                                                : DirectAccessDocument === "BrgyCertification3"
+                                                                  ? "BrgyCertification3Direct"
+                                                                  : DirectAccessDocument === "PaihawBaboy"
+                                                                    ? "PaihawBaboyDirect"
+                                                                    : DirectAccessDocument === "DeathCertificate"
+                                                                      ? "DeathCertificateDirect"
+                                                                      : DirectAccessDocument === "PhilSys-Step-2"
+                                                                        ? "PhilSysDirect" : "N/A"
+>>>>>>> Stashed changes
         }
       >
         <Button variant="filled" size="sm" className={classes.button}>
