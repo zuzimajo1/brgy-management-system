@@ -60,6 +60,7 @@ const DirectAccess = () => {
     "Livelihood",
     "LowIncome",
     "JobSeeker",
+    "MinorVaccination",
     "PaihawBaboy",
     "PhilHealth",
     "TravelCertificate",
@@ -138,7 +139,9 @@ const DirectAccess = () => {
             : DirectAccessDocument === "PaihawBaboy"
             ? "PaihawBaboyDirect"
             : DirectAccessDocument === "DeathCertificate"
-            ? "DeathCertificateDirect" : "N/A"
+            ? "DeathCertificateDirect"
+            : DirectAccessDocument === "MinorVaccination"
+            ? "MinorVaccinationDirect" : "N/A"
         }
       >
         <Button variant="filled" size="sm" className={classes.button}>

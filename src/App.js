@@ -70,6 +70,7 @@ import {
   BrgyCertification3Direct,
   PaihawBaboyDirect,
   DeathCertificateDirect,
+  MinorVaccinationDirect,
 } from "./BrgyFilesDirect/indexDirect";
 
 function App() {
@@ -355,6 +356,10 @@ function App() {
     {
       path: "transactions/DeathCertificateDirect",
       element: <DeathCertificateDirect/>,
+    },
+    {
+      path: "transactions/MinorVaccinationDirect",
+      element: <MinorVaccinationDirect/>
     }
 
   ];
