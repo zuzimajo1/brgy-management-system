@@ -28,7 +28,11 @@ const FacerecognitionReducer = createSlice({
         },
         DataDisplayClose :(state)=>{
             state.fetchdata = false;
-        }
+        },
+        CreateDocument : (state, action)=>{
+            state.singlepersondata = action.payload;
+            state.fetchdata = false;
+        },
     }
 })
 
@@ -37,6 +41,7 @@ export const {
   FaceGetInfoSuccess,
   FaceGetInfoFailed,
   FaceGetInfoReset,
-  DataDisplayClose
+  DataDisplayClose,
+  CreateDocument,
 } = FacerecognitionReducer.actions;
 export default FacerecognitionReducer.reducer;

@@ -8,3 +8,4 @@ export { default as FaceRecognitionWebCam } from "./FaceRecognitionWebCam";
 export { default as CalendarView } from "./CalendarView";
 export { default as DisplayData } from "./DisplayData";
 export { default as DirectAccess } from "./DirectAccess";
+export { default as CreateDocument } from "./CreateDocument";

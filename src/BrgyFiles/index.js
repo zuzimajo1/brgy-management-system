@@ -21,3 +21,13 @@ export { default as BrgyCertificationMultiPurpose } from "./BrgyCertificationMul
 export { default as Livelihood } from "./Livelihood";
 export { default as Pabahay } from "./Pabahay";
 export { default as ElectricMeter } from "./ElectricMeter";
+export { default as GoodMoral } from "./GoodMoral";
+export { default as CaapAccessPass } from "./CaapAccessPass";
+export { default as BaligyaBaboy } from "./BaligyaBaboy";
+export { default as BrgyCertification2 } from "./BrgyCertification2";
+export { default as BrgyCertification3 } from "./BrgyCertification3";
+export { default as PaihawBaboy } from "./PaihawBaboy";
+export { default as DeathCertificate } from "./DeathCertificate";
+export { default as MinorVaccination } from "./MinorVaccination";
+export { default as PhilSys } from "./PhilSys";
+export { default as SoloParent } from "./SoloParent";

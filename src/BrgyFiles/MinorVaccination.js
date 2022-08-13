@@ -224,15 +224,10 @@ Font.register({
   ],
 });
 
-const MinorVaccinationDirect = () => {
+const MinorVaccination = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("");
-  const [ClientName, setClientName] = useState("");
-  const [ClientSex, setClientSex] = useState("");
-  const [ClientCivilStatus, setClientCivilStatus] = useState("");
-  const [ClientCitizenship, setClientCitizenship] = useState("");
-  const [ClientAddress, setClientAddress] = useState("");
   const [FirstChildName, setFirstChildName] = useState("");
   const [FirstChildBirthdate, setFirstChildBirthdate] = useState("");
   const [FirstChildAge, setFirstChildAge] = useState("");
@@ -258,11 +253,6 @@ const MinorVaccinationDirect = () => {
             <MyDocuments
               singleperson={singleperson}
               ClientAge={ClientAge}
-              ClientName={ClientName}
-              ClientSex={ClientSex}
-              ClientCivilStatus={ClientCivilStatus}
-              ClientCitizenship={ClientCitizenship}
-              ClientAddress={ClientAddress}
               FirstChildName={FirstChildName}
               FirstChildBirthdate={FirstChildBirthdate}
               FirstChildAge={FirstChildAge}
@@ -284,11 +274,6 @@ const MinorVaccinationDirect = () => {
         <Container style={styles.containerwrapper}>
           <DataFillOut
             setClientAge={setClientAge}
-            setClientName={setClientName}
-            setClientSex={setClientSex}
-            setClientCivilStatus={setClientCivilStatus}
-            setClientCitizenship={setClientCitizenship}
-            setClientAddress={setClientAddress}
             setFirstChildName={setFirstChildName}
             setFirstChildBirthdate={setFirstChildBirthdate}
             setFirstChildAge={setFirstChildAge}
@@ -321,11 +306,6 @@ const DayMoment = (n) => {
 const MyDocuments = ({
   singleperson,
   ClientAge,
-  ClientName,
-  ClientSex,
-  ClientCivilStatus,
-  ClientCitizenship,
-  ClientAddress,
   FirstChildName,
   FirstChildBirthdate,
   FirstChildAge,
@@ -359,13 +339,22 @@ const MyDocuments = ({
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
-                  <Text style={styles.clientname}>{ClientName}</Text>,{" "}
-                  <Text>{ClientAge}</Text> years of age,{" "}
-                  <Text style={styles.textlowercase}>{ClientSex}</Text>,{" "}
-                  <Text style={styles.textlowercase}>{ClientCivilStatus}</Text>,{" "}
-                  <Text style={styles.textCapitalize}>{ClientCitizenship}</Text>{" "}
-                  Citizen, a resident of <Text>{ClientAddress}</Text>, Barangay
-                  Luna, Surigao City, <Text></Text>.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textlowercase}>
+                    {singleperson?.civilstatus}
+                  </Text>
+                  ,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
+                  Barangay Luna, Surigao City, <Text></Text>.
                 </Text>
               </View>
               <View style={styles.wrapper}>
@@ -461,11 +450,6 @@ const MyDocuments = ({
 
 const DataFillOut = ({
   setClientAge,
-  setClientName,
-  setClientCitizenship,
-  setClientCivilStatus,
-  setClientSex,
-  setClientAddress,
   setFirstChildName,
   setFirstChildBirthdate,
   setFirstChildAge,
@@ -484,41 +468,6 @@ const DataFillOut = ({
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
-      <TextInput
-        style={styles.textinputs}
-        label="Name"
-        radius="sm"
-        placeholder="ex. "
-        onChange={(e) => setClientName(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Sex"
-        radius="sm"
-        placeholder="ex. Male"
-        onChange={(e) => setClientSex(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Citizenship"
-        radius="sm"
-        placeholder="ex. Filipino"
-        onChange={(e) => setClientCitizenship(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Civil Status"
-        radius="sm"
-        placeholder="ex. Single"
-        onChange={(e) => setClientCivilStatus(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Address"
-        radius="sm"
-        placeholder="ex. Purok 1, Payawan 2"
-        onChange={(e) => setClientAddress(e.target.value)}
-      />
       <TextInput
         style={styles.textinputs}
         label="Age"
@@ -635,4 +584,4 @@ const DataFillOut = ({
   );
 };
 
-export default MinorVaccinationDirect;
+export default MinorVaccination;

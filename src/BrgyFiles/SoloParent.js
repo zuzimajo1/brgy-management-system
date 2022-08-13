@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     fontSize: 10,
     fontFamily: "OpenSans",
+    marginTop: 5,
   },
   contenttext: {
     width: "90%",
@@ -201,17 +202,33 @@ const styles = StyleSheet.create({
   marginTopText: {
     marginTop: 3,
     textAlign: "left",
-    width: 160,
+    width: 177,
   },
-  marginTopAge: {
+  marginTopAge:{
+     marginTop: 3,
+    textAlign: "left",
+    width:70,
+  },
+  marginTopBirthdate:{
     marginTop: 3,
     textAlign: "right",
-    width: 100,
+    width: 130,
   },
-  marginTopBirthdate: {
-    marginTop: 3,
-    textAlign: "left",
-    width: 140,
+  contentmargin: {
+    marginTop: 8,
+    display: "flex",
+    flexDirection: "row",
+    fontSize: 10,
+    fontFamily: "OpenSans",
+    marginLeft: 38,
+    lineHeight: 2,
+  },
+  contentcolumn: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  numberpadding: {
+    paddingRight: 5,
   },
 });
 
@@ -224,15 +241,10 @@ Font.register({
   ],
 });
 
-const MinorVaccinationDirect = () => {
+const SoloParent = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
-  const [ClientAge, setClientAge] = useState("");
-  const [ClientName, setClientName] = useState("");
-  const [ClientSex, setClientSex] = useState("");
-  const [ClientCivilStatus, setClientCivilStatus] = useState("");
-  const [ClientCitizenship, setClientCitizenship] = useState("");
-  const [ClientAddress, setClientAddress] = useState("");
+  const [ResidingYears, setResidingYears] = useState("");
   const [FirstChildName, setFirstChildName] = useState("");
   const [FirstChildBirthdate, setFirstChildBirthdate] = useState("");
   const [FirstChildAge, setFirstChildAge] = useState("");
@@ -251,18 +263,13 @@ const MinorVaccinationDirect = () => {
 
   return (
     <Container fluid="true" className={classes.root}>
-      <Text style={styles.maintitle}>MINOR VACCINATION</Text>
+      <Text style={styles.maintitle}>SOLO PARENT</Text>
       <div style={styles.container}>
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
             <MyDocuments
               singleperson={singleperson}
-              ClientAge={ClientAge}
-              ClientName={ClientName}
-              ClientSex={ClientSex}
-              ClientCivilStatus={ClientCivilStatus}
-              ClientCitizenship={ClientCitizenship}
-              ClientAddress={ClientAddress}
+              ResidingYears={ResidingYears}
               FirstChildName={FirstChildName}
               FirstChildBirthdate={FirstChildBirthdate}
               FirstChildAge={FirstChildAge}
@@ -283,12 +290,7 @@ const MinorVaccinationDirect = () => {
         </Container>
         <Container style={styles.containerwrapper}>
           <DataFillOut
-            setClientAge={setClientAge}
-            setClientName={setClientName}
-            setClientSex={setClientSex}
-            setClientCivilStatus={setClientCivilStatus}
-            setClientCitizenship={setClientCitizenship}
-            setClientAddress={setClientAddress}
+            setResidingYears={setResidingYears}
             setFirstChildName={setFirstChildName}
             setFirstChildBirthdate={setFirstChildBirthdate}
             setFirstChildAge={setFirstChildAge}
@@ -311,6 +313,8 @@ const MinorVaccinationDirect = () => {
   );
 };
 
+
+
 const DayMoment = (n) => {
   return (
     ["st", "nd", "rd"][(((((n < 0 ? -n : n) + 90) % 100) - 10) % 10) - 1] ||
@@ -320,12 +324,7 @@ const DayMoment = (n) => {
 
 const MyDocuments = ({
   singleperson,
-  ClientAge,
-  ClientName,
-  ClientSex,
-  ClientCivilStatus,
-  ClientCitizenship,
-  ClientAddress,
+  ResidingYears,
   FirstChildName,
   FirstChildBirthdate,
   FirstChildAge,
@@ -359,80 +358,108 @@ const MyDocuments = ({
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
-                  <Text style={styles.clientname}>{ClientName}</Text>,{" "}
-                  <Text>{ClientAge}</Text> years of age,{" "}
-                  <Text style={styles.textlowercase}>{ClientSex}</Text>,{" "}
-                  <Text style={styles.textlowercase}>{ClientCivilStatus}</Text>,{" "}
-                  <Text style={styles.textCapitalize}>{ClientCitizenship}</Text>{" "}
-                  Citizen, a resident of <Text>{ClientAddress}</Text>, Barangay
-                  Luna, Surigao City, <Text></Text>.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , personally appeared before this office and after
+                  verification and validation, it was ascertained that:
                 </Text>
+              </View>
+              <View style={styles.contentcolumn}>
+                <View style={styles.contentmargin}>
+                  <Text style={styles.numberpadding}>1.</Text>
+                  <Text>
+                    He/She is a resident of <Text>{singleperson?.address}</Text>
+                    , Barangay Luna, Surigao City for{" "}
+                    <Text>{ResidingYears}</Text>.
+                  </Text>
+                </View>
+                <View style={styles.contentmargin}>
+                  <Text style={styles.numberpadding}>2.</Text>
+                  <Text>
+                    He/She is a biological parent of the following children:
+                  </Text>
+                </View>
               </View>
               <View style={styles.wrapper}>
                 <View style={styles.headers}>
-                  <Text>Name</Text>
-                  <Text>Date of Birth</Text>
-                  <Text>Age</Text>
+                  <Text>NAME</Text>
+                  <Text>AGE</Text>
+                  <Text>BIRTHDAY</Text>
                 </View>
                 <View style={styles.contenttext}>
                   <Text style={styles.marginTopText}>{FirstChildName}</Text>
+                  <Text style={styles.marginTopAge}>{FirstChildAge}</Text>
                   <Text style={styles.marginTopBirthdate}>
                     {FirstChildBirthdate}
-                  </Text>
-                  <Text style={styles.marginTopAge}>
-                    {FirstChildAge} YEARS OLD
                   </Text>
                 </View>
                 {SecondChildName && (
                   <View style={styles.contenttext}>
                     <Text style={styles.marginTopText}>{SecondChildName}</Text>
+                    <Text style={styles.marginTopAge}>{SecondChildAge}</Text>
                     <Text style={styles.marginTopBirthdate}>
                       {SecondChildBirthdate}
-                    </Text>
-                    <Text style={styles.marginTopAge}>
-                      {SecondChildAge} YEARS OLD
                     </Text>
                   </View>
                 )}
                 {ThirdChildName && (
                   <View style={styles.contenttext}>
                     <Text style={styles.marginTopText}>{ThirdChildName}</Text>
+                    <Text style={styles.marginTopAge}>{ThirdChildAge}</Text>
                     <Text style={styles.marginTopBirthdate}>
                       {ThirdChildBirthdate}
-                    </Text>
-                    <Text style={styles.marginTopAge}>
-                      {ThirdChildAge} YEARS OLD
                     </Text>
                   </View>
                 )}
                 {FourthChildName && (
                   <View style={styles.contenttext}>
                     <Text style={styles.marginTopText}>{FourthChildName}</Text>
+                    <Text style={styles.marginTopAge}>{FourthChildAge}</Text>
                     <Text style={styles.marginTopBirthdate}>
                       {FourthChildBirthdate}
-                    </Text>
-                    <Text style={styles.marginTopAge}>
-                      {FourthChildAge} YEARS OLD
                     </Text>
                   </View>
                 )}
                 {FifthChildName && (
                   <View style={styles.contenttext}>
                     <Text style={styles.marginTopText}>{FifthChildName}</Text>
+                    <Text style={styles.marginTopAge}>{FifthChildAge}</Text>
                     <Text style={styles.marginTopBirthdate}>
                       {FifthChildBirthdate}
-                    </Text>
-                    <Text style={styles.marginTopAge}>
-                      {FifthChildAge} YEARS OLD
                     </Text>
                   </View>
                 )}
               </View>
+              <View style={styles.contentcolumn}>
+                <View style={styles.contentmargin}>
+                  <Text style={styles.numberpadding}>1.</Text>
+                  <Text>
+                    He/She is in actual custody of the minor children mentioned
+                    here to fore.
+                  </Text>
+                </View>
+                <View style={styles.contentmargin}>
+                  <Text style={styles.numberpadding}>2.</Text>
+                  <Text>
+                    He/She is not living together with another person as husband
+                    and wife.
+                  </Text>
+                </View>
+              </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
-                  This certification is issued upon the request of the
-                  above-mentioned person{" "}
+                  This certification is issued upon the request of the herein
+                  named party as part of requirements for his/her application
+                  for the issuance of{" "}
+                  <Text style={styles.textuppercase}>
+                    {
+                      "SOLO PARENT ID CARD by the SURIGAO CITY SOCIAL WELFARE & DEVELOPMENT OFFICE"
+                    }
+                  </Text>{" "}
                   <Text style={styles.textregular}>
                     as required by CITY HEALTH OFFICE FOR VACCINATION
                   </Text>
@@ -460,12 +487,7 @@ const MyDocuments = ({
 };
 
 const DataFillOut = ({
-  setClientAge,
-  setClientName,
-  setClientCitizenship,
-  setClientCivilStatus,
-  setClientSex,
-  setClientAddress,
+  setResidingYears,
   setFirstChildName,
   setFirstChildBirthdate,
   setFirstChildAge,
@@ -486,59 +508,17 @@ const DataFillOut = ({
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
         style={styles.textinputs}
-        label="Name"
+        label="Resident's Residing Years"
         radius="sm"
-        placeholder="ex. "
-        onChange={(e) => setClientName(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Sex"
-        radius="sm"
-        placeholder="ex. Male"
-        onChange={(e) => setClientSex(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Citizenship"
-        radius="sm"
-        placeholder="ex. Filipino"
-        onChange={(e) => setClientCitizenship(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Civil Status"
-        radius="sm"
-        placeholder="ex. Single"
-        onChange={(e) => setClientCivilStatus(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Address"
-        radius="sm"
-        placeholder="ex. Purok 1, Payawan 2"
-        onChange={(e) => setClientAddress(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Age"
-        radius="sm"
-        placeholder="ex. 28"
-        onChange={(e) => setClientAge(e.currentTarget.value)}
+        placeholder="ex. twenty (20) years"
+        onChange={(e) => setResidingYears(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
         label="First Child Name"
         radius="sm"
-        placeholder="ex. 1.	LEA E. DESCARTIN"
+        placeholder="ex. LEA E. DESCARTIN"
         onChange={(e) => setFirstChildName(e.currentTarget.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="First Child Birthdate"
-        radius="sm"
-        placeholder="ex. OCTOBER 4, 2005"
-        onChange={(e) => setFirstChildBirthdate(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
@@ -549,17 +529,17 @@ const DataFillOut = ({
       />
       <TextInput
         style={styles.textinputs}
-        label="Second Child Name"
+        label="First Child Birthdate"
         radius="sm"
-        placeholder="ex. 2.	LEA E. DESCARTIN"
-        onChange={(e) => setSecondChildName(e.currentTarget.value)}
+        placeholder="ex. OCTOBER 4, 2005"
+        onChange={(e) => setFirstChildBirthdate(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Second Child Birthdate"
+        label="Second Child Name"
         radius="sm"
-        placeholder="ex. OCTOBER 4, 2005"
-        onChange={(e) => setSecondChildBirthdate(e.currentTarget.value)}
+        placeholder="ex. LEA E. DESCARTIN"
+        onChange={(e) => setSecondChildName(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
@@ -570,17 +550,17 @@ const DataFillOut = ({
       />
       <TextInput
         style={styles.textinputs}
-        label="Third Child Name"
+        label="Second Child Birthdate"
         radius="sm"
-        placeholder="ex. 3.	LEA E. DESCARTIN"
-        onChange={(e) => setThirdChildName(e.currentTarget.value)}
+        placeholder="ex. OCTOBER 4, 2005"
+        onChange={(e) => setSecondChildBirthdate(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Third Child Birthdate"
+        label="Third Child Name"
         radius="sm"
-        placeholder="ex. OCTOBER 4, 2005"
-        onChange={(e) => setThirdChildBirthdate(e.currentTarget.value)}
+        placeholder="ex. LEA E. DESCARTIN"
+        onChange={(e) => setThirdChildName(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
@@ -591,17 +571,17 @@ const DataFillOut = ({
       />
       <TextInput
         style={styles.textinputs}
-        label="Fourth Child Name"
+        label="Third Child Birthdate"
         radius="sm"
-        placeholder="ex. 4.	LEA E. DESCARTIN"
-        onChange={(e) => setFourthChildName(e.currentTarget.value)}
+        placeholder="ex. OCTOBER 4, 2005"
+        onChange={(e) => setThirdChildBirthdate(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Fourth Child Birthdate"
+        label="Fourth Child Name"
         radius="sm"
-        placeholder="ex. OCTOBER 4, 2005"
-        onChange={(e) => setFourthChildBirthdate(e.currentTarget.value)}
+        placeholder="ex. LEA E. DESCARTIN"
+        onChange={(e) => setFourthChildName(e.currentTarget.value)}
       />
       <TextInput
         style={styles.textinputs}
@@ -612,11 +592,25 @@ const DataFillOut = ({
       />
       <TextInput
         style={styles.textinputs}
-        label="Fifth Child Name"
+        label="Fourth Child Birthdate"
         radius="sm"
-        placeholder="ex. 5.	LEA E. DESCARTIN"
-        onChange={(e) => setFifthChildName(e.currentTarget.value)}
+        placeholder="ex. OCTOBER 4, 2005"
+        onChange={(e) => setFourthChildBirthdate(e.currentTarget.value)}
       />
+        <TextInput
+          style={styles.textinputs}
+          label="Fifth Child Name"
+          radius="sm"
+          placeholder="ex. LEA E. DESCARTIN"
+          onChange={(e) => setFifthChildName(e.currentTarget.value)}
+        />
+        <TextInput
+          style={styles.textinputs}
+          label="Fifth Child Age"
+          radius="sm"
+          placeholder="ex. 16"
+          onChange={(e) => setFifthChildAge(e.currentTarget.value)}
+        />
       <TextInput
         style={styles.textinputs}
         label="Fifth Child Birthdate"
@@ -624,15 +618,9 @@ const DataFillOut = ({
         placeholder="ex. OCTOBER 4, 2005"
         onChange={(e) => setFifthChildBirthdate(e.currentTarget.value)}
       />
-      <TextInput
-        style={styles.textinputs}
-        label="Fifth Child Age"
-        radius="sm"
-        placeholder="ex. 16"
-        onChange={(e) => setFifthChildAge(e.currentTarget.value)}
-      />
     </Container>
   );
 };
 
-export default MinorVaccinationDirect;
+
+export default SoloParent;

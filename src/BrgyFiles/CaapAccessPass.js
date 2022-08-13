@@ -190,51 +190,35 @@ Font.register({
   ],
 });
 
-const PaihawBaboyDirect = () => {
- const { classes } = useStyles();
- const [ClientInfo, setClientInfo] = useState("");
- const [ClientAge, setClientAge] = useState("");
- const [ClientName, setClientName] = useState("");
- const [ClientCivilStatus, setClientCivilStatus] = useState("");
- const [ClientCitizenship, setClientCitizenship] = useState("");
- const [ClientAddress, setClientAddress] = useState("");
- const [ClientSex, setClientSex] = useState("");
+const CaapAccessPass = () => {
+  const { classes } = useStyles();
+  const [ClientAge, setClientAge] = useState("");
+  const [ClientPurpose, setClientPurpose] = useState("");
+  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
 
- return (
-   <Container fluid="true" className={classes.root}>
-     <Text style={styles.maintitle}>Paihaw Baboy</Text>
-     <div style={styles.container}>
-       <Container style={styles.containerwrapper}>
-         <PDFViewer style={styles.pdfviewer}>
-           <MyDocuments
-             ClientName={ClientName}
-             ClientSex={ClientSex}
-             ClientCivilStatus={ClientCivilStatus}
-             ClientCitizenship={ClientCitizenship}
-             ClientAddress={ClientAddress}
-             ClientInfo={ClientInfo}
-             ClientAge={ClientAge}
-           />
-         </PDFViewer>
-       </Container>
-       <Container style={styles.containerwrapper}>
-         <DataFillOut
-           setClientName={setClientName}
-           setClientSex={setClientSex}
-           setClientCivilStatus={setClientCivilStatus}
-           setClientCitizenship={setClientCitizenship}
-           setClientAddress={setClientAddress}
-           setClientInfo={setClientInfo}
-           setClientAge={setClientAge}
-         />
-       </Container>
-     </div>
-   </Container>
- );
+  return (
+    <Container fluid="true" className={classes.root}>
+      <Text style={styles.maintitle}>CAAP-ACCESS-PASS</Text>
+      <div style={styles.container}>
+        <Container style={styles.containerwrapper}>
+          <PDFViewer style={styles.pdfviewer}>
+            <MyDocuments
+              singleperson={singleperson}
+              ClientAge={ClientAge}
+              ClientPurpose={ClientPurpose}
+            />
+          </PDFViewer>
+        </Container>
+        <Container style={styles.containerwrapper}>
+          <DataFillOut
+            setClientAge={setClientAge}            
+            setClientPurpose={setClientPurpose}
+          />
+        </Container>
+      </div>
+    </Container>
+  );
 };
-
-
-
 
 const DayMoment = (n) => {
   return (
@@ -244,13 +228,9 @@ const DayMoment = (n) => {
 };
 
 const MyDocuments = ({
-  ClientInfo,
+  singleperson,
   ClientAge,
-  ClientSex,
-  ClientName,
-  ClientCivilStatus,
-  ClientCitizenship,
-  ClientAddress,
+  ClientPurpose,
 }) => {
   const now = new Date();
   const day = date.format(now, "D");
@@ -269,30 +249,43 @@ const MyDocuments = ({
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that {""}
-                  <Text style={styles.clientname}>{ClientName}</Text>, <Text>{ClientAge}</Text> years of{" "}
-                  age, <Text style={styles.textlowercase}>{ClientSex}</Text>,{" "}
-                  <Text style={styles.textlowercase}>{ClientCivilStatus}</Text>,{" "}
-                  <Text style={styles.textCapitalize}>{ClientCitizenship}</Text>{" "}
-                  Citizen, a resident of <Text>{ClientAddress}</Text>, Barangay
-                  Luna, Surigao City, has never been charged in any kind of offense and has no pending case(s) filed{" "}
-                  before the Lupong Tagapamayapa in this Barangay, either civil or criminal up to this date.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>
+                  , <Text>{ClientAge}</Text> years of age,{" "}
+                  <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
+                  <Text style={styles.textCapitalize}>
+                    {singleperson?.citizenship}
+                  </Text>{" "}
+                  Citizen, a resident of <Text>{singleperson?.address}</Text>,
+                  Barangay Luna, Surigao City.
                 </Text>
               </View>
               <View style={styles.marginTopContainer} wrap={true}>
                 <Text style={styles.textfirstparag} wrap={true}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that{" "}
-                  <Text style={styles.clientname}>{ClientName}</Text>{" "}
-                  <Text>{ClientInfo}</Text>.
+                  <Text style={styles.clientname}>{`${
+                    singleperson?.firstname
+                  } ${singleperson?.middlename.slice(0, 1)}. ${
+                    singleperson?.lastname
+                  }`}</Text>{" "}
+                  is <Text style={styles.textregular}>NOT IDENTIFIED</Text> as a{" "}
+                  <Text style={styles.textregular}>
+                    PERSON UNDER MONITORING (PUM) or PERSON UNDER INVESTIGATION
+                    (PUI)
+                  </Text>{" "}
+                  based on the records of Barangay Luna District Health Center.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This certification is being issued upon the request of the
-                  above-named person as required by{" "}
-                  <Text style={styles.textregular}>SLAUGHTERHOUSE at Barangay Poctoy, Surigao City.</Text>
-                  
+                  above-named person as a requirement for{" "}
+                  <Text style={styles.textregular}>{ClientPurpose}</Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -316,68 +309,29 @@ const MyDocuments = ({
 };
 
 const DataFillOut = ({
-  setClientSex,
-  setClientName,
-  setClientCitizenship,
-  setClientCivilStatus,
-  setClientAddress,
-  setClientInfo,
   setClientAge,
+  setClientPurpose,
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
         style={styles.textinputs}
-        label="Name"
-        radius="sm"
-        placeholder="ex. "
-        onChange={(e) => setClientName(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
         label="Age"
         radius="sm"
-        placeholder="ex. 22"
+        placeholder="ex. 23"
         onChange={(e) => setClientAge(e.target.value)}
       />
       <TextInput
         style={styles.textinputs}
-        label="Sex"
+        label="Client Purpose"
         radius="sm"
-        placeholder="ex. Male"
-        onChange={(e) => setClientSex(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Citizenship"
-        radius="sm"
-        placeholder="ex. Filipino"
-        onChange={(e) => setClientCitizenship(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Civil Status"
-        radius="sm"
-        placeholder="ex. Single"
-        onChange={(e) => setClientCivilStatus(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Address"
-        radius="sm"
-        placeholder="ex. Purok 1, Payawan 2"
-        onChange={(e) => setClientAddress(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Client Info"
-        radius="sm"
-        placeholder="ex. is the owner of one (1) hug pig"
-        onChange={(e) => setClientInfo(e.target.value)}
+        placeholder="ex. BOARD EXAM"
+        onChange={(e) => setClientPurpose(e.target.value)}
       />
     </Container>
   );
 };
 
 
-export default PaihawBaboyDirect;
+
+export default CaapAccessPass;

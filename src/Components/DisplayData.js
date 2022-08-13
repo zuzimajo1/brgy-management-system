@@ -64,31 +64,41 @@ const DisplayData = () => {
 };
 
 const DisplayContainer = ({ classes, status, singlepersondata }) => {
-  const documentsdata = [
-    "4P'sTransfery",
-    "BrgyAcceptance",
-    "BrgyAcceptance2",
-    "BusinessClosure",
-    "BusinessClosurePSA",
-    "BurialAssistanceRelatives",
-    "BuildingPermit",
-    "TravelCertificate",
-    "Certification-Abroad",
-    "BirPattern/Assitance",
-    "WaterConnection",
-    "Certification-Stranded",
-    "JobSeeker",
-    "Clearance",
-    "WaterConnectionDiscount",
-    "LowIncome",
-    "PhilHealth",
-    "LowIncomeSubsidized",
-    "CHEDScholar",
-    "BrgyCertification",
-    "Livelihood",
-    "Certification-Pabahay",
-    "ElectricConnection",
-  ];
+ const documentsdata = [
+   "4P'sTransfery",
+   "BaligyaBaboy",
+   "BrgyAcceptance",
+   "BrgyAcceptance2",
+   "BusinessClosure",
+   "BusinessClosurePSA",
+   "BurialAssistanceRelatives",
+   "BuildingPermit",
+   "BirPattern/Assitance",
+   "BrgyCertification",
+   "BrgyCertification2",
+   "BrgyCertification3",
+   "CaapAccessPass",
+   "Certification-Abroad",
+   "Certification-Stranded",
+   "Clearance",
+   "CHEDScholar",
+   "Certification-Pabahay",
+   "DeathCertificate",
+   "ElectricConnection",
+   "GoodMoral",
+   "LowIncomeSubsidized",
+   "Livelihood",
+   "LowIncome",
+   "JobSeeker",
+   "MinorVaccination",
+   "PaihawBaboy",
+   "PhilHealth",
+   "PhilSys-Step-2",
+   "SoloParent",
+   "TravelCertificate",
+   "WaterConnection",
+   "WaterConnectionDiscount",
+ ];
 
   const [DocumentNavigate, setDocumentNavigate] = useState("4P'sTransfery");
 
@@ -228,50 +238,72 @@ const DisplayContainer = ({ classes, status, singlepersondata }) => {
         <Link
           to={
             DocumentNavigate === "4P'sTransfery"
-              ? "4PsTransfery"
+              ? "/4PsTransfery"
               : DocumentNavigate === "BrgyAcceptance"
-              ? "BrgyAcceptance"
+              ? "/BrgyAcceptance"
               : DocumentNavigate === "BrgyAcceptance2"
-              ? "BrgyAcceptance2"
+              ? "/BrgyAcceptance2"
               : DocumentNavigate === "BusinessClosure"
-              ? "BusinessClosure"
+              ? "/BusinessClosure"
               : DocumentNavigate === "BusinessClosurePSA"
-              ? "BusinessClosurePSA"
+              ? "/BusinessClosurePSA"
               : DocumentNavigate === "BurialAssistanceRelatives"
-              ? "BurialAssistanceRelatives"
+              ? "/BurialAssistanceRelatives"
               : DocumentNavigate === "BuildingPermit"
-              ? "BuildingPermit"
+              ? "/BuildingPermit"
               : DocumentNavigate === "TravelCertificate"
-              ? "TravelCertificate"
+              ? "/TravelCertificate"
               : DocumentNavigate === "Certification-Abroad"
-              ? "CertificateAbroad"
+              ? "/CertificateAbroad"
               : DocumentNavigate === "BirPattern/Assitance"
-              ? "CertificateBirPattern"
+              ? "/CertificateBirPattern"
               : DocumentNavigate === "WaterConnection"
-              ? "CertificateWaterConnection"
+              ? "/CertificateWaterConnection"
               : DocumentNavigate === "Certification-Stranded"
-              ? "CertificateStranded"
+              ? "/CertificateStranded"
               : DocumentNavigate === "JobSeeker"
-              ? "JobSeeker"
+              ? "/JobSeeker"
               : DocumentNavigate === "Clearance"
-              ? "Clearance"
+              ? "/Clearance"
               : DocumentNavigate === "WaterConnectionDiscount"
-              ? "CertificateWaterConnectionDiscount"
+              ? "/CertificateWaterConnectionDiscount"
               : DocumentNavigate === "LowIncome"
-              ? "CertificationLowIncome"
+              ? "/CertificationLowIncome"
               : DocumentNavigate === "PhilHealth"
-              ? "PhilHealth"
+              ? "/PhilHealth"
               : DocumentNavigate === "LowIncomeSubsidized"
-              ? "LowIncomeSubsidized"
+              ? "/LowIncomeSubsidized"
               : DocumentNavigate === "CHEDScholar"
-              ? "ChedScholar"
+              ? "/ChedScholar"
               : DocumentNavigate === "BrgyCertification"
-              ? "BrgyCertification"
+              ? "/BrgyCertification"
               : DocumentNavigate === "Livelihood"
-              ? "Livelihood"
+              ? "/Livelihood"
               : DocumentNavigate === "Certification-Pabahay"
-              ? "CertificationPabahay"
-              : DocumentNavigate === "ElectricConnection" ? "ElectricConnection" : "N/A"
+              ? "/CertificationPabahay"
+              : DocumentNavigate === "ElectricConnection"
+              ? "/ElectricConnection"
+              : DocumentNavigate === "GoodMoral"
+              ? "/GoodMoral"
+              : DocumentNavigate === "CaapAccessPass"
+              ? "/CaapAccessPass"
+              : DocumentNavigate === "BaligyaBaboy"
+              ? "/BaligyaBaboy"
+              : DocumentNavigate === "BrgyCertification2"
+              ? "/BrgyCertification2"
+              : DocumentNavigate === "BrgyCertification3"
+              ? "/BrgyCertification3"
+              : DocumentNavigate === "PaihawBaboy"
+              ? "/PaihawBaboy"
+              : DocumentNavigate === "DeathCertificate"
+              ? "/DeathCertificate"
+              : DocumentNavigate === "MinorVaccination"
+              ? "/MinorVaccination"
+              : DocumentNavigate === "PhilSys-Step-2"
+              ? "/PhilSys"
+              : DocumentNavigate === "SoloParent"
+              ? "/SoloParent"
+              : "N/A"
           }
         >
           <Button variant="filled" size="sm" className={classes.button}>

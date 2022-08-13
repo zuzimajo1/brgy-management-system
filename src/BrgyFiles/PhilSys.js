@@ -17,6 +17,7 @@ import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import Webcam from "react-webcam";
 import { Capture, ArrowBack } from "tabler-icons-react";
+import { useSelector } from "react-redux";
 
 
 const useStyles = createStyles((theme) => ({
@@ -285,17 +286,12 @@ Font.register({
 });
 
 
-const PhilSysDirect = () => {
+const PhilSys = () => {
   const { classes } = useStyles();
-  const [ClientName, setClientName] = useState("");
-  const [ClientCivilStatus, setClientCivilStatus] = useState("");
-  const [ClientSex, setClientSex] = useState("");
-  const [ClientDateOfBirth, setClientDateOfBirth] = useState("");
-  const [ClientPlaceOfBirth, setClientPlaceOfBirth] = useState("");
-  const [ClientAddress, setClientAddress] = useState("");
   const [CaptureImage, setCaptureImage] = useState("");
   const [ClientPurpose, setClientPurpose] = useState("");
   const webcamRef = useRef(null);
+  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
     
 
   const capture = useCallback(() => {
@@ -313,12 +309,7 @@ const PhilSysDirect = () => {
         <Container style={styles.containerwrapper}>
           <PDFViewer style={styles.pdfviewer}>
             <MyDocuments
-              ClientName={ClientName}
-              ClientSex={ClientSex}
-              ClientCivilStatus={ClientCivilStatus}
-              ClientDateOfBirth={ClientDateOfBirth}
-              ClientPlaceOfBirth={ClientPlaceOfBirth}
-              ClientAddress={ClientAddress}
+              singleperson={singleperson}
               CaptureImage={CaptureImage}
               ClientPurpose={ClientPurpose}
             />
@@ -327,12 +318,6 @@ const PhilSysDirect = () => {
         <Container style={styles.containerwrapper}>
           <DataFillOut
             capture={capture}
-            setClientName={setClientName}
-            setClientSex={setClientSex}
-            setClientCivilStatus={setClientCivilStatus}
-            setClientDateOfBirth={setClientDateOfBirth}
-            setClientPlaceOfBirth={setClientPlaceOfBirth}
-            setClientAddress={setClientAddress}
             setClientPurpose={setClientPurpose}
             Webcam={Webcam}
             webcamRef={webcamRef}
@@ -355,12 +340,7 @@ const DayMoment = (n) => {
 
 
 const MyDocuments = ({
-  ClientSex,
-  ClientName,
-  ClientCivilStatus,
-  ClientAddress,
-  ClientDateOfBirth,
-  ClientPlaceOfBirth,
+  singleperson,
   CaptureImage,
   ClientPurpose,
 }) => {
@@ -392,37 +372,45 @@ const MyDocuments = ({
                   <Text style={styles.marginspacing}>...............</Text>
                   FULLNAME:
                   <Text style={styles.marginspacing}>...........</Text>
-                  <Text style={styles.clientname}>{ClientName}</Text>
+                  <Text
+                    style={styles.clientname}
+                  >{`${singleperson?.firstname} ${singleperson?.middlename} ${singleperson?.lastname}`}</Text>
                 </Text>
                 <Text style={styles.textfirstparag} wrap={true}>
                   <Text style={styles.marginspacing}>...............</Text>
                   ADDRESS:
                   <Text style={styles.marginspacing}>..............</Text>
-                  <Text style={styles.clientname}>{ClientAddress}</Text>
+                  <Text style={styles.clientname}>{singleperson?.address}</Text>
                 </Text>
                 <Text style={styles.textfirstparag} wrap={true}>
                   <Text style={styles.marginspacing}>...............</Text>
                   DATE OF BIRTH:
                   <Text style={styles.marginspacing}>...</Text>
-                  <Text style={styles.clientname}>{ClientDateOfBirth}</Text>
+                  <Text style={styles.clientname}>
+                    {singleperson?.birthdate}
+                  </Text>
                 </Text>
                 <Text style={styles.textfirstparag} wrap={true}>
                   <Text style={styles.marginspacing}>...............</Text>
                   PLACE OF BIRTH:
                   <Text style={styles.marginspacing}>.</Text>
-                  <Text style={styles.clientname}>{ClientPlaceOfBirth}</Text>
+                  <Text style={styles.clientname}>
+                    {singleperson?.birthplace}
+                  </Text>
                 </Text>
                 <Text style={styles.textfirstparag} wrap={true}>
                   <Text style={styles.marginspacing}>...............</Text>
                   CIVIL STATUS:
                   <Text style={styles.marginspacing}>.......</Text>
-                  <Text style={styles.clientname}>{ClientCivilStatus}</Text>
+                  <Text style={styles.clientname}>
+                    {singleperson?.civilstatus}
+                  </Text>
                 </Text>
                 <Text style={styles.textfirstparag} wrap={true}>
                   <Text style={styles.marginspacing}>...............</Text>
                   GENDER:
                   <Text style={styles.marginspacing}>...............</Text>
-                  <Text style={styles.clientname}>{ClientSex}</Text>
+                  <Text style={styles.clientname}>{singleperson?.sex}</Text>
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -455,7 +443,9 @@ const MyDocuments = ({
                 </View>
               )}
               <View style={styles.marginBottomContainer}>
-                <Text style={styles.textbold}>{ClientName}</Text>
+                <Text
+                  style={styles.textbold}
+                >{`${singleperson?.firstname} ${singleperson?.middlename} ${singleperson?.lastname}`}</Text>
                 <Text>Requesting Party</Text>
               </View>
             </View>
@@ -469,12 +459,6 @@ const MyDocuments = ({
 
 
 const DataFillOut = ({
-  setClientSex,
-  setClientName,
-  setClientAddress,
-  setClientCivilStatus,
-  setClientDateOfBirth,
-  setClientPlaceOfBirth,
   setClientPurpose,
   Webcam,
   webcamRef,
@@ -482,8 +466,7 @@ const DataFillOut = ({
   capture,
   setCaptureImage,
 }) => {
-
-    const {classes} = useStyles();
+  const {classes} = useStyles();
   return (
     <Container fluid="true" style={styles.formcontainer}>
       {CaptureImage ? (
@@ -514,49 +497,6 @@ const DataFillOut = ({
           </Button>
         </>
       )}
-
-      <TextInput
-        style={styles.textinputs}
-        label="Name"
-        radius="sm"
-        placeholder="ex. Juan dela Cruz"
-        onChange={(e) => setClientName(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Address"
-        radius="sm"
-        placeholder="ex. Purok 1, Payawan 2"
-        onChange={(e) => setClientAddress(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Date of Birth"
-        radius="sm"
-        placeholder="ex. January 1, 2022"
-        onChange={(e) => setClientDateOfBirth(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Place of Birth"
-        radius="sm"
-        placeholder="ex. Surigao City"
-        onChange={(e) => setClientPlaceOfBirth(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Civil Status"
-        radius="sm"
-        placeholder="ex. Single"
-        onChange={(e) => setClientCivilStatus(e.target.value)}
-      />
-      <TextInput
-        style={styles.textinputs}
-        label="Sex"
-        radius="sm"
-        placeholder="ex. Male"
-        onChange={(e) => setClientSex(e.target.value)}
-      />
       <TextInput
         style={styles.textinputs}
         label="Client Purpose"
@@ -568,4 +508,4 @@ const DataFillOut = ({
   );
 };
 
-export default PhilSysDirect;
+export default PhilSys;

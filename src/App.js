@@ -8,32 +8,42 @@ import {
 } from "@mantine/core";
 import { useHotkeys, useLocalStorage, useViewportSize } from "@mantine/hooks";
 import { Routes, Route, useLocation } from "react-router-dom";
-import { NavbarContainer, HeaderContainer } from "./Components";
+import { NavbarContainer, HeaderContainer, CreateDocument } from "./Components";
 import { useSelector } from "react-redux";
 import Masterlist from "./Pages/Masterlist";
 import { Auth, Events, Home, Documents } from "./Pages";
 
 import {
   Abroad,
+  BaligyaBaboy,
   BarangayAcceptance,
   BarangayAcceptance2,
   BIRpattern,
+  BrgyCertification2,
+  BrgyCertification3,
   BrgyCertificationMultiPurpose,
   BuildingPermit,
   BurialAssistanceRelatives,
   BusinessClosure,
   BusinessClosurePSA,
+  CaapAccessPass,
   CertificationLowIncome,
   CertificationStranded,
   ChedScholar,
   Clearance,
+  DeathCertificate,
   ElectricMeter,
   FourPsTransfery,
+  GoodMoral,
   JobSeeker,
   Livelihood,
   LowIncomeSubsidized,
+  MinorVaccination,
   Pabahay,
+  PaihawBaboy,
   PhilHealth,
+  PhilSys,
+  SoloParent,
   TravelCertificate,
   WaterConnection,
   WaterConnectionDiscount,
@@ -70,11 +80,9 @@ import {
   BrgyCertification3Direct,
   PaihawBaboyDirect,
   DeathCertificateDirect,
-<<<<<<< Updated upstream
   MinorVaccinationDirect,
-=======
-  PhilSysDirect
->>>>>>> Stashed changes
+  PhilSysDirect,
+  SoloParentDirect,
 } from "./BrgyFilesDirect/indexDirect";
 
 function App() {
@@ -147,230 +155,277 @@ function App() {
       element: <Masterlist colorScheme={colorScheme} />,
     },
     {
-      path: "transactions/4PsTransfery",
+      path: "/createdocument",
+      element: <CreateDocument/>
+    },
+    {
+      path: "/4PsTransfery",
       element: <FourPsTransfery />,
     },
     {
-      path: "transactions/BrgyAcceptance",
+      path: "/BrgyAcceptance",
       element: <BarangayAcceptance />,
     },
     {
-      path: "transactions/BrgyAcceptance2",
+      path: "/BrgyAcceptance2",
       element: <BarangayAcceptance2 />,
     },
     {
-      path: "transactions/BusinessClosure",
+      path: "/BusinessClosure",
       element: <BusinessClosure />,
     },
     {
-      path: "transactions/BusinessClosurePSA",
+      path: "/BusinessClosurePSA",
       element: <BusinessClosurePSA />,
     },
     {
-      path: "transactions/BurialAssistanceRelatives",
+      path: "/BurialAssistanceRelatives",
       element: <BurialAssistanceRelatives />,
     },
     {
-      path: "transactions/BuildingPermit",
+      path: "/BuildingPermit",
       element: <BuildingPermit />,
     },
     {
-      path: "transactions/TravelCertificate",
+      path: "/TravelCertificate",
       element: <TravelCertificate />,
     },
     {
-      path: "transactions/CertificateAbroad",
+      path: "/CertificateAbroad",
       element: <Abroad />,
     },
     {
-      path: "transactions/CertificateBirPattern",
+      path: "/CertificateBirPattern",
       element: <BIRpattern />,
     },
     {
-      path: "transactions/CertificateWaterConnection",
+      path: "/CertificateWaterConnection",
       element: <WaterConnection />,
     },
     {
-      path: "transactions/CertificateStranded",
+      path: "/CertificateStranded",
       element: <CertificationStranded />,
     },
     {
-      path: "transactions/JobSeeker",
+      path: "/JobSeeker",
       element: <JobSeeker />,
     },
     {
-      path: "transactions/Clearance",
+      path: "/Clearance",
       element: <Clearance />,
     },
     {
-      path: "transactions/CertificateWaterConnectionDiscount",
+      path: "/CertificateWaterConnectionDiscount",
       element: <WaterConnectionDiscount />,
     },
     {
-      path: "transactions/CertificationLowIncome",
+      path: "/CertificationLowIncome",
       element: <CertificationLowIncome />,
     },
     {
-      path: "transactions/PhilHealth",
+      path: "/PhilHealth",
       element: <PhilHealth />,
     },
     {
-      path: "transactions/LowIncomeSubsidized",
+      path: "/LowIncomeSubsidized",
       element: <LowIncomeSubsidized />,
     },
     {
-      path: "transactions/ChedScholar",
+      path: "/ChedScholar",
       element: <ChedScholar />,
     },
     {
-      path: "transactions/BrgyCertification",
+      path: "/BrgyCertification",
       element: <BrgyCertificationMultiPurpose />,
     },
     {
-      path: "transactions/Livelihood",
+      path: "/Livelihood",
       element: <Livelihood />,
     },
     {
-      path: "transactions/CertificationPabahay",
+      path: "/CertificationPabahay",
       element: <Pabahay />,
     },
     {
-      path: "transactions/ElectricConnection",
+      path: "/ElectricConnection",
       element: <ElectricMeter />,
     },
     {
-      path: "transactions/4PsTransferyDirect",
+      path: "/GoodMoral",
+      element: <GoodMoral/>
+    },
+    {
+      path: "/CaapAccessPass",
+      element: <CaapAccessPass/>
+    },
+    {
+      path: "/BaligyaBaboy",
+      element: <BaligyaBaboy/>
+    },
+    {
+      path: "/BrgyCertification2",
+      element: <BrgyCertification2/>
+    },
+    {
+      path: "/BrgyCertification3",
+      element: <BrgyCertification3/>
+    },
+    {
+      path: "/PaihawBaboy",
+      element: <PaihawBaboy/>,
+    },
+    {
+      path: "/DeathCertificate",
+      element: <DeathCertificate/>,
+    },
+    {
+      path: "/MinorVaccination",
+      element: <MinorVaccination/>
+    },
+    {
+      path: "/PhilSys",
+      element: <PhilSys/>
+    },
+    {
+      path: "/SoloParent",
+      element: <SoloParent/>
+    },
+
+
+
+    {
+      path: "/4PsTransferyDirect",
       element: <FourPsTransferyDirect />,
     },
     {
-      path: "transactions/BrgyAcceptanceDirect",
+      path: "/BrgyAcceptanceDirect",
       element: <BarangayAcceptanceDirect />,
     },
     {
-      path: "transactions/BrgyAcceptance2Direct",
+      path: "/BrgyAcceptance2Direct",
       element: <BarangayAcceptance2Direct />,
     },
     {
-      path: "transactions/BusinessClosureDirect",
+      path: "/BusinessClosureDirect",
       element: <BusinessClosureDirect />,
     },
     {
-      path: "transactions/BusinessClosurePSADirect",
+      path: "/BusinessClosurePSADirect",
       element: <BusinessClosurePSADirect />,
     },
     {
-      path: "transactions/BurialAssistanceRelativesDirect",
+      path: "/BurialAssistanceRelativesDirect",
       element: <BurialAssistanceRelativesDirect />,
     },
     {
-      path: "transactions/BuildingPermitDirect",
+      path: "/BuildingPermitDirect",
       element: <BuildingPermitDirect />,
     },
     {
-      path: "transactions/TravelCertificateDirect",
+      path: "/TravelCertificateDirect",
       element: <TravelCertificateDirect />,
     },
     {
-      path: "transactions/CertificateAbroadDirect",
+      path: "/CertificateAbroadDirect",
       element: <AbroadDirect />,
     },
     {
-      path: "transactions/CertificateBirPatternDirect",
+      path: "/CertificateBirPatternDirect",
       element: <BIRpatternDirect />,
     },
     {
-      path: "transactions/CertificateWaterConnectionDirect",
+      path: "/CertificateWaterConnectionDirect",
       element: <WaterConnectionDirect />,
     },
     {
-      path: "transactions/CertificateStrandedDirect",
+      path: "/CertificateStrandedDirect",
       element: <CertificationStrandedDirect />,
     },
     {
-      path: "transactions/JobSeekerDirect",
+      path: "/JobSeekerDirect",
       element: <JobSeekerDirect />,
     },
     {
-      path: "transactions/ClearanceDirect",
+      path: "/ClearanceDirect",
       element: <ClearanceDirect />,
     },
     {
-      path: "transactions/CertificateWaterConnectionDiscountDirect",
+      path: "/CertificateWaterConnectionDiscountDirect",
       element: <WaterConnectionDiscountDirect />,
     },
     {
-      path: "transactions/CertificationLowIncomeDirect",
+      path: "/CertificationLowIncomeDirect",
       element: <CertificationLowIncomeDirect />,
     },
     {
-      path: "transactions/PhilHealthDirect",
+      path: "/PhilHealthDirect",
       element: <PhilHealthDirect />,
     },
     {
-      path: "transactions/LowIncomeSubsidizedDirect",
+      path: "/LowIncomeSubsidizedDirect",
       element: <LowIncomeSubsidizedDirect />,
     },
     {
-      path: "transactions/ChedScholarDirect",
+      path: "/ChedScholarDirect",
       element: <ChedScholarDirect />,
     },
     {
-      path: "transactions/BrgyCertificationDirect",
+      path: "/BrgyCertificationDirect",
       element: <BrgyCertificationMultiPurposeDirect />,
     },
     {
-      path: "transactions/LivelihoodDirect",
+      path: "/LivelihoodDirect",
       element: <LivelihoodDirect />,
     },
     {
-      path: "transactions/CertificationPabahayDirect",
+      path: "/CertificationPabahayDirect",
       element: <PabahayDirect />,
     },
     {
-      path: "transactions/ElectricConnectionDirect",
+      path: "/ElectricConnectionDirect",
       element: <ElectricMeterDirect />,
     },
     {
-      path: "transactions/GoodMoralDirect",
+      path: "/GoodMoralDirect",
       element: <GoodMoralDirect />,
     },
     {
-      path: "transactions/CaapAccessPassDirect",
+      path: "/CaapAccessPassDirect",
       element: <CaapAccessPassDirect />,
     },
     {
-      path: "transactions/BaligyaBaboyDirect",
+      path: "/BaligyaBaboyDirect",
       element: <BaligyaBaboyDirect />,
     },
     {
-      path: "transactions/BrgyCertification2Direct",
+      path: "/BrgyCertification2Direct",
       element: <BrgyCertification2Direct />,
     },
     {
-      path: "transactions/BrgyCertification3Direct",
+      path: "/BrgyCertification3Direct",
       element: <BrgyCertification3Direct />,
     },
     {
-      path: "transactions/PaihawBaboyDirect",
+      path: "/PaihawBaboyDirect",
       element: <PaihawBaboyDirect />,
     },
     {
-      path: "transactions/DeathCertificateDirect",
-<<<<<<< Updated upstream
+      path: "/DeathCertificateDirect",
       element: <DeathCertificateDirect/>,
     },
     {
-      path: "transactions/MinorVaccinationDirect",
+      path: "/MinorVaccinationDirect",
       element: <MinorVaccinationDirect/>
-=======
-      element: <DeathCertificateDirect />,
+
     },
     {
-      path: "transactions/PhilSysDirect",
+      path: "/PhilSysDirect",
       element: <PhilSysDirect />,
->>>>>>> Stashed changes
+    },
+    {
+      path: "/SoloParentDirect",
+      element: <SoloParentDirect/>,
     }
-
   ];
 
   return (

@@ -1,14 +1,15 @@
-import { Container, NativeSelect, createStyles, Button } from "@mantine/core";
+import { Container, NativeSelect, createStyles, Button, Text } from "@mantine/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux"; 
 
 const useStyles = createStyles((theme) => ({
   formcontainer: {
-    width: "35vw",
-    height: "auto",
+    width: "100%",
+    height: "100vh",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   group: {
@@ -21,19 +22,26 @@ const useStyles = createStyles((theme) => ({
     fontFamily: "Bold",
   },
   textinputs: {
-    width: "80%",
+    marginTop: '5rem',
+    width: 400,
     padding: `${theme.spacing.sm}px`,
   },
   button: {
     width: "110px",
     cursor: "pointer",
   },
+  maintitle: {
+    alignSelf: "center",
+    fontSize: 32,
+    marginTop: 24,
+  },
 }));
 
-const DirectAccess = () => {
+const CreateDocument = () => {
   const [DirectAccessDocument, setDirectAccessDocument] =
     useState("4P'sTransfery");
   const { classes } = useStyles();
+  const { singlepersondata } = useSelector(state=>state.facerecog)
   const documentsdata = [
     "4P'sTransfery",
     "BaligyaBaboy",
@@ -72,6 +80,9 @@ const DirectAccess = () => {
 
   return (
     <Container fluid="true" className={classes.formcontainer}>
+      <Text className={classes.maintitle}>
+        Create Document for {singlepersondata.fullname}
+      </Text>
       <NativeSelect
         className={classes.textinputs}
         data={documentsdata}
@@ -83,71 +94,72 @@ const DirectAccess = () => {
       <Link
         to={
           DirectAccessDocument === "4P'sTransfery"
-            ? "/4PsTransferyDirect"
+            ? "/4PsTransfery"
             : DirectAccessDocument === "BrgyAcceptance"
-            ? "/BrgyAcceptanceDirect"
+            ? "/BrgyAcceptance"
             : DirectAccessDocument === "BrgyAcceptance2"
-            ? "/BrgyAcceptance2Direct"
+            ? "/BrgyAcceptance2"
             : DirectAccessDocument === "BusinessClosure"
-            ? "/BusinessClosureDirect"
+            ? "/BusinessClosure"
             : DirectAccessDocument === "BusinessClosurePSA"
-            ? "/BusinessClosurePSADirect"
+            ? "/BusinessClosurePSA"
             : DirectAccessDocument === "BurialAssistanceRelatives"
-            ? "/BurialAssistanceRelativesDirect"
+            ? "/BurialAssistanceRelatives"
             : DirectAccessDocument === "BuildingPermit"
-            ? "/BuildingPermitDirect"
+            ? "/BuildingPermit"
             : DirectAccessDocument === "TravelCertificate"
-            ? "/TravelCertificateDirect"
+            ? "/TravelCertificate"
             : DirectAccessDocument === "Certification-Abroad"
-            ? "/CertificateAbroadDirect"
+            ? "/CertificateAbroad"
             : DirectAccessDocument === "BirPattern/Assitance"
-            ? "/CertificateBirPatternDirect"
+            ? "/CertificateBirPattern"
             : DirectAccessDocument === "WaterConnection"
-            ? "/CertificateWaterConnectionDirect"
+            ? "/CertificateWaterConnection"
             : DirectAccessDocument === "Certification-Stranded"
-            ? "/CertificateStrandedDirect"
+            ? "/CertificateStranded"
             : DirectAccessDocument === "JobSeeker"
-            ? "/JobSeekerDirect"
+            ? "/JobSeeker"
             : DirectAccessDocument === "Clearance"
-            ? "/ClearanceDirect"
+            ? "/Clearance"
             : DirectAccessDocument === "WaterConnectionDiscount"
-            ? "/CertificateWaterConnectionDiscountDirect"
+            ? "/CertificateWaterConnectionDiscount"
             : DirectAccessDocument === "LowIncome"
-            ? "/CertificationLowIncomeDirect"
+            ? "/CertificationLowIncome"
             : DirectAccessDocument === "PhilHealth"
-            ? "/PhilHealthDirect"
+            ? "/PhilHealth"
             : DirectAccessDocument === "LowIncomeSubsidized"
-            ? "/LowIncomeSubsidizedDirect"
+            ? "/LowIncomeSubsidized"
             : DirectAccessDocument === "CHEDScholar"
-            ? "/ChedScholarDirect"
+            ? "/ChedScholar"
             : DirectAccessDocument === "BrgyCertification"
-            ? "/BrgyCertificationDirect"
+            ? "/BrgyCertification"
             : DirectAccessDocument === "Livelihood"
-            ? "/LivelihoodDirect"
+            ? "/Livelihood"
             : DirectAccessDocument === "Certification-Pabahay"
-            ? "/CertificationPabahayDirect"
+            ? "/CertificationPabahay"
             : DirectAccessDocument === "ElectricConnection"
-            ? "/ElectricConnectionDirect"
+            ? "/ElectricConnection"
             : DirectAccessDocument === "GoodMoral"
-            ? "/GoodMoralDirect"
+            ? "/GoodMoral"
             : DirectAccessDocument === "CaapAccessPass"
-            ? "/CaapAccessPassDirect"
+            ? "/CaapAccessPass"
             : DirectAccessDocument === "BaligyaBaboy"
-            ? "/BaligyaBaboyDirect"
+            ? "/BaligyaBaboy"
             : DirectAccessDocument === "BrgyCertification2"
-            ? "/BrgyCertification2Direct"
+            ? "/BrgyCertification2"
             : DirectAccessDocument === "BrgyCertification3"
-            ? "/BrgyCertification3Direct"
+            ? "/BrgyCertification3"
             : DirectAccessDocument === "PaihawBaboy"
-            ? "/PaihawBaboyDirect"
+            ? "/PaihawBaboy"
             : DirectAccessDocument === "DeathCertificate"
-            ? "/DeathCertificateDirect"
+            ? "/DeathCertificate"
             : DirectAccessDocument === "MinorVaccination"
-            ? "/MinorVaccinationDirect"
+            ? "/MinorVaccination"
             : DirectAccessDocument === "PhilSys-Step-2"
-            ? "/PhilSysDirect"
+            ? "/PhilSys"
             : DirectAccessDocument === "SoloParent"
-            ? "/SoloParentDirect" : "N/A"
+            ? "/SoloParent"
+            : "N/A"
         }
       >
         <Button variant="filled" size="sm" className={classes.button}>
@@ -158,4 +170,4 @@ const DirectAccess = () => {
   );
 };
 
-export default DirectAccess;
+export default CreateDocument;

@@ -159,8 +159,6 @@ const HeaderContainer = () => {
           <Menu2 size={20} strokeWidth={2} />
         </ActionIcon>
         <Logo />
-        {/* 
-        <SearchContainer classes={classes} /> */}
       </Group>
       <Group>
         <ColorScheme />

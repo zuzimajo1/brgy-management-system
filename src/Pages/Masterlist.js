@@ -26,7 +26,13 @@ import {
 } from "../config/dummyData";
 
 import DataTable from "react-data-table-component";
-import { ArrowNarrowDown, Edit, Eye, Trash } from "tabler-icons-react";
+import {
+  ArrowNarrowDown,
+  Edit,
+  Eye,
+  Trash,
+  FileDescription,
+} from "tabler-icons-react";
 import { showNotification } from "@mantine/notifications";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -42,6 +48,9 @@ import {
   selection,
   housestatus,
 } from "../Components/Data";
+
+import { CreateDocument } from "../redux/FaceRecognitionRedux";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -438,6 +447,22 @@ const Masterlist = ({ colorScheme }) => {
         </>
       ),
       button: true,
+    },
+    {
+      name: "Document",
+      cell: (row) => (
+        <>
+         <Link to="/createdocument">
+          <Button radius="sm" size="xs" color="green" onClick={() => dispatch(CreateDocument(row))} >
+            <FileDescription
+              size={14}
+              strokeWidth={2}
+              />
+            Create
+          </Button>
+          </Link>
+        </>
+      ),
     },
   ];
 
