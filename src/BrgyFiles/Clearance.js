@@ -280,7 +280,7 @@ const MyDocuments = ({ singleperson, ClientAge, ClientPurpose }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This clearance is issued upon the request of the
-                  above-mentioned person as required by{" "}
+                  above-mentioned person as{" "}
                   <Text>{ClientPurpose}</Text>
                 </Text>
               </View>
@@ -318,7 +318,7 @@ const DataFillOut = ({ setClientAge, setClientPurpose }) => {
         style={styles.textinputs}
         label="Clearance Purpose"
         radius="sm"
-        placeholder="ex. ASA for loan PURPOSES"
+        placeholder="ex. required/requirement to ASA for loan PURPOSES"
         onChange={(e) => setClientPurpose(e.currentTarget.value)}
       />
     </Container>

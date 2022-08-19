@@ -9,7 +9,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import { Container, TextInput, createStyles } from "@mantine/core";
+import { Container, TextInput, createStyles, Checkbox } from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
@@ -177,8 +177,10 @@ const styles = StyleSheet.create({
     fontFamily: "OpenSans",
     textTransform: "uppercase",
   },
+  checkbox:{
+    alignSelf: 'left',
+  }
 });
-
 
 Font.register({
   family: "OpenSans",
@@ -191,9 +193,10 @@ Font.register({
 
 const FourPsTransfery = () => {
   const { classes } = useStyles();
-  const singleperson = useSelector(state=>state.facerecog.singlepersondata);
+  const singleperson = useSelector((state) => state.facerecog.singlepersondata);
   const [Four4Ps, setFour4Ps] = useState("");
   const [TransferBrgy, setTransferBrgy] = useState("");
+  const [Reverse, setReverse] = useState(false);
   return (
     <Container fluid="true" className={classes.root}>
       <Text style={styles.maintitle}>4P's Transfery</Text>
@@ -204,6 +207,7 @@ const FourPsTransfery = () => {
               Four4Ps={Four4Ps}
               TransferBrgy={TransferBrgy}
               singleperson={singleperson}
+              Reverse={Reverse}
             />
           </PDFViewer>
         </Container>
@@ -211,6 +215,8 @@ const FourPsTransfery = () => {
           <DataFillOut
             setFour4Ps={setFour4Ps}
             setTransferBrgy={setTransferBrgy}
+            setReverse={setReverse}
+            Reverse={Reverse}
           />
         </Container>
       </div>
@@ -218,14 +224,14 @@ const FourPsTransfery = () => {
   );
 };
 
-const DayMoment = (n)=>{
+const DayMoment = (n) => {
   return (
     ["st", "nd", "rd"][(((((n < 0 ? -n : n) + 90) % 100) - 10) % 10) - 1] ||
     "th"
   );
-}
+};
 
-const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson }) => {
+const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson, Reverse }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -245,10 +251,10 @@ const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson }) => {
                   This is to certify that {""}
                   <Text style={styles.clientname}>
                     {`${
-                    singleperson?.firstname
-                  } ${singleperson?.middlename.slice(0, 1)}. ${
-                    singleperson?.lastname
-                  }`}
+                      singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${
+                      singleperson?.lastname
+                    }`}
                   </Text>
                   , of legal age,{" "}
                   <Text style={styles.textlowercase}>
@@ -261,9 +267,7 @@ const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson }) => {
                   Citizen is a beneficiary of PANTAWID PAMILYANG PILIPINO
                   PROGRAM (4P's) I.D NO.
                   <Text></Text>
-                  <Text>
-                    {Four4Ps || ''}
-                    </Text>.
+                  <Text>{Four4Ps || ""}</Text>.
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -271,12 +275,18 @@ const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson }) => {
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that the above-mentioned persion is
                   transferring her residency from{" "}
-                  <Text>
-                    {singleperson?.address}
-                    </Text>, Barangay Luna, Surigao
-                  City, Surigao del Norte to <Text>
-                    {TransferBrgy || ''}
-                    </Text>.
+                  {Reverse ? (
+                    <>
+                      <Text>{TransferBrgy || ""}</Text> to{" "}
+                      <Text>{singleperson?.address}</Text>, Barangay Luna, Surigao City, Surigao Del Norte.
+                    </>
+                  ) : (
+                    <>
+                      <Text>{singleperson?.address}</Text>, Barangay Luna,
+                      Surigao City, Surigao del Norte to{" "}
+                      <Text>{TransferBrgy || ""}</Text>.
+                    </>
+                  )}
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -311,9 +321,15 @@ const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson }) => {
   );
 };
 
-const DataFillOut = ({ setFour4Ps, setTransferBrgy }) => {
+const DataFillOut = ({ setFour4Ps, setTransferBrgy, Reverse, setReverse }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
+      <Checkbox
+        style={styles.checkbox}
+        label="Please check to reverse"
+        checked={Reverse}
+        onChange={(e) => setReverse(e.target.checked)}
+      />
       <TextInput
         style={styles.textinputs}
         label="4P's I.D NO."
@@ -323,7 +339,7 @@ const DataFillOut = ({ setFour4Ps, setTransferBrgy }) => {
       />
       <TextInput
         style={styles.textinputs}
-        label="Transfer Address"
+        label="From/To Address"
         radius="sm"
         placeholder="ex. Barangay Cagdianao, Claver, Surigao Del Norte"
         onChange={(e) => setTransferBrgy(e.target.value)}

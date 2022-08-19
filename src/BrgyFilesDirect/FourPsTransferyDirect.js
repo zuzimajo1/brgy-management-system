@@ -9,7 +9,7 @@ import {
   Font,
 } from "@react-pdf/renderer";
 import date from "date-and-time";
-import { Container, TextInput, createStyles } from "@mantine/core";
+import { Container, TextInput, createStyles, Checkbox } from "@mantine/core";
 import OpenSansRegular from "../fonts/OpenSans-Regular.ttf";
 import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
@@ -197,6 +197,7 @@ const FourPsTransferyDirect = () => {
   const [ClientCivilStatus, setClientCivilStatus] = useState("");
   const [ClientCitizenship, setClientCitizenship] = useState("");
   const [ClientAddress, setClientAddress] = useState("");
+   const [Reverse, setReverse] = useState(false);
 
   return (
     <Container fluid="true" className={classes.root}>
@@ -212,6 +213,7 @@ const FourPsTransferyDirect = () => {
               ClientCivilStatus={ClientCivilStatus}
               ClientCitizenship={ClientCitizenship}
               ClientAddress={ClientAddress}
+              Reverse={Reverse}
             />
           </PDFViewer>
         </Container>
@@ -223,6 +225,8 @@ const FourPsTransferyDirect = () => {
             setClientCivilStatus={setClientCivilStatus}
             setClientCitizenship={setClientCitizenship}
             setClientAddress={setClientAddress}
+            Reverse={Reverse}
+            setReverse={setReverse}
           />
         </Container>
       </div>
@@ -245,6 +249,7 @@ const MyDocuments = ({
   ClientCivilStatus,
   ClientCitizenship,
   ClientAddress,
+  Reverse,
 }) => {
   const now = new Date();
   const day = date.format(now, "D");
@@ -278,9 +283,19 @@ const MyDocuments = ({
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is also to certify that the above-mentioned persion is
-                  transferring her residency from <Text>{ClientAddress}</Text>,
-                  Barangay Luna, Surigao City, Surigao del Norte to{" "}
-                  <Text>{TransferBrgy || ""}</Text>.
+                  transferring her residency from{" "}
+                  {Reverse ? (
+                    <>
+                      <Text>{TransferBrgy || ""}</Text> to{" "}
+                      <Text>{ClientAddress}</Text>, Barangay Luna, Surigao City,
+                      Surigao Del Norte.
+                    </>
+                  ) : (
+                    <>
+                      <Text>{ClientAddress}</Text>, Barangay Luna, Surigao City,
+                      Surigao del Norte to <Text>{TransferBrgy || ""}</Text>.
+                    </>
+                  )}
                 </Text>
               </View>
               <View style={styles.marginTopContainer}>
@@ -322,9 +337,17 @@ const DataFillOut = ({
   setClientCitizenship,
   setClientCivilStatus,
   setClientAddress,
+  Reverse,
+  setReverse,
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
+      <Checkbox
+        style={styles.checkbox}
+        label="Please check to reverse"
+        checked={Reverse}
+        onChange={(e) => setReverse(e.target.checked)}
+      />
       <TextInput
         style={styles.textinputs}
         label="Name"
@@ -348,7 +371,7 @@ const DataFillOut = ({
       />
       <TextInput
         style={styles.textinputs}
-        label="Address"
+        label="From/To Address"
         radius="sm"
         placeholder="ex. Purok 1, Payawan 2"
         onChange={(e) => setClientAddress(e.target.value)}
@@ -362,7 +385,7 @@ const DataFillOut = ({
       />
       <TextInput
         style={styles.textinputs}
-        label="Transfer Address"
+        label="From/To Address"
         radius="sm"
         placeholder="ex. Barangay Cagdianao, Claver, Surigao Del Norte"
         onChange={(e) => setTransferBrgy(e.target.value)}

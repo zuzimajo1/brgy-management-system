@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
   leftcontainer: {
     width: 170,
     paddingTop: 100,
+    position: "relative",
   },
   rightcontainer: {
     width: 600,
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
     height: 105,
   },
   marginBottomContainer: {
-    marginTop: 12,
+    marginTop: 28,
     display: "flex",
     flexDirection: "column",
     textAlign: "left",
@@ -273,6 +274,14 @@ const styles = StyleSheet.create({
   buttoncapture: {
     marginTop: 12,
   },
+  ornumber: {
+    bottom: 35,
+    left: 20,
+    position: "absolute",
+    fontSize: 8,
+    fontFamily: "OpenSans",
+  },
+
 });
 
 Font.register({
@@ -295,6 +304,7 @@ const PhilSysDirect = () => {
   const [ClientAddress, setClientAddress] = useState("");
   const [CaptureImage, setCaptureImage] = useState("");
   const [ClientPurpose, setClientPurpose] = useState("");
+  const [ORNo, setORNo] = useState("");
   const webcamRef = useRef(null);
     
 
@@ -321,6 +331,7 @@ const PhilSysDirect = () => {
               ClientAddress={ClientAddress}
               CaptureImage={CaptureImage}
               ClientPurpose={ClientPurpose}
+              ORNo={ORNo}
             />
           </PDFViewer>
         </Container>
@@ -338,6 +349,7 @@ const PhilSysDirect = () => {
             webcamRef={webcamRef}
             CaptureImage={CaptureImage}
             setCaptureImage={setCaptureImage}
+            setORNo={setORNo}
           />
         </Container>
       </div>
@@ -363,6 +375,7 @@ const MyDocuments = ({
   ClientPlaceOfBirth,
   CaptureImage,
   ClientPurpose,
+  ORNo,
 }) => {
   const now = new Date();
   const day = date.format(now, "D");
@@ -371,7 +384,11 @@ const MyDocuments = ({
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
         <View style={styles.row}>
-          <View style={styles.leftcontainer}></View>
+          <View style={styles.leftcontainer}>
+            <Text style={styles.ornumber}>
+              OR NO.:       <Text>{ORNo}</Text>
+            </Text>
+          </View>
           <View style={styles.rightcontainer}>
             <View style={styles.mainheader}></View>
             <Text style={styles.title}>BARANGAY CERTIFICATION</Text>
@@ -481,6 +498,7 @@ const DataFillOut = ({
   CaptureImage,
   capture,
   setCaptureImage,
+  setORNo,
 }) => {
 
     const {classes} = useStyles();
@@ -563,6 +581,13 @@ const DataFillOut = ({
         radius="sm"
         placeholder="ex. PHILSYS STEP 2 REGISTRATION"
         onChange={(e) => setClientPurpose(e.target.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="OR Number"
+        radius="sm"
+        placeholder="ex. "
+        onChange={(e) => setORNo(e.target.value)}
       />
     </Container>
   );

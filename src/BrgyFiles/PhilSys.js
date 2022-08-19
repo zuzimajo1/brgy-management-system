@@ -19,7 +19,6 @@ import Webcam from "react-webcam";
 import { Capture, ArrowBack } from "tabler-icons-react";
 import { useSelector } from "react-redux";
 
-
 const useStyles = createStyles((theme) => ({
   root: {
     width: "100%",
@@ -144,6 +143,7 @@ const styles = StyleSheet.create({
   leftcontainer: {
     width: 170,
     paddingTop: 100,
+    position: "relative",
   },
   rightcontainer: {
     width: 600,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     height: 105,
   },
   marginBottomContainer: {
-    marginTop: 12,
+    marginTop: 28,
     display: "flex",
     flexDirection: "column",
     textAlign: "left",
@@ -274,6 +274,13 @@ const styles = StyleSheet.create({
   buttoncapture: {
     marginTop: 12,
   },
+  ornumber: {
+    bottom: 35,
+    left: 20,
+    position: "absolute",
+    fontSize: 8,
+    fontFamily: "OpenSans",
+  },
 });
 
 Font.register({
@@ -285,22 +292,19 @@ Font.register({
   ],
 });
 
-
 const PhilSys = () => {
   const { classes } = useStyles();
   const [CaptureImage, setCaptureImage] = useState("");
   const [ClientPurpose, setClientPurpose] = useState("");
   const webcamRef = useRef(null);
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
-    
+    const [ORNo, setORNo] = useState("");
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current.getScreenshot();
 
     setCaptureImage(imageSrc);
   }, [webcamRef]);
-
-  
 
   return (
     <Container fluid="true" className={classes.root}>
@@ -312,6 +316,7 @@ const PhilSys = () => {
               singleperson={singleperson}
               CaptureImage={CaptureImage}
               ClientPurpose={ClientPurpose}
+              ORNo={ORNo}
             />
           </PDFViewer>
         </Container>
@@ -323,13 +328,13 @@ const PhilSys = () => {
             webcamRef={webcamRef}
             CaptureImage={CaptureImage}
             setCaptureImage={setCaptureImage}
+            setORNo={setORNo}
           />
         </Container>
       </div>
     </Container>
   );
 };
-
 
 const DayMoment = (n) => {
   return (
@@ -338,12 +343,7 @@ const DayMoment = (n) => {
   );
 };
 
-
-const MyDocuments = ({
-  singleperson,
-  CaptureImage,
-  ClientPurpose,
-}) => {
+const MyDocuments = ({ singleperson, CaptureImage, ClientPurpose, ORNo }) => {
   const now = new Date();
   const day = date.format(now, "D");
   const MonthAndDate = date.format(now, "MMMM, YYYY");
@@ -351,7 +351,11 @@ const MyDocuments = ({
     <Document>
       <Page size="LETTER" wrap style={styles.body}>
         <View style={styles.row}>
-          <View style={styles.leftcontainer}></View>
+          <View style={styles.leftcontainer}>
+            <Text style={styles.ornumber}>
+              OR NO.:       <Text>{ORNo}</Text>
+            </Text>
+          </View>
           <View style={styles.rightcontainer}>
             <View style={styles.mainheader}></View>
             <Text style={styles.title}>BARANGAY CERTIFICATION</Text>
@@ -456,8 +460,6 @@ const MyDocuments = ({
   );
 };
 
-
-
 const DataFillOut = ({
   setClientPurpose,
   Webcam,
@@ -465,8 +467,9 @@ const DataFillOut = ({
   CaptureImage,
   capture,
   setCaptureImage,
+  setORNo,
 }) => {
-  const {classes} = useStyles();
+  const { classes } = useStyles();
   return (
     <Container fluid="true" style={styles.formcontainer}>
       {CaptureImage ? (
@@ -503,6 +506,13 @@ const DataFillOut = ({
         radius="sm"
         placeholder="ex. PHILSYS STEP 2 REGISTRATION"
         onChange={(e) => setClientPurpose(e.target.value)}
+      />
+      <TextInput
+        style={styles.textinputs}
+        label="OR Number"
+        radius="sm"
+        placeholder="ex. "
+        onChange={(e) => setORNo(e.target.value)}
       />
     </Container>
   );
