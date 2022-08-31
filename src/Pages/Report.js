@@ -135,7 +135,7 @@ function downloadCSV(array) {
   let csv = convertArrayOfObjectsToCSV(array);
   if (csv == null) return;
 
-  const filename = 'export.csv';
+  const filename = `brgy-transaction-records-${dayjs(new Date()).format("MM/DD/YYYY")}.csv`;
 
   if (!csv.match(/^data:text\/csv/i)) {
     csv = `data:text/csv;charset=utf-8,${csv}`;
@@ -199,12 +199,12 @@ const Report = ({ colorScheme }) => {
 
   const filteredItems = Logs?.filter((item) => {
     if (filterByDate) {
-      return dayjs(item.createdAt).format("MMM D, YYYY") && dayjs(item.createdAt).format("MMM D, YYYY").toLowerCase().includes(dayjs(filterByDate).format("MMM D, YYYY").toLowerCase())
+      return dayjs(item.createdAt).format("MMM D, YYYY").toLowerCase().includes(dayjs(filterByDate).format("MMM D, YYYY").toLowerCase())
     } else if (filterByYear) {
       if (filterByMonth !== "NA" && dayjs(item.createdAt).format("YYYY").toLowerCase() === filterByYear) {
-        return dayjs(item.createdAt).format("MMM") && dayjs(item.createdAt).format("MMM").toLowerCase().includes(filterByMonth.toLowerCase())
+        return dayjs(item.createdAt).format("MMM").toLowerCase().includes(filterByMonth.toLowerCase())
       } else {
-        return dayjs(item.createdAt).format("YYYY") && dayjs(item.createdAt).format("YYYY").toLowerCase().includes(dayjs(filterByYear).format("YYYY").toLowerCase())
+        return dayjs(item.createdAt).format("YYYY").toLowerCase().includes(dayjs(filterByYear).format("YYYY").toLowerCase())
       }
     } else if (filterByMonth === "NA") {
       return item

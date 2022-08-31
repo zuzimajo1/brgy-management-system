@@ -72,45 +72,77 @@ export const KagawadNames = [
 
 export const Logs = [
   {
-    client: "Dandy",
+    client: "Janice Lapay",
     documentType: "Certification Abroad",
     kagawadName: "Hon. Francis Leo D. Masuhay",
     clerkName: "admin",
     price: 120,
-    createdAt: "2022-08-08 06:42:09"
+    createdAt: "2022-09-01 10:51:09"
   },
   {
-    client: "Dandy",
-    documentType: "Certification Abroad",
+    client: "Aicee Sal Amper",
+    documentType: "Barangay Certification",
     kagawadName: "Hon. Francis Leo D. Masuhay",
     clerkName: "admin",
     price: 120,
-    createdAt: "2022-08-08 06:42:09"
+    createdAt: "2022-08-31 09:31:31"
   },
   {
-    client: "Dandy",
-    documentType: "Certification Abroad",
+    client: "Bridgette Mae Jazon Senyahan",
+    documentType: "Minor Vaccination",
     kagawadName: "Hon. Francis Leo D. Masuhay",
     clerkName: "admin",
     price: 120,
-    createdAt: "2022-08-08 06:42:09"
+    createdAt: "2022-08-31 14:14:09"
   },
   {
-    client: "Zuzim",
+    client: "Charlotte Española Siena",
     documentType: "PhilSys Step 2",
     kagawadName: "Hon. Socorro E. Silvosa",
     clerkName: "admin",
     price: 150,
-    createdAt: "2022-03-08 06:42:09"
+    createdAt: "2022-09-01 12:42:49"
   },
   {
-    client: "Frank",
+    client: "Edna Quevedo Almeda",
     documentType: "SOLO PARENT",
     kagawadName: "Hon. Shemaryl A. Panerio",
     clerkName: "admin",
     price: 170,
-    createdAt: "2023-07-08 06:42:09"
-  }
+    createdAt: "2022-08-31 06:42:40"
+  },
+  {
+    client: "Hartzell C. Capilitan",
+    documentType: "PhilSys Step 2",
+    kagawadName: "Hon. Socorro E. Silvosa",
+    clerkName: "admin",
+    price: 150,
+    createdAt: "2022-09-01 12:42:26"
+  },
+  {
+    client: "Jerlou Banzon Sal",
+    documentType: "SOLO PARENT",
+    kagawadName: "Hon. Shemaryl A. Panerio",
+    clerkName: "admin",
+    price: 170,
+    createdAt: "2022-09-01 01:32:18"
+  },
+  {
+    client: "Jessavelle Sencio Baret",
+    documentType: "PhilSys Step 2",
+    kagawadName: "Hon. Socorro E. Silvosa",
+    clerkName: "admin",
+    price: 150,
+    createdAt: "2022-09-01 10:58:19"
+  },
+  {
+    client: "Janice Lapay",
+    documentType: "Electric Connection",
+    kagawadName: "Hon. Shemaryl A. Panerio",
+    clerkName: "admin",
+    price: 170,
+    createdAt: "2022-08-31 11:51:51"
+  },
 ]
 
-export const months = ["NA", "Jan", "Feb", "March", "Apr", "May", "Jun ", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+export const months = ["NA", "Jan", "Feb", "March", "Apr", "May", "Jun ", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
