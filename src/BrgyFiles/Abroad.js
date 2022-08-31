@@ -251,11 +251,9 @@ const MyDocuments = ({ OscaIDNo, LocationFrom, singleperson, ClientAge }) => {
                 <Text style={styles.textfirstparag}>
                   <Text style={styles.marginspacing}>...............</Text>
                   This is to certify that,{" "}
-                  <Text style={styles.clientname}>{`${
-                    singleperson?.firstname
-                  } ${singleperson?.middlename.slice(0, 1)}. ${
-                    singleperson?.lastname
-                  }`}</Text>
+                  <Text style={styles.clientname}>{`${singleperson?.firstname
+                    } ${singleperson?.middlename.slice(0, 1)}. ${singleperson?.lastname
+                    }`}</Text>
                   , <Text>{ClientAge}</Text> years of age,{" "}
                   <Text style={styles.textlowercase}>{singleperson?.sex}</Text>,{" "}
                   <Text style={styles.textlowercase}>
@@ -310,7 +308,7 @@ const MyDocuments = ({ OscaIDNo, LocationFrom, singleperson, ClientAge }) => {
   );
 };
 
-const DataFillOut = ({ setOscaIDNo, setLocationFrom,setClientAge }) => {
+const DataFillOut = ({ setOscaIDNo, setLocationFrom, setClientAge }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput

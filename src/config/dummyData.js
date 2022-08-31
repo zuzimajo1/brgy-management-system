@@ -60,7 +60,39 @@ export const Toril = [
 ];
 
 export const KagawadNames = [
-  "kagawad1",
-  "kagawad2",
+  "Hon. Francis Leo D. Masuhay",
+  "Hon. Alberto M, Arriba",
+  "Hon. Socorro E. Silvosa",
+  "Hon. Roberto O. Abucayan",
+  "Hon. Alfredo B. Dacuron",
+  "Hon. Carlos O. Espina",
+  "Hon. Ariel L. Sitoy",
+  "Hon. Shemaryl A. Panerio",
 ]
 
+export const Logs = [
+  {
+    client: "Dandy",
+    documentType: "Certification Abroad",
+    kagawadName: "Hon. Francis Leo D. Masuhay",
+    clerkName: "admin",
+    price: 120,
+    createdAt: "2022-08-08 06:42:09"
+  },
+  {
+    client: "Zuzim",
+    documentType: "PhilSys Step 2",
+    kagawadName: "Hon. Socorro E. Silvosa",
+    clerkName: "admin",
+    price: 150,
+    createdAt: "2022-07-08 06:42:09"
+  },
+  {
+    client: "Frank",
+    documentType: "SOLO PARENT",
+    kagawadName: "Hon. Shemaryl A. Panerio",
+    clerkName: "admin",
+    price: 170,
+    createdAt: "2023-08-08 06:42:09"
+  }
+]

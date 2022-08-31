@@ -86,8 +86,8 @@ import {
 } from "./BrgyFilesDirect/indexDirect";
 
 function App() {
-  const User = useSelector((state) => state.user.loginStatus);
-  // const [User, setUser] = useState(true);
+  // const User = useSelector((state) => state.user.loginStatus);
+  const [User, setUser] = useState(true);
   const { width } = useViewportSize();
   const show = useSelector((state) => state.navbar.show);
 
@@ -156,11 +156,11 @@ function App() {
     },
     {
       path: "report",
-      element: <Report/>,
+      element: <Report colorScheme={colorScheme} />,
     },
     {
       path: "/createdocument",
-      element: <CreateDocument/>
+      element: <CreateDocument />
     },
     {
       path: "/4PsTransfery",
@@ -256,43 +256,43 @@ function App() {
     },
     {
       path: "/GoodMoral",
-      element: <GoodMoral/>
+      element: <GoodMoral />
     },
     {
       path: "/CaapAccessPass",
-      element: <CaapAccessPass/>
+      element: <CaapAccessPass />
     },
     {
       path: "/BaligyaBaboy",
-      element: <BaligyaBaboy/>
+      element: <BaligyaBaboy />
     },
     {
       path: "/BrgyCertification2",
-      element: <BrgyCertification2/>
+      element: <BrgyCertification2 />
     },
     {
       path: "/BrgyCertification3",
-      element: <BrgyCertification3/>
+      element: <BrgyCertification3 />
     },
     {
       path: "/PaihawBaboy",
-      element: <PaihawBaboy/>,
+      element: <PaihawBaboy />,
     },
     {
       path: "/DeathCertificate",
-      element: <DeathCertificate/>,
+      element: <DeathCertificate />,
     },
     {
       path: "/MinorVaccination",
-      element: <MinorVaccination/>
+      element: <MinorVaccination />
     },
     {
       path: "/PhilSys",
-      element: <PhilSys/>
+      element: <PhilSys />
     },
     {
       path: "/SoloParent",
-      element: <SoloParent/>
+      element: <SoloParent />
     },
 
 
@@ -415,11 +415,11 @@ function App() {
     },
     {
       path: "/DeathCertificateDirect",
-      element: <DeathCertificateDirect/>,
+      element: <DeathCertificateDirect />,
     },
     {
       path: "/MinorVaccinationDirect",
-      element: <MinorVaccinationDirect/>
+      element: <MinorVaccinationDirect />
 
     },
     {
@@ -428,7 +428,7 @@ function App() {
     },
     {
       path: "/SoloParentDirect",
-      element: <SoloParentDirect/>,
+      element: <SoloParentDirect />,
     }
   ];
 

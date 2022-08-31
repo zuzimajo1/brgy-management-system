@@ -15,7 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
-import { AdditionalInputs } from "../Components/AdditionInputs";
+import { AdditionInputs } from "../Components";
 
 
 const useStyles = createStyles((theme) => ({
@@ -227,6 +227,7 @@ const AbroadDirect = () => {
         </Container>
         <Container style={styles.containerwrapper}>
           <DataFillOut
+            ClientName={ClientName}
             setOscaIDNo={setOscaIDNo}
             setLocationFrom={setLocationFrom}
             setLocationTo={setLocationTo}
@@ -337,6 +338,7 @@ const DataFillOut = ({
   setClientCivilStatus,
   setClientSex,
   setClientAddress,
+  ClientName
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
@@ -396,7 +398,7 @@ const DataFillOut = ({
         placeholder="ex Brgy. Poblacion, San Jose, Dinagat Province"
         onChange={(e) => setLocationFrom(e.target.value)}
       />
-      <AdditionalInputs/>
+      <AdditionInputs issuer={ClientName} documentName={"Certification Abroad"} />
     </Container>
   );
 };

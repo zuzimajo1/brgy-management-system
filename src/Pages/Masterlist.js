@@ -11,8 +11,7 @@ import {
   Image,
   NativeSelect,
   Text,
-  Container,
-  Loader    
+  Loader
 } from "@mantine/core";
 import {
   Bacud,
@@ -171,7 +170,7 @@ const Masterlist = ({ colorScheme }) => {
   const [selectedResidentUpdate, setselectedResidentUpdate] = useState(null);
 
   //Data for Update State
-  const [updateAddress, setupdateAddress]= useState("");
+  const [updateAddress, setupdateAddress] = useState("");
   const [updateBirthplace, setupdateBirthplace] = useState("");
   const [updateBirthdate, setupdateBirthdate] = useState("");
   const [updateSex, setupdateSex] = useState("");
@@ -185,7 +184,7 @@ const Masterlist = ({ colorScheme }) => {
   const [updateregistervoter, setupdateregistervoter] = useState("");
   const [updateoccupancystatus, setupdateoccupancystatus] = useState("");
   const [UpdateStatus, setUpdateStatus] = useState(false);
-  
+
   // Handlers
   const handleUserViewButtonClick = (resident) => {
     setViewUserOpened(true);
@@ -206,18 +205,18 @@ const Masterlist = ({ colorScheme }) => {
   };
 
   const handleUserDelete = () => {
-  DeleteDataResident(
-    dispatch,
-    residentIdToDelete,
-    showNotification,
-    setDeleteUserModal
-  )
-};
+    DeleteDataResident(
+      dispatch,
+      residentIdToDelete,
+      showNotification,
+      setDeleteUserModal
+    )
+  };
 
 
   //Update Function
 
-  const handleUserUpdate = ()=>{
+  const handleUserUpdate = () => {
     setUpdateStatus(true);
 
     const updatedValues = {
@@ -235,12 +234,12 @@ const Masterlist = ({ colorScheme }) => {
       parentsname: updateParentsname || selectedResidentUpdate?.parentsname,
       siblingsname: updateSiblingsname || selectedResidentUpdate?.siblingsname,
       citizenship: updateCitizenship || selectedResidentUpdate?.citizenship,
-      occupation : updateOccupation || selectedResidentUpdate?.occupation,
-      PWD : updatePWD === "Yes" ? true : false,
-      fourpsmember : updatefourpsmember === "Yes" ? true : false,
-      registervoter : updateregistervoter === "Yes" ? true : false,
+      occupation: updateOccupation || selectedResidentUpdate?.occupation,
+      PWD: updatePWD === "Yes" ? true : false,
+      fourpsmember: updatefourpsmember === "Yes" ? true : false,
+      registervoter: updateregistervoter === "Yes" ? true : false,
       occupancystatus: updateoccupancystatus || selectedResidentUpdate?.occupancystatus,
-    };  
+    };
 
 
     UpdateDataResident(
@@ -452,14 +451,14 @@ const Masterlist = ({ colorScheme }) => {
       name: "Document",
       cell: (row) => (
         <>
-         <Link to="/createdocument">
-          <Button radius="sm" size="xs" color="green" onClick={() => dispatch(CreateDocument(row))} >
-            <FileDescription
-              size={14}
-              strokeWidth={2}
+          <Link to="/createdocument">
+            <Button radius="sm" size="xs" color="green" onClick={() => dispatch(CreateDocument(row))} >
+              <FileDescription
+                size={14}
+                strokeWidth={2}
               />
-            Create
-          </Button>
+              Create
+            </Button>
           </Link>
         </>
       ),
@@ -566,22 +565,22 @@ const Masterlist = ({ colorScheme }) => {
               filterBySitio === "PAYAWAN 1"
                 ? Payawan1
                 : filterBySitio === "PAYAWAN 2"
-                ? Payawan2
-                : filterBySitio === "CENTRAL POBLACION"
-                ? CentralPoblacion
-                : filterBySitio === "BACUD"
-                ? Bacud
-                : filterBySitio === "SAN VICENTE"
-                ? SanVicente
-                : filterBySitio === "LOOC"
-                ? Looc
-                : filterBySitio === "BERNADETTE"
-                ? Bernadette
-                : filterBySitio === "TORIL"
-                ? Toril
-                : filterBySitio === "ALL"
-                ? ["Select a Sitio"]
-                : "N/A"
+                  ? Payawan2
+                  : filterBySitio === "CENTRAL POBLACION"
+                    ? CentralPoblacion
+                    : filterBySitio === "BACUD"
+                      ? Bacud
+                      : filterBySitio === "SAN VICENTE"
+                        ? SanVicente
+                        : filterBySitio === "LOOC"
+                          ? Looc
+                          : filterBySitio === "BERNADETTE"
+                            ? Bernadette
+                            : filterBySitio === "TORIL"
+                              ? Toril
+                              : filterBySitio === "ALL"
+                                ? ["Select a Sitio"]
+                                : "N/A"
             }
             placeholder="Pick one"
             label="Select by Purok"
@@ -643,9 +642,8 @@ const Masterlist = ({ colorScheme }) => {
             {selectedResidentData?.firstname}{" "}
             {`${selectedResidentData?.middlename?.slice(0, 1)}.`}{" "}
             {selectedResidentData?.lastname}{" "}
-            {`${
-              selectedResidentData?.suffix ? selectedResidentData?.suffix : ""
-            }`}
+            {`${selectedResidentData?.suffix ? selectedResidentData?.suffix : ""
+              }`}
           </Text>
         </div>
         <div
