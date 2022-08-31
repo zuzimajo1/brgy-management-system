@@ -15,6 +15,8 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionalInputs } from "../Components/AdditionInputs";
+
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -394,6 +396,7 @@ const DataFillOut = ({
         placeholder="ex Brgy. Poblacion, San Jose, Dinagat Province"
         onChange={(e) => setLocationFrom(e.target.value)}
       />
+      <AdditionalInputs/>
     </Container>
   );
 };

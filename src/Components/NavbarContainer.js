@@ -207,8 +207,23 @@ const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, Sho
               <Folder size={19} />
               <Text className={classes.text}>Documents</Text>
             </Navbar.Section>
+            <Navbar.Section
+              className={cx(classes.navbarsections, {
+                [classes.navbarsectionsfocused]: Active === 4,
+              })}
+              onClick={() => {
+                setActive(4);
+                if (width <= 768) {
+                  dispatch(HideNavbar());
+                }
+              }}
+              component={Link}
+              to="report"
+            >
+              <Folder size={19} />
+              <Text className={classes.text}>Reports</Text>
+            </Navbar.Section>
           </Group>
-          
         </Container>
       </Navbar.Section>
     </Navbar>

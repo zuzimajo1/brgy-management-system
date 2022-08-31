@@ -1,4 +1,10 @@
-import { Container, NativeSelect, createStyles, Button } from "@mantine/core";
+import {
+  Container,
+  NativeSelect,
+  createStyles,
+  Button,
+  MultiSelect,
+} from "@mantine/core";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -31,9 +37,167 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const DirectAccess = () => {
-  const [DirectAccessDocument, setDirectAccessDocument] =
-    useState("4P'sTransfery");
+  const [DirectAccessDocument, setDirectAccessDocument] = useState([
+    {
+      value: "BrgyCertification",
+      label: "BrgyCertifcation",
+      group: "Certificatiion",
+    },
+  ]);
+
   const { classes } = useStyles();
+
+  const documentsdatas = [
+    {
+      value: "BrgyCertification",
+      label: "BrgyCertifcation",
+      group: "Certificatiion",
+    },
+    {
+      value: "Certification-Stranded",
+      label: "Certification-Stranded",
+      group: "Certificatiion",
+    },
+    {
+      value: "Clearance",
+      label: "Clearance",
+      group: "Certificatiion",
+    },
+    {
+      value: "DeathCertificate",
+      label: "DeathCertificate",
+      group: "Certificatiion",
+    },
+    {
+      value: "GoodMoral",
+      label: "GoodMoral",
+      group: "Certificatiion",
+    },
+    {
+      value: "JobSeeker",
+      label: "JobSeeker",
+      group: "Certificatiion",
+    },
+    {
+      value: "LowIncome",
+      label: "LowIncome",
+      group: "Certificatiion",
+    },
+    {
+      value: "LowIncomeSubsidized",
+      label: "LowIncomeSubsidized",
+      group: "Certificatiion",
+    },
+    {
+      value: "Livelihood",
+      label: "Livelihood",
+      group: "Certificatiion",
+    },
+    {
+      value: "SoloParent",
+      label: "SoloParent",
+      group: "Certificatiion",
+    },
+    {
+      value: "TravelCertificate",
+      label: "TravelCertificate",
+      group: "Certificatiion",
+    },
+    {
+      value: "BurialAssistanceRelatives",
+      label: "BurialAssistanceRelatives",
+      group: "Assistance",
+    },
+    {
+      value: "BaligyaBaboy",
+      label: "BaligyaBaboy",
+      group: "Request",
+    },
+    {
+      value: "Certification-Abroad",
+      label: "Certification-Abroad",
+      group: "Request",
+    },
+    {
+      value: "ElectricConnection",
+      label: "ElectricConnection",
+      group: "Request",
+    },
+    {
+      value: "WaterConnection",
+      label: "WaterConnection",
+      group: "Request",
+    },
+    {
+      value: "WaterConnectionDiscount",
+      label: "WaterConnectionDiscount",
+      group: "Request",
+    },
+    {
+      value: "BuildingPermit",
+      label: "BuildingPermit",
+      group: "Request",
+    },
+    {
+      value: "BusinessClosurePSA",
+      label: "BusinessClosurePSA",
+      group: "Request",
+    },
+    {
+      value: "CaapAccessPass",
+      label: "CaapAccessPass",
+      group: "Request",
+    },
+    {
+      value: "BirPattern/Assitance",
+      label: "BirPattern/Assitance",
+      group: "Request",
+    },
+    {
+      value: "BusinessClosure",
+      label: "BusinessClosure",
+      group: "Request",
+    },
+    {
+      value: "MinorVaccination",
+      label: "MinorVaccination",
+      group: "Request",
+    },
+    {
+      value: "Certification-Pabahay",
+      label: "Certification-Pabahay",
+      group: "Certificatiion",
+    },
+    {
+      value: "PhilHealth",
+      label: "PhilHealth",
+      group: "Request",
+    },
+    {
+      value: "PhilSys-Step-2",
+      label: "PhilSys-Step-2",
+      group: "Request",
+    },
+    {
+      value: "4P'sTransfery",
+      label: "4P'sTransfery",
+      group: "Transfer",
+    },
+    {
+      value: "CHEDScholar",
+      label: "CHEDScholar",
+      group: "Scholar",
+    },
+    {
+      value: "BrgyAcceptance",
+      label: "BrgyAcceptance",
+      group: "Acceptance",
+    },
+  ];
+
+
+
+
   const documentsdata = [
     "4P'sTransfery",
     "BaligyaBaboy",
@@ -69,6 +233,8 @@ const DirectAccess = () => {
     "WaterConnection",
     "WaterConnectionDiscount",
   ];
+
+  
 
   return (
     <Container fluid="true" className={classes.formcontainer}>
@@ -147,7 +313,8 @@ const DirectAccess = () => {
             : DirectAccessDocument === "PhilSys-Step-2"
             ? "/PhilSysDirect"
             : DirectAccessDocument === "SoloParent"
-            ? "/SoloParentDirect" : "N/A"
+            ? "/SoloParentDirect"
+            : "N/A"
         }
       >
         <Button variant="filled" size="sm" className={classes.button}>

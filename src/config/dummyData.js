@@ -59,4 +59,8 @@ export const Toril = [
   "PUROK 28-A",
 ];
 
+export const KagawadNames = [
+  "kagawad1",
+  "kagawad2",
+]
 

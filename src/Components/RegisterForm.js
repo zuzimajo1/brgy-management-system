@@ -394,7 +394,6 @@ const RegisterForm = () => {
           label="PWD"
           onChange={(event) => setPWD(event.currentTarget.value)}
         />
-
         <NativeSelect
           className={classes.textinputs}
           data={selection}
