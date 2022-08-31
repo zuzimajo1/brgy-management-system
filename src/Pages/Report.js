@@ -5,10 +5,13 @@ import {
   Paper,
   Button,
   Tooltip,
+  NativeSelect,
+  TextInput,
+  Title,
 } from "@mantine/core";
 import { DatePicker } from '@mantine/dates';
 import {
-  Logs,
+  Logs, months,
 } from "../config/dummyData";
 
 import DataTable from "react-data-table-component";
@@ -191,27 +194,71 @@ const Report = ({ colorScheme }) => {
   const { classes } = useStyles();
   // Filter
   const [filterByDate, setFilterByDate] = useState("");
+  const [filterByMonth, setFilterByMonth] = useState("");
+  const [filterByYear, setFilterByYear] = useState("");
 
   const filteredItems = Logs?.filter((item) => {
     if (filterByDate) {
       return dayjs(item.createdAt).format("MMM D, YYYY") && dayjs(item.createdAt).format("MMM D, YYYY").toLowerCase().includes(dayjs(filterByDate).format("MMM D, YYYY").toLowerCase())
+    } else if (filterByYear) {
+      if (filterByMonth !== "NA" && dayjs(item.createdAt).format("YYYY").toLowerCase() === filterByYear) {
+        return dayjs(item.createdAt).format("MMM") && dayjs(item.createdAt).format("MMM").toLowerCase().includes(filterByMonth.toLowerCase())
+      } else {
+        return dayjs(item.createdAt).format("YYYY") && dayjs(item.createdAt).format("YYYY").toLowerCase().includes(dayjs(filterByYear).format("YYYY").toLowerCase())
+      }
+    } else if (filterByMonth === "NA") {
+      return item
     } else {
       return item
     }
   });
 
+  const totalPayments = filteredItems.reduce((currentTotal, item) => {
+    return currentTotal += item.price
+  }, 0)
+
   return (
     <Paper className={classes.container}>
-      <Group position="left" mb="md" mt="md" className={classes.head}>
-        <Tooltip
-          label="Sort Table by Date"
-          withArrow
-          radius="md"
-          position="bottom"
-        >
-          <DatePicker placeholder="Pick date" label="Sort Date" onChange={setFilterByDate} />
-        </Tooltip>
-
+      <Group position="apart" mb="md" mt="md" className={classes.head}>
+        <Group position="left" className={classes.head}>
+          <Tooltip
+            label="Sort Table by Date"
+            withArrow
+            radius="md"
+            position="bottom"
+          >
+            <DatePicker placeholder="Pick date" label="Sort Date" onChange={setFilterByDate} />
+          </Tooltip>
+          <Tooltip
+            label="Sort Table by Months"
+            withArrow
+            radius="md"
+            position="bottom"
+          >
+            <NativeSelect
+              data={months}
+              className={classes.textinputs}
+              label="Months"
+              onChange={(event) => setFilterByMonth(event.currentTarget.value)}
+            />
+          </Tooltip>
+          <Tooltip
+            label="Sort Table by Year"
+            withArrow
+            radius="md"
+            position="bottom"
+          >
+            <TextInput
+              className={classes.textinputs}
+              label="Year"
+              name="year"
+              placeholder="2022"
+              radius="sm"
+              onChange={(e) => setFilterByYear(e.currentTarget.value)}
+            />
+          </Tooltip>
+        </Group>
+        <Title order={4}>Total Payments: ₱ {totalPayments}</Title>
       </Group>
       <DataTable
         title="Transaction Records"

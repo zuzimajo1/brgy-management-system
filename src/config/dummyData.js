@@ -80,12 +80,28 @@ export const Logs = [
     createdAt: "2022-08-08 06:42:09"
   },
   {
+    client: "Dandy",
+    documentType: "Certification Abroad",
+    kagawadName: "Hon. Francis Leo D. Masuhay",
+    clerkName: "admin",
+    price: 120,
+    createdAt: "2022-08-08 06:42:09"
+  },
+  {
+    client: "Dandy",
+    documentType: "Certification Abroad",
+    kagawadName: "Hon. Francis Leo D. Masuhay",
+    clerkName: "admin",
+    price: 120,
+    createdAt: "2022-08-08 06:42:09"
+  },
+  {
     client: "Zuzim",
     documentType: "PhilSys Step 2",
     kagawadName: "Hon. Socorro E. Silvosa",
     clerkName: "admin",
     price: 150,
-    createdAt: "2022-07-08 06:42:09"
+    createdAt: "2022-03-08 06:42:09"
   },
   {
     client: "Frank",
@@ -93,6 +109,8 @@ export const Logs = [
     kagawadName: "Hon. Shemaryl A. Panerio",
     clerkName: "admin",
     price: 170,
-    createdAt: "2023-08-08 06:42:09"
+    createdAt: "2023-07-08 06:42:09"
   }
 ]
+
+export const months = ["NA", "Jan", "Feb", "March", "Apr", "May", "Jun ", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
