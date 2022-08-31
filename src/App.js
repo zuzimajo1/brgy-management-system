@@ -11,7 +11,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { NavbarContainer, HeaderContainer, CreateDocument } from "./Components";
 import { useSelector } from "react-redux";
 import Masterlist from "./Pages/Masterlist";
-import { Auth, Events, Home, Documents } from "./Pages";
+import { Auth, Events, Home, Documents, Report } from "./Pages";
 
 import {
   Abroad,
@@ -86,8 +86,8 @@ import {
 } from "./BrgyFilesDirect/indexDirect";
 
 function App() {
-  // const User = useSelector((state) => state.user.loginStatus);
-  const [User, setUser] = useState(true);
+  const User = useSelector((state) => state.user.loginStatus);
+  // const [User, setUser] = useState(true);
   const { width } = useViewportSize();
   const show = useSelector((state) => state.navbar.show);
 
@@ -153,6 +153,10 @@ function App() {
     {
       path: "masterlist",
       element: <Masterlist colorScheme={colorScheme} />,
+    },
+    {
+      path: "report",
+      element: <Report/>,
     },
     {
       path: "/createdocument",
