@@ -1,27 +1,27 @@
+
 import React, { useState } from "react";
-import { NativeSelect, TextInput, createStyles, Button } from "@mantine/core";
+import { NativeSelect, TextInput, createStyles, Button, Divider } from "@mantine/core";
 import { KagawadNames } from "../config/dummyData";
-import {} from "@mantine/core";
 const useStyles = createStyles((theme) => ({
   textinputs: {
-    width: "100%",
+    width: "80%",
     margin: `0 ${theme.spacing.xxs}px`,
   },
   registerbutton: {
     marginTop: `${theme.spacing.lg}px`,
-    width: "100px",
   },
 }));
 
-export const AdditionalInputs = () => {
-  const [Price, setPrice] = useState("");
-  const [Kagawad, setKagawad] = useState("samplekagawad1");
+const AdditionInputs = ({ issuer, documentName }) => {
+  const [price, setPrice] = useState("");
+  const [kagawad, setKagawad] = useState("samplekagawad1");
   const { classes } = useStyles();
   const HandleButton = () => {
-    console.log("sample");
+    console.log({ issuer, documentName, price, kagawad })
   };
   return (
     <>
+      <Divider my="xs" color="red " label="PLEASE FILL THIS ONE BEFORE PRINTING FOR LOGGING PURPOSES" labelPosition="center" mt={25} mb={20} />
       <TextInput
         className={classes.textinputs}
         label="Price"
@@ -29,19 +29,15 @@ export const AdditionalInputs = () => {
         placeholder="Document Price"
         radius="sm"
         onChange={(e) => setPrice(e.currentTarget.value)}
-      >
-        DocumentPrice
-      </TextInput>
+      />
+
       <NativeSelect
-        className={classes.textinputs}
         data={KagawadNames}
-        value={Kagawad}
-        radius="sm"
-        label="PWD"
+        className={classes.textinputs}
+        label="Kagawad on Duty"
         onChange={(event) => setKagawad(event.currentTarget.value)}
-      >
-        NativeSelectComponent
-      </NativeSelect>
+      />
+
       <Button
         onClick={HandleButton}
         className={classes.registerbutton}
@@ -52,3 +48,5 @@ export const AdditionalInputs = () => {
     </>
   );
 };
+
+export default AdditionInputs
