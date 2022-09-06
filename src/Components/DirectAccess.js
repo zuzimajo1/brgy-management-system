@@ -37,13 +37,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 const DirectAccess = () => {
-  const [DirectAccessDocument, setDirectAccessDocument] = useState([
-    {
-      value: "BrgyCertification",
-      label: "BrgyCertifcation",
-      group: "Certificatiion",
-    },
-  ]);
+  const [DirectAccessDocument, setDirectAccessDocument] = useState("4P'sTransfery");
 
   const { classes } = useStyles();
 

@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -194,6 +195,7 @@ Font.register({
 const FourPsTransfery = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+  const {fullname} = useSelector((state) => state.facerecog.singlepersondata);
   const [Four4Ps, setFour4Ps] = useState("");
   const [TransferBrgy, setTransferBrgy] = useState("");
   const [Reverse, setReverse] = useState(false);
@@ -217,6 +219,7 @@ const FourPsTransfery = () => {
             setTransferBrgy={setTransferBrgy}
             setReverse={setReverse}
             Reverse={Reverse}
+            Clientfullname={fullname}
           />
         </Container>
       </div>
@@ -321,7 +324,13 @@ const MyDocuments = ({ Four4Ps, TransferBrgy, singleperson, Reverse }) => {
   );
 };
 
-const DataFillOut = ({ setFour4Ps, setTransferBrgy, Reverse, setReverse }) => {
+const DataFillOut = ({
+  setFour4Ps,
+  setTransferBrgy,
+  Reverse,
+  setReverse,
+  Clientfullname,
+}) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <Checkbox
@@ -344,6 +353,7 @@ const DataFillOut = ({ setFour4Ps, setTransferBrgy, Reverse, setReverse }) => {
         placeholder="ex. Barangay Cagdianao, Claver, Surigao Del Norte"
         onChange={(e) => setTransferBrgy(e.target.value)}
       />
+      <AdditionInputs clientname={Clientfullname} lettername="4P's Transfery" />
     </Container>
   );
 };

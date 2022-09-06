@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -226,6 +227,7 @@ const ClearanceDirect = () => {
             setClientCivilStatus={setClientCivilStatus}
             setClientCitizenship={setClientCitizenship}
             setClientAddress={setClientAddress}
+            ClientName={ClientName}
 
           />
         </Container>
@@ -321,10 +323,10 @@ const MyDocuments = ({ singleperson, ClientAge, ClientPurpose,ClientName,
   );
 };
 
-const DataFillOut = ({ setClientAge, setClientPurpose,setClientName, setClientCitizenship, setClientCivilStatus, setClientSex, setClientAddress }) => {
+const DataFillOut = ({ClientName, setClientAge, setClientPurpose,setClientName, setClientCitizenship, setClientCivilStatus, setClientSex, setClientAddress }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
-       <TextInput
+      <TextInput
         style={styles.textinputs}
         label="Name"
         radius="sm"
@@ -373,6 +375,7 @@ const DataFillOut = ({ setClientAge, setClientPurpose,setClientName, setClientCi
         placeholder="ex. required/requirement for ASA for loan PURPOSES"
         onChange={(e) => setClientPurpose(e.currentTarget.value)}
       />
+      <AdditionInputs clientname={ClientName} lettername="Clearance" />
     </Container>
   );
 };

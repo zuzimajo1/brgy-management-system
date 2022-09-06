@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -229,6 +230,7 @@ const CertificationLowIncomeDirect = () => {
             setClientCivilStatus={setClientCivilStatus}
             setClientCitizenship={setClientCitizenship}
             setClientAddress={setClientAddress}
+            ClientName={ClientName}
           />
         </Container>
       </div>
@@ -328,6 +330,7 @@ const DataFillOut = ({
   setClientCivilStatus,
   setClientSex,
   setClientAddress,
+  ClientName,
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
@@ -387,6 +390,7 @@ const DataFillOut = ({
         placeholder="ex. his sister SHEILA MAE T. TILAN to COMMISSION ON HIGHER EDUCATION (CHED) for SCHOLARSHIP"
         onChange={(e) => setClientPurpose(e.currentTarget.value)}
       />
+      <AdditionInputs clientname={ClientName} lettername="Low Income" />
     </Container>
   );
 };

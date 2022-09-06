@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import {
   createStyles,
   Group,
@@ -13,13 +13,14 @@ import { DatePicker } from '@mantine/dates';
 import {
   Logs, months,
 } from "../config/dummyData";
-
+import { showNotification } from "@mantine/notifications";
 import DataTable from "react-data-table-component";
 import {
-  ArrowNarrowDown,
+  ArrowNarrowDown
 } from "tabler-icons-react";
-
+import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import { GetAllRecords } from '../redux/apiCalls';
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -151,38 +152,39 @@ const Export = ({ onExport }) => <Button onClick={e => onExport(e.target.value)}
 
 const columns = [
   {
-    name: 'Resident',
-    selector: row => row.client,
+    name: "Resident",
+    selector: (row) => row.clientname,
     sortable: true,
     center: true,
   },
   {
-    name: 'Document Type',
-    selector: row => row.documentType,
+    name: "Document Type",
+    selector: (row) => row.lettername,
     sortable: true,
     center: true,
   },
   {
-    name: 'Kagawad on Duty',
-    selector: row => row.kagawadName,
+    name: "Clerk on Duty",
+    selector: (row) => row.staffname,
     sortable: true,
     center: true,
   },
   {
-    name: 'Issuer on Duty',
-    selector: row => row.clerkName,
+    name: "Kagawad on Duty",
+    selector: (row) => row.kagawadname,
+    sortable: true,
+    center: true,
+  },
+
+  {
+    name: "Payment",
+    selector: (row) => row.letterprice,
     sortable: true,
     center: true,
   },
   {
-    name: 'Payment',
-    selector: row => row.price,
-    sortable: true,
-    center: true,
-  },
-  {
-    name: 'Issued On',
-    selector: row => dayjs(row.createdAt).format("MMM D, YYYY"),
+    name: "Issued On",
+    selector: (row) => dayjs(row.createdAt).format("MMM D, YYYY"),
     sortable: true,
     center: true,
   },
@@ -190,14 +192,22 @@ const columns = [
 
 const Report = ({ colorScheme }) => {
   const actionsMemo = React.useMemo(() => <Export onExport={() => downloadCSV(Logs)} />, []);
+  const records = useSelector((state)=> state?.recordData?.records)
   const status = "success";
+  const dispatch = useDispatch();
   const { classes } = useStyles();
   // Filter
   const [filterByDate, setFilterByDate] = useState("");
   const [filterByMonth, setFilterByMonth] = useState("");
   const [filterByYear, setFilterByYear] = useState("");
 
-  const filteredItems = Logs?.filter((item) => {
+  useLayoutEffect(()=>{
+    GetAllRecords(dispatch, showNotification);
+  },[dispatch])
+
+
+
+  const filteredItems = records?.filter((item) => {
     if (filterByDate) {
       return dayjs(item.createdAt).format("MMM D, YYYY").toLowerCase().includes(dayjs(filterByDate).format("MMM D, YYYY").toLowerCase())
     } else if (filterByYear) {
@@ -214,7 +224,7 @@ const Report = ({ colorScheme }) => {
   });
 
   const totalPayments = filteredItems.reduce((currentTotal, item) => {
-    return currentTotal += item.price
+    return currentTotal += item.letterprice
   }, 0)
 
   return (

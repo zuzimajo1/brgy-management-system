@@ -18,6 +18,7 @@ import Logo from "../images/BRGY_LUNA - Logo.png";
 import Webcam from "react-webcam";
 import { Capture, ArrowBack } from "tabler-icons-react";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -298,6 +299,7 @@ const PhilSys = () => {
   const [ClientPurpose, setClientPurpose] = useState("");
   const webcamRef = useRef(null);
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+  const {fullname} = useSelector((state) => state.facerecog.singlepersondata);
     const [ORNo, setORNo] = useState("");
 
   const capture = useCallback(() => {
@@ -329,6 +331,7 @@ const PhilSys = () => {
             CaptureImage={CaptureImage}
             setCaptureImage={setCaptureImage}
             setORNo={setORNo}
+            Clientfullname={fullname}
           />
         </Container>
       </div>
@@ -468,6 +471,7 @@ const DataFillOut = ({
   capture,
   setCaptureImage,
   setORNo,
+  Clientfullname,
 }) => {
   const { classes } = useStyles();
   return (
@@ -514,6 +518,7 @@ const DataFillOut = ({
         placeholder="ex. "
         onChange={(e) => setORNo(e.target.value)}
       />
+      <AdditionInputs clientname={Clientfullname} lettername="PhilSys" />
     </Container>
   );
 };

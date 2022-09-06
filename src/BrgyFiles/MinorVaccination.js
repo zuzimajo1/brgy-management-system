@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
     fontFamily: "Regular",
     display: "flex",
     width: "100%",
-    height: `200vh`,
+    height: `250vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -227,6 +228,7 @@ Font.register({
 const MinorVaccination = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+   const {fullname} = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("");
   const [FirstChildName, setFirstChildName] = useState("");
   const [FirstChildBirthdate, setFirstChildBirthdate] = useState("");
@@ -289,6 +291,7 @@ const MinorVaccination = () => {
             setFifthChildName={setFifthChildName}
             setFifthChildBirthdate={setFifthChildBirthdate}
             setFifthChildAge={setFifthChildAge}
+            Clientfullname={fullname}
           />
         </Container>
       </div>
@@ -465,6 +468,7 @@ const DataFillOut = ({
   setFifthChildName,
   setFifthChildBirthdate,
   setFifthChildAge,
+  Clientfullname,
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
@@ -579,6 +583,10 @@ const DataFillOut = ({
         radius="sm"
         placeholder="ex. 16"
         onChange={(e) => setFifthChildAge(e.currentTarget.value)}
+      />
+      <AdditionInputs
+        clientname={Clientfullname}
+        lettername="Minor Vaccination"
       />
     </Container>
   );

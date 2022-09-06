@@ -17,6 +17,7 @@ import EventTodayRedux from "./EventTodayRedux";
 import FaceRecognitionRedux from "./FaceRecognitionRedux";
 import MasterlistRedux from "./MasterlistRedux";
 import NavbarRedux from "./NavbarRedux";
+import RecordRedux from "./RecordRedux";
 import UserRedux from "./UserRedux";
 
 
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
   events: EventRedux,
   eventtoday: EventTodayRedux,
   user: UserRedux,
+  recordData: RecordRedux,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

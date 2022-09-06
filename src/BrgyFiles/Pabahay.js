@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -191,6 +192,9 @@ Font.register({
 const Pabahay = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+   const {fullname} = useSelector(
+     (state) => state.facerecog.singlepersondata
+   );
   const [ClientAge, setClientAge] = useState("");
   const [ClientInfo, setClientInfo] = useState("");
   const [ClientPurpose, setClientPurpose] = useState("");
@@ -214,6 +218,7 @@ const Pabahay = () => {
             setClientAge={setClientAge}
             setClientInfo={setClientInfo}
             setClientPurpose={setClientPurpose}
+            Clientfullname={fullname}
           />
         </Container>
       </div>
@@ -318,7 +323,12 @@ const MyDocuments = ({
   );
 };
 
-const DataFillOut = ({ setClientAge, setClientPurpose, setClientInfo }) => {
+const DataFillOut = ({
+  setClientAge,
+  setClientPurpose,
+  setClientInfo,
+  Clientfullname,
+}) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
@@ -342,6 +352,7 @@ const DataFillOut = ({ setClientAge, setClientPurpose, setClientInfo }) => {
         placeholder="ex. to support the transaction for the Pabahay sa Bayan"
         onChange={(e) => setClientPurpose(e.currentTarget.value)}
       />
+      <AdditionInputs clientname={Clientfullname} lettername="Pabahay" />
     </Container>
   );
 };

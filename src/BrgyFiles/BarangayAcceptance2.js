@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -188,6 +189,9 @@ const BarangayAcceptance2 = () => {
    const singleperson = useSelector(
      (state) => state.facerecog.singlepersondata
    );
+     const { fullname } = useSelector(
+       (state) => state.facerecog.singlepersondata
+     );
    const [ClientAge, setClientAge] = useState("");
 
    return (
@@ -200,7 +204,7 @@ const BarangayAcceptance2 = () => {
            </PDFViewer>
          </Container>
          <Container style={styles.containerwrapper}>
-           <DataFillOut setClientAge={setClientAge} />
+           <DataFillOut setClientAge={setClientAge} Clientfullname={fullname} />
          </Container>
        </div>
      </Container>
@@ -298,7 +302,7 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
   );
 };
 
-const DataFillOut = ({ setClientAge }) => {
+const DataFillOut = ({ setClientAge, Clientfullname }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
@@ -307,6 +311,10 @@ const DataFillOut = ({ setClientAge }) => {
         radius="sm"
         placeholder="ex. 28"
         onChange={(e) => setClientAge(e.target.value)}
+      />
+      <AdditionInputs
+        clientname={Clientfullname}
+        lettername="Barangay Acceptance"
       />
     </Container>
   );

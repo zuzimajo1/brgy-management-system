@@ -21,6 +21,7 @@ import { AdditionInputs } from "../Components";
 const useStyles = createStyles((theme) => ({
   root: {
     width: "100%",
+    height: "100%",
     background:
       theme.colorScheme === "dark"
         ? theme.colors.darktheme[5]
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
     transition: "ease-in-out 500ms",
   },
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   },
   formcontainer: {
     width: "100%",
-    height: "100%",
+    height: "150vh",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -398,7 +399,7 @@ const DataFillOut = ({
         placeholder="ex Brgy. Poblacion, San Jose, Dinagat Province"
         onChange={(e) => setLocationFrom(e.target.value)}
       />
-      <AdditionInputs issuer={ClientName} documentName={"Certification Abroad"} />
+      <AdditionInputs clientname={ClientName} lettername="Certification Abroad" />
     </Container>
   );
 };

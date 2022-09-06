@@ -14,16 +14,12 @@ import {
   FaceGetInfoFailed,
 } from "./FaceRecognitionRedux";
 
-import {
-  fetchAllEvents,
-  addEvents,
-  deleteEvent,
-} from "./EventRedux";
+import { fetchAllEvents, addEvents, deleteEvent } from "./EventRedux";
 
 import { fetchEventToday, fetchEventTodayFailed } from "./EventTodayRedux";
 
 import { LoginUser, Logout } from "./UserRedux";
-
+import { RecordGetAll } from "./RecordRedux";
 
 //fetch data of a single person
 export const GetFaceRecognitionData = async (
@@ -33,9 +29,7 @@ export const GetFaceRecognitionData = async (
 ) => {
   try {
     dispatch(FaceGetInfoStart());
-    const res = await publicRequest.get(
-      `resident/find?fullname=${fullname}`
-    );
+    const res = await publicRequest.get(`resident/find?fullname=${fullname}`);
     dispatch(FaceGetInfoSuccess(res.data));
   } catch (error) {
     dispatch(FaceGetInfoFailed());
@@ -45,7 +39,6 @@ export const GetFaceRecognitionData = async (
     });
   }
 };
-
 
 //fetch all data
 
@@ -87,7 +80,6 @@ export const UpdateDataResident = async (
   }
 };
 
-
 //Delete Resident from the Masterlist
 export const DeleteDataResident = async (
   dispatch,
@@ -125,7 +117,6 @@ export const GetAllBrgyEvents = async (dispatch, showNotification) => {
   }
 };
 
-
 //Create Events
 export const CreateBrgyEvent = async (
   dispatch,
@@ -149,7 +140,6 @@ export const CreateBrgyEvent = async (
     setcreateEventModal(false);
   }
 };
-
 
 //Delete Single Event
 export const DeleteSingleEvent = async (
@@ -177,7 +167,6 @@ export const DeleteSingleEvent = async (
   }
 };
 
-
 //fetch Event Today
 export const GetEventToday = async (dispatch, showNotification) => {
   try {
@@ -188,6 +177,15 @@ export const GetEventToday = async (dispatch, showNotification) => {
   }
 };
 
-
-
-
+//fetch All Transactions
+export const GetAllRecords = async (dispatch, showNotification) => {
+  try {
+    const res = await publicRequest.get("record");
+    dispatch(RecordGetAll(res.data));
+  } catch (err) {
+    showNotification({
+      title: "Fetching error",
+      message: "Make sure the XAMPP Control Panel is open",
+    });
+  }
+};

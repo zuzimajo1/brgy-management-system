@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -191,6 +192,9 @@ Font.register({
 const ElectricMeter = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+   const {fullname} = useSelector(
+     (state) => state.facerecog.singlepersondata
+   );
   const [ClientAge, setClientAge] = useState("");
   const [ClientNameFrom, setClientNameFrom] = useState("");
   const [ClientTransferNo, setClientTransferNo] = useState("");
@@ -214,6 +218,7 @@ const ElectricMeter = () => {
             setClientAge={setClientAge}
             setClientNameFrom={setClientNameFrom}
             setClientTransferNo={setClientTransferNo}
+            Clientfullname={fullname}
           />
         </Container>
       </div>
@@ -326,6 +331,7 @@ const DataFillOut = ({
   setClientPurpose,
   setClientNameFrom,
   setClientTransferNo,
+  Clientfullname,
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
@@ -350,6 +356,7 @@ const DataFillOut = ({
         placeholder="ex. 08-04-960900 and meter no. of 09724002"
         onChange={(e) => setClientTransferNo(e.currentTarget.value)}
       />
+      <AdditionInputs clientname={Clientfullname} lettername="Electric Meter" />
     </Container>
   );
 };

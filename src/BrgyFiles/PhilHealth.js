@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -193,6 +194,9 @@ const PhilHealth = () => {
    const singleperson = useSelector(
      (state) => state.facerecog.singlepersondata
    );
+    const {fullname} = useSelector(
+      (state) => state.facerecog.singlepersondata
+    );
    const [ClientAge, setClientAge] = useState("");
    const [ClientPIN, setClientPIN] = useState("");
 
@@ -210,7 +214,11 @@ const PhilHealth = () => {
            </PDFViewer>
          </Container>
          <Container style={styles.containerwrapper}>
-           <DataFillOut setClientAge={setClientAge} setClientPIN={setClientPIN} />
+           <DataFillOut
+             setClientAge={setClientAge}
+             setClientPIN={setClientPIN}
+             Clientfullname={fullname}
+           />
          </Container>
        </div>
      </Container>
@@ -305,7 +313,7 @@ const MyDocuments = ({ singleperson, ClientAge, ClientPIN }) => {
   );
 };
 
-const DataFillOut = ({ setClientAge, setClientPIN }) => {
+const DataFillOut = ({ setClientAge, setClientPIN, Clientfullname }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
@@ -322,6 +330,7 @@ const DataFillOut = ({ setClientAge, setClientPIN }) => {
         placeholder="ex. "
         onChange={(e) => setClientPIN(e.currentTarget.value)}
       />
+      <AdditionInputs clientname={Clientfullname} lettername="PhilHealth" />
     </Container>
   );
 };

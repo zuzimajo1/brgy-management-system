@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
     transition: "ease-in-out 500ms",
   },
@@ -196,6 +197,7 @@ const Abroad = () => {
   const [LocationFrom, setLocationFrom] = useState("");
   const [LocationTo, setLocationTo] = useState("");
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+  const { fullname } = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("")
 
   return (
@@ -219,6 +221,7 @@ const Abroad = () => {
             setLocationFrom={setLocationFrom}
             setLocationTo={setLocationTo}
             setClientAge={setClientAge}
+            Clientfullname={fullname}
           />
         </Container>
       </div>
@@ -308,7 +311,12 @@ const MyDocuments = ({ OscaIDNo, LocationFrom, singleperson, ClientAge }) => {
   );
 };
 
-const DataFillOut = ({ setOscaIDNo, setLocationFrom, setClientAge }) => {
+const DataFillOut = ({
+  setOscaIDNo,
+  setLocationFrom,
+  setClientAge,
+  Clientfullname,
+}) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
       <TextInput
@@ -331,6 +339,10 @@ const DataFillOut = ({ setOscaIDNo, setLocationFrom, setClientAge }) => {
         radius="sm"
         placeholder="ex Brgy. Poblacion, San Jose, Dinagat Province"
         onChange={(e) => setLocationFrom(e.target.value)}
+      />
+      <AdditionInputs
+        clientname={Clientfullname}
+        lettername="Certification Abroad"
       />
     </Container>
   );

@@ -15,6 +15,7 @@ import OpenSansBold from "../fonts/OpenSans-Bold.ttf";
 import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
+import { AdditionInputs } from "../Components";
 
 const useStyles = createStyles((theme) => ({
   root: {
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: `100vh`,
+    height: `150vh`,
     borderRadius: 20,
   },
   pdfviewer: {
@@ -251,6 +252,7 @@ Font.register({
 const DeathCertificate = () => {
   const { classes } = useStyles();
   const singleperson = useSelector((state) => state.facerecog.singlepersondata);
+  const {fullname} = useSelector((state) => state.facerecog.singlepersondata);
   const [ClientAge, setClientAge] = useState("");
   const [DateAndTime, setDateAndTime] = useState("");
   const [ClientName, setClientName] = useState("");
@@ -292,6 +294,7 @@ const DeathCertificate = () => {
             setMidwifeName={setMidwifeName}
             setBrgyHealthName={setBrgyHealthName}
             setTimeAndDateReported={setTimeAndDateReported}
+            Clientfullname={fullname}
           />
         </Container>
       </div>
@@ -419,6 +422,7 @@ const DataFillOut = ({
   setMidwifeName,
   setBrgyHealthName,
   setTimeAndDateReported,
+  Clientfullname,
 }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
@@ -484,6 +488,10 @@ const DataFillOut = ({
         radius="sm"
         placeholder="ex. MARCH 04, 2021 @ 3:00PM"
         onChange={(e) => setTimeAndDateReported(e.currentTarget.value)}
+      />
+      <AdditionInputs
+        clientname={Clientfullname}
+        lettername="Death Certificate"
       />
     </Container>
   );

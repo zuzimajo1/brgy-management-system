@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { Navbar, MediaQuery, Text, Container, Divider, Group, createStyles, ScrollArea, ActionIcon } from "@mantine/core";
+import { Navbar, Text, Container, Divider, Group, createStyles, ScrollArea } from "@mantine/core";
 import {
   Home,
   ClipboardList,
   CalendarEvent,
-  CalendarTime,
   Folder,
-  BrandHipchat,
-  Users,
+  Checklist,
 } from "tabler-icons-react";
 import { useViewportSize, useClickOutside } from "@mantine/hooks";
 import { useDispatch, useSelector } from 'react-redux';
@@ -220,7 +218,7 @@ const MediaQueryNavbar = ({ width, Active, setActive, classes, dispatch, cx, Sho
               component={Link}
               to="report"
             >
-              <Folder size={19} />
+              <Checklist size={19} />
               <Text className={classes.text}>Reports</Text>
             </Navbar.Section>
           </Group>
