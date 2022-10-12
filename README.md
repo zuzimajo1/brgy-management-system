@@ -27,40 +27,42 @@
     <li>With theming support (Light/ Dark).</li>
 </ul>
 
-<h3>Homepage</h3>
+## 🖼️ Preview
+
+<h3 align="center">Homepage</h3>
 <img src="./public/og.png"></img>
 <br>
 <br>
-<h3>Masterlist</h3>
+<h3 align="center">Masterlist</h3>
 <img src="./public/images/masterlist.png"></imgs>
 <br>
 <br>
-<h3>Events</h3>
+<h3 align="center">Events</h3>
 <img src="./public/images/events.png"></imgs>
 <br>
 <br>
-<h3>Register</h3>
+<h3 align="center">Register</h3>
 <img src="./public/images/register.png"></imgs>
 <br>
 <br>
-<h3>Shows unknown if unrecognized</h3>
+<h3 align="center">Shows unknown if unrecognized</h3>
 <img src="./public/images/unknown.png"></imgs>
 <br>
 <br>
-<h3>The information will show if recognized, the admin can now select the brgy documents. The information of the resident will automatically written in the brgy certificate</h3>
+<h3 align="center">The information will show if recognized, the admin can now select the brgy documents. The information of the resident will automatically written in the brgy certificate</h3>
 <img src="./public/images/recognized.png"></imgs>
 <br>
 <br>
-<h3>Clearance Certificate</h3>
+<h3 align="center">Clearance Certificate</h3>
 <img src="./public/images/document.png"></imgs>
 <br>
 <br>
-<h3>Reports</h3>
+<h3 align="center">Reports</h3>
 <img src="./public/images/reports.png"></imgs>
 <br>
 <br>
 <br>
-<h2>This research was built with my co-researchers <span>Zuzim Ajo<span>,<span>Dandy Jesch Pandili<span>, <span>Franklin Abonero<span> and special participation of <span>Jeffrey Bernadas<span>.</h2>
+<h2 align="center">This research was built with my co-researchers <span>Zuzim Ajo<span>,<span>Dandy Jesch Pandili<span>, <span>Franklin Abonero<span> and special participation of <span>Jeffrey Bernadas<span>.</h2>
 
 
 
