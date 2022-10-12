@@ -16,6 +16,7 @@ import LucidaCalligraphy from "../fonts/Lucida Calligraphy Font.ttf";
 import Logo from "../images/BRGY_LUNA - Logo.png";
 import { useSelector } from "react-redux";
 import { AdditionInputs } from "../Components";
+import dayjs from "dayjs";
 
 
 const useStyles = createStyles((theme) => ({
@@ -265,6 +266,9 @@ const MyDocuments = ({
 }) => {
   const now = new Date();
   const day = date.format(now, "D");
+  
+  
+
   const MonthAndDate = date.format(now, "MMMM, YYYY");
   return (
     <Document>

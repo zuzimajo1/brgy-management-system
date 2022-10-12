@@ -302,6 +302,7 @@ const MyDocuments = ({ singleperson, ClientAge }) => {
   );
 };
 
+
 const DataFillOut = ({ setClientAge, Clientfullname }) => {
   return (
     <Container fluid="true" style={styles.formcontainer}>
