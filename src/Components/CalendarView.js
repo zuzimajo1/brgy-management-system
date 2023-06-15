@@ -4,7 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
 import interactionPlugin from "@fullcalendar/interaction";
 import {
   Button,
-  LoadingOverlay,
   Modal,
   Text,
   TextInput,
